@@ -22,6 +22,6 @@ function [err,jac,l] = sim_solve_h(x,bet,a,pi,n,ex_siz,rh,diag_Q,Q0_d,V_succ,gam
     jac = bsxfun(@times,denom.^-1,Q0_d)';
     jac(1:ex_siz+1:end) = derr'; 
     jac = jac';
-    jac(isnan(jac)==1 | abs(jac) == inf) = 0; %filter out weird stuffs
+    jac(isnan(jac)==1 | abs(jac) == inf) = 0; %filter out weird values
 
 end
