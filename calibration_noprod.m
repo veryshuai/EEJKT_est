@@ -4,13 +4,13 @@
 %as well as optional settings for the genetic algorithm.
 
 % Parallel setup
-clc
-if matlabpool('size')~=12 %if pool not equal to 12, open 12
-   if matlabpool('size')>0
-     matlabpool close
-   end
-   matlabpool open 12
-end
+% clc
+% if matlabpool('size')~=12 %if pool not equal to 12, open 12
+%    if matlabpool('size')>0
+%      matlabpool close
+%    end
+%    matlabpool open 12
+% end
 
 % Start timer
 tic;
@@ -40,6 +40,7 @@ options = gaoptimset('Display','iter','PopulationSize',12,'Generations',150,...
 'FitnessScalingFcn',@fitscalingrank,'InitialPopulation',pop,'UseParallel','always',...
 'PlotFcns',@gaplotbestf,'EliteCount',0);%,'HybridFcn',{@fmincon,fminconoptions});
 
+% Call estimation routine
 [X,fval,exitflag,output,population,scores] = ga(@(X) distance_noprod(X),13, [],[],[],[],[   0.005;  0.01;    9;    0.1;  .02; 0.1; 0.1;  0.01; 0.01; 1; 0.00; 30; .01], [.5;  1;    15;     1;  0.10;    3;  15; 2; 1; 15; 0; 250; 2],[],options);  % gamma bounds were [.01 .6]
    
 % lnF         =  scale_h+log(X(1));
@@ -57,7 +58,11 @@ options = gaoptimset('Display','iter','PopulationSize',12,'Generations',150,...
 % gam         =  X(13)/beta;
 % cost scalar =  X(14);
 
+% End timer
 toc
-% matlabpool close
-save  calib-10-6-12
-diary off
+
+% Close parallel
+matlabpool close
+
+% Save results
+save est_results, replace
