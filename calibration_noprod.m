@@ -65,4 +65,4 @@ toc
 matlabpool close
 
 % Save results
-save est_results, replace
+save est_results;
