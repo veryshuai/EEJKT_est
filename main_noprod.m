@@ -17,4 +17,4 @@ SetParams_noprod;
 [lambda_f,lambda_h,pi_tilda_h,pi_tilda_f,c_val_h,c_val_f,punishment] = solve(mm);
 
 % Simulate model and create loss function statistics
-[vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,mlagereg,mlagdreg,mdeathreg,mu_f,mu_h,prods] = moms_nocell(mm,c_val_h,c_val_f,lambda_f,lambda_h);
+[vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,mlagereg,mlagdreg,mdeathreg,simulated_data] = moms_nocell(mm,c_val_h,c_val_f,lambda_f,lambda_h);
