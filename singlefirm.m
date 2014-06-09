@@ -1,4 +1,4 @@
-function [sh_val_h,sh_val_f,ind,deathmat,ds,sh,act,breakflag,max_mat_violation,match_number_violation] = singlefirm(j,max_mat_violation,match_violation,violation,match_number_violation,no_more_rands,breakflag,x_size,Phi_size,z_size,TT,cum_erg_pz,cum_erg_pp,cum_sp_p,th_ind,mu_h,mu_f,sp_p,lambda_f,lambda_h,c_val_h,c_val_f,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_h,scale_f,de,agg_shocks)
+function [sh_val_h,sh_val_f,ind,deathmat,ds,sh,act,breakflag,max_mat_violation,match_number_violation,prod_init] = singlefirm(j,max_mat_violation,match_violation,violation,match_number_violation,no_more_rands,breakflag,x_size,Phi_size,z_size,TT,cum_erg_pz,cum_erg_pp,cum_sp_p,th_ind,mu_h,mu_f,sp_p,lambda_f,lambda_h,c_val_h,c_val_f,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_h,scale_f,de,agg_shocks)
 % This function generates the state matrices for a single firm, to be optionally
 % compilied into mex.
 
@@ -11,40 +11,39 @@ coder.extrinsic('display');
 exp_inv_temp = 0;
 scalar_temp = 0;
 
-  % display(j);
-  obin = 20; %current observation index
-  st       = zeros(mms,12);
-  ind      = zeros(mms,12);
-  deathmat = zeros(mms,1);
-  ds       = zeros(mms,maxc*2+2);
-  sh       = zeros(mms,maxc*2+2);
-  act      = zeros(mms,2);
-  sh_val_h = zeros(mms,3);
-  sh_val_f = zeros(mms,3);
+% display(j);
+obin = 20; %current observation index
+st       = zeros(mms,12);
+ind      = zeros(mms,12);
+deathmat = zeros(mms,1);
+ds       = zeros(mms,maxc*2+2);
+sh       = zeros(mms,maxc*2+2);
+act      = zeros(mms,2);
+sh_val_h = zeros(mms,3);
+sh_val_f = zeros(mms,3);
 
-    %display(j);
-    %display(breakflag);
-    if breakflag == 0
+if breakflag == 0
+
     %preallocate
     ind(:,:) = repmat([0,0,0,0,-1,-1,-1,-1,zeros(1,2),-1,-1],mms,1);
     deathmat(:) = zeros(mms,1);
-
-%put in "actual" X_f's (foreign macro shocks)
+    
+    %put in "actual" X_f's (foreign macro shocks)
     for k = 1:size(actual_f,1)-2
         ind(1+k,1) = burn+k;
         ind(1+k,4)  = actual_f(k+2,2);
     end
 
-%put in "actual" X_h's (home macro shocks)
+    %put in "actual" X_h's (home macro shocks)
     for k = 1:size(actual_h,1)-2
         ind(1+k,1) = burn+k;
         ind(1+k,3)  = actual_h(k+2,2);
     end 
 
-%get Phi's (self productivities)
-    temp = find(rand<cum_erg_pp,1,'first');%initial productivity drawn out of ergodic distribution 
-    scalar_temp = temp(1,1);
-    ind(obin,2) = scalar_temp;
+    %get Phi's (self productivities)
+    prod_init = find(rand<cum_erg_pp,1,'first');%initial productivity drawn out of ergodic distribution 
+    scalar_prod_init = prod_init(1,1);
+    ind(obin,2) = scalar_prod_init;
     lag = 1;
     time = 0;
     while time < TT
@@ -620,8 +619,5 @@ deathmat(1:obin,:) = deathmat(I,:);
                 act(k,2) = max(ceil(ind(k,1)+ind(k,12)),burn)-max(floor(ind(k,1)),burn); %number of active years foreign
             end
         end
-
-
     end
 end
-

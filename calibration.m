@@ -3,7 +3,7 @@
 %the parameters of the model.  Initial parameter guesses can be set here,
 %as well as optional settings for the genetic algorithm.
 
- clc
+clc
 if matlabpool('size')~=12
    if matlabpool('size')>0
      matlabpool close
