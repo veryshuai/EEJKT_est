@@ -1,4 +1,4 @@
-function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,mlagereg,mlagdreg,mdeathreg]...
+function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,mlagereg,mlagdreg,mdeathreg,mu_f,mu_h,prods]...
 = moms_nocell(mm,c_val_h,c_val_f,lambda_f,lambda_h)
 %This function simulates the model and calculates the moments needed for the distance metric
 
@@ -138,13 +138,13 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
     mms             = mm.mms; %maximum number of matrix rows (memory issues)
     
     %% Get vector of state and time changes
-    [st_ind_cont,st_cont,ds,sh,act,break_flag,deathmat,sh_val_h,sh_val_f] = st_traj_nocell(indx1,mu_h,mu_f,sp_p,lambda_f,lambda_h,c_val_h,c_val_f,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,eta, TT);
+    [st_ind_cont,st_cont,ds,sh,act,break_flag,deathmat,sh_val_h,sh_val_f,cprod] = st_traj_nocell(indx1,mu_h,mu_f,sp_p,lambda_f,lambda_h,c_val_h,c_val_f,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,eta,TT);
     
     % check for errors in simulation routine
     if break_flag == 0
 
         %clear memory of unnecessary stuff
-        clearvars -except sh_val_h sh_val_f Z Phi X_f X_h st_ind_cont st_cont eta scale_f scale_h S TT burn ds sh act maxc deathmat 
+        clearvars -except sh_val_h sh_val_f cprod Z Phi X_f X_h st_ind_cont st_cont eta scale_f scale_h S TT burn ds sh act maxc deathmat mu_f mu_h 
     
         %% Separate dead firms 
         S_old = S;
@@ -172,6 +172,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             sale_f_mat_count = (sale_f_mat>0);
             sh_ann_f_mat = cell2mat(sh_ann_f');
             sh_first_yr_dum_mat = cell2mat(sh_first_yr_dum');
+            prods = cell2mat(cprod);
     
             %client transition counts
             trans_f = zeros(4);

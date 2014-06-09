@@ -1,4 +1,4 @@
-function [cind,cst,cds,csh,cact,breakflag,cdeathmat,csh_val_h,csh_val_f] = st_traj_nocell(th_ind,mu_h,mu_f,sp_p,lambda_f,lambda_h,c_val_h,c_val_f,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,de,esT)
+function [cind,cst,cds,csh,cact,breakflag,cdeathmat,csh_val_h,csh_val_f,cprod] = st_traj_nocell(th_ind,mu_h,mu_f,sp_p,lambda_f,lambda_h,c_val_h,c_val_f,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,de,esT)
     %This function does the simulation needed to calculate moments
     
     breakflag = 0; %this flag goes to one if there is a maximum matrix violation, and allows us to stop the loop  
