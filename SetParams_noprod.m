@@ -69,14 +69,14 @@ mm.theta2(mm.dim2)  =  mm.theta2(mm.dim2) - 0.0001;
 mm.v_tolerance   = 1e-3;  % convergence tolerance, value function iterations (WAS .005)
 mm.pi_tolerance  = 1e-5;  % convergence tolerance, profit function (WAS .001)
 mm.T             = 50;     % horizon for calculating profit function
-mm.S             = 2500;      % number of potential exporting firms to simulate (WAS 2000)
+mm.S             = 3000;      % number of potential exporting firms to simulate (WAS 2000)
 mm.burn          = 15;        %number of burn-in periods
 
 %% Simulation restrictions
 mm.maxc            = mm.net_size; %maximum number of current clients (follows old program)
 mm.max_client_prod = 3000; %maximum changes in demand shock over relationship
 mm.mult_match_max  = 3000; %maximum number of matches per exogenous state change interval
-mm.mms             = 20000; %max event number (max matrix size)
+mm.mms             = 100000; %max event number (max matrix size)
 
 %% Exogenous Jump Process Parameters
 

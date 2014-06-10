@@ -83,7 +83,7 @@ function [cind,cst,cds,csh,cact,breakflag,cdeathmat,csh_val_h,csh_val_f,cprod] =
         cdeathmat{j}  = sparse(deathmat(ft:lt,:));
         csh_val_h{j}  = sparse(sh_val_h(ft:lt,:));
         csh_val_f{j}  = sparse(sh_val_f(ft:lt,:));
-        cprod{j}      = sparse(prod_init)
+        cprod{j}      = sparse(prod_init);
         end
     end
     

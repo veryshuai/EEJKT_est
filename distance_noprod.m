@@ -31,7 +31,7 @@ function [D,W,error] = distance_noprod(X)
     main_noprod;  %this is the main program (to run simulation, generate moments, etc)
     
     %% Targets
-    [Data, W] = target_stats()
+    [Data, W] = target_stats();
 
     display(Data);
     display(W);
