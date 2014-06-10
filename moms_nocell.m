@@ -177,16 +177,16 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             prods = cell2mat(cprod);
 
             %pack simulation info up to return it
-            simulated_data(1) = cli_no_mat;
-            simulated_data(2) = sale_h_mat;
-            simulated_data(3) = sale_f_spc;
-            simulated_data(4) = sale_f_mat;
-            simulated_data(5) = ship_f_mat;
-            simulated_data(6) = ship_f_spc;
-            simulated_data(7) = sale_f_mat_count;
-            simulated_data(8) = sh_ann_f_mat;
-            simulated_data(9) = sh_first_yr_dum_mat;
-            simulated_data(10) = [prods,mu_f,mu_h];
+            simulated_data{1} = cli_no_mat;
+            simulated_data{2} = sale_h_mat;
+            simulated_data{3} = sale_f_spc;
+            simulated_data{4} = sale_f_mat;
+            simulated_data{5} = ship_f_mat;
+            simulated_data{6} = ship_f_spc;
+            simulated_data{7} = sale_f_mat_count;
+            simulated_data{8} = sh_ann_f_mat;
+            simulated_data{9} = sh_first_yr_dum_mat;
+            simulated_data{10} = [prods,mu_f,mu_h];
     
             %client transition counts
             trans_f = zeros(4);
