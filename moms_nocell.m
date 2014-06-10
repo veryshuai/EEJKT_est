@@ -1,6 +1,8 @@
-function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,mlagereg,mlagdreg,mdeathreg,simulated_data]
-= moms_nocell(mm,c_val_h,c_val_f,lambda_f,lambda_h)
+function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,mlagereg,mlagdreg,mdeathreg,simulated_data] = moms_nocell(mm,c_val_h,c_val_f,lambda_f,lambda_h)
 %This function simulates the model and calculates the moments needed for the distance metric
+
+    % initialize simulated data holder
+    simulated_data = cell(11,1);
 
     % read in parameters
     burn    = mm.burn;          %number of burn in periods
@@ -175,7 +177,6 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             prods = cell2mat(cprod);
 
             %pack simulation info up to return it
-            simulated_data = cell(11,1);
             simulated_data(1) = cli_no_mat;
             simulated_data(2) = sale_h_mat;
             simulated_data(3) = sale_f_spc;
