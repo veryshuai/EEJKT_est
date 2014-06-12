@@ -118,9 +118,9 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
 
     delta       = mm.delta;    %exogenous match death hazard
     d           = mm.d;        %exogenous firm death hazard
-    S           = mm.S;   %number of firms
-    n_size      = mm.n_size;        %number of matches which are learned from
-    net_size    = mm.net_size;      %max number of network effects.
+    S           = mm.S;        %number of firms
+    n_size      = mm.n_size;   %number of matches which are learned from
+    net_size    = mm.net_size; %max number of network effects.
     Z           = mm.Z;        %grid for other firm productivity
     Phi         = mm.Phi;      %grid for own productivity
     X_f         = mm.X_f;      %grid for foreign macro shock
@@ -314,7 +314,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
                display('ERROR: Nothing to regress moms.m domestic sales ar1 regression');
             end 
             
-            % probability that an active firm is also an exporter 
+            % Count the number of exporters 
             pbexp = sum(sum(sale_f_mat)>1);
             
             %pbexp_check = sum(sum(sale_d_mat) > 1 | sum(sale_f_mat) > 1);
@@ -346,7 +346,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             death = death.*sh_ann_f_mat(:); % put nans in correct places
             check4nan = zeros(size(death));
             check4nan(1:end-1) = isnan(death(2:end)); % is the next element a NaN?
-            death = death + check4nan; % this gives us what we want, I think
+            death = death + check4nan; % this gives us what we want
             
             %regression
             rhs = [ones(size(death)),sh_first_yr_dum_mat(:),log(tot_sales_mat(:))];
