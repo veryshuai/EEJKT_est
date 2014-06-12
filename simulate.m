@@ -49,3 +49,6 @@ matlabpool close
 
 % Save results
 save est_results;
+
+% Generate Profit Variance Graph
+prof_var(simulated_data);
