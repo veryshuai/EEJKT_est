@@ -3,12 +3,12 @@
 
 % Parallel setup
 clc
-%if matlabpool('size')~=12 %if pool not equal to 12, open 12
-%   if matlabpool('size')>0
-%     matlabpool close
-%   end
-%   matlabpool open 12
-%end
+if matlabpool('size')~=12 %if pool not equal to 12, open 12
+   if matlabpool('size')>0
+     matlabpool close
+   end
+   matlabpool open 12
+end
 
 % Add correct root folder
 addpath(genpath('/gpfs/home/dcj138/work/Colombia-Project/Colombia-Project/'));
@@ -21,7 +21,7 @@ rng(80085);
 
 % Initial condition
 X = [...
-   0.0338022054957   0.2671671430852   11.3440817512744 0.5121388785243   0.0870454860595   0.7155086649572 3.1608659441438   0.5320902587029   0.0868923804355 8.8357713948358   0.2983646166548   1000.4990475604738 0.6496979258178;...
+   0.0338022054957   0.2671671430852   11.3440817512744 0.5121388785243   0.0870454860595   0.7155086649572 3.1608659441438   0.5320902587029   0.0868923804355 8.8357713948358   0.22983646166548   111.4990475604738 0.6496979258178;...
         ];
 
 [D,W,error,simulated_data] = distance_noprod(X);

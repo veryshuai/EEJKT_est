@@ -33,9 +33,6 @@ function [D,W,error,simulated_data] = distance_noprod(X)
     %% Targets
     [Data, W] = target_stats();
 
-    display(Data);
-    display(W);
-
     %% Simulated data 
     Model = cat(1,vtran,hazrate,clidist,mnumex,mavship,mavex,mreg,mexreg,mexshr,mlagereg,mlagdreg,mdeathreg);
     
