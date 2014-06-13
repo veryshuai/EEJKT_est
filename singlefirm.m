@@ -249,7 +249,7 @@ obin_fix = obin_fix(1,1);
 for k = 1:obin_fix
     if ind(k,12) > 0 && ind(k,10) <= maxc %check that we still have room for more trajectories
         if ind(k,10) == maxc breakflag = 1; match_number_violation = match_number_violation + 1; end %record match number violation
-        [~,slot] = find(occupied(k,:)< 1,1,'first'); %finds the next unoccupied slot
+        [~,slot] = find(occupied(k,:) < 1,1,'first'); %finds the next unoccupied slot
         slot = maxc + slot;
         occ_ind = find((ind(k+1:end,1))>=ind(k,1)+ind(k,12),1,'first');
         if isempty(occ_ind) == 1;
