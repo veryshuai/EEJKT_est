@@ -48,12 +48,12 @@ mm.sig_eps_x_f = 0.052;    % std. deviation of innovation in U.S. macro shock (V
 %% Discretization of state-space
 mm.grid_length   = 2.5;    % number of standard deviations from mean used for discretization
 mm.n_size        = 20;     % Maximum number of informative signals per firm (WAS 20)
-mm.net_size      = 45;     %maximum number of network effects
+mm.net_size      = 30;     %maximum number of network effects
 mm.z_size        = 7;     % Number of discretized demand shock states (2*n+1) 
 mm.phi_size      = 7;     % number of different discretized profit shocks (2*n+1)
 mm.x_size        = 7;     % Number of different discretized macro shocks; same for home and foreign (2*n+1)
-mm.lambda_size   = 20;     % Number of possible effort levels (WAS 40)
-mm.theta_size    = 27;     % Number of possible market potential values (WAS 51)
+mm.lambda_size   = 25;     % Number of possible effort levels (WAS 40)
+mm.theta_size    = 20;     % Number of possible market potential values (WAS 51)
 mm.dim0          = 3;      % Number of possible theta0 values (common to both markets)
 mm.dim1          = 7;      % Number of possible theta1 values (specific to home market);
 mm.dim2          = 7;      % Number pf possible theta2 values (specific to foreign market);
@@ -74,9 +74,9 @@ mm.burn          = 15;        %number of burn-in periods
 
 %% Simulation restrictions
 mm.maxc            = mm.net_size; %maximum number of current clients (follows old program)
-mm.max_client_prod = 3000; %maximum changes in demand shock over relationship
-mm.mult_match_max  = 3000; %maximum number of matches per exogenous state change interval
-mm.mms             = 200000; %max event number (max matrix size)
+mm.max_client_prod = 5000; %maximum changes in demand shock over relationship
+mm.mult_match_max  = 5000; %maximum number of matches per exogenous state change interval
+mm.mms             = 50000; %max event number (max matrix size)
 
 %% Exogenous Jump Process Parameters
 
@@ -133,6 +133,7 @@ erg_pp = zeros(2 * mm.phi_size,1);
 for k = 1:2 * mm.phi_size + 1
     erg_pp(k) = normpdf(-3 + 3/mm.phi_size * (k-1));
 end
+erg_pp = erg_pp./sum(erg_pp);
 Phi = (-3:3/mm.phi_size:3)' * sig_p;
 Q_p = zeros(2 * mm.phi_size + 1);
 

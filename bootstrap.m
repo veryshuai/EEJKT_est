@@ -18,28 +18,13 @@ function bootstrap(X):
     
     %COPIED FROM DISTANCE.M
     %read in parameter names from the X vector
-    scale_h    =  X(3);
-    ag         =  .5;
-    bg         =  .5;
-    lnF        =  scale_h + log(X(1));
-    delta      =  X(2);
-    scale_f    =  scale_h + log(X(4));
-    beta       =  X(5);
-    ah         =  X(6);
-    bh         =  X(7);
-    L_p        =  0; %zero would require changing the value function solver...
-    D_p        =  0;
-    L_z        =  X(8);
-    D_z        =  X(9);
-    L_b        =  X(10);
-    alp        =  0;
-    gam        =  X(11)*(1+beta)/beta;
-    cs         =  X(12);
-    sig_p      =  X(13);
+    X2params(X)
       
-      boot_SetParams;
+    %Altered set params with more firms
+    boot_SetParams;
       
-      [lambda_f,lambda_h,pi_tilda_h,pi_tilda_f,c_val_h,c_val_f,punishment] = solve(mm);
+    % Get policy and value functions
+    [lambda_f,lambda_h,pi_tilda_h,pi_tilda_f,c_val_h,c_val_f,punishment] = solve(mm);
     
     % COPIED FROM MOMS.M
       %% Generate the firms
@@ -76,18 +61,22 @@ function bootstrap(X):
     
     sp_p = zeros(S,200); %largish size
     g = 1;
-    while (min(sum(sp_p,2))<TT)
+    while (min(sum(sp_p,2))<TT) %loop through jump numbers
         for k = 1:S
-          sp_p(k,g) = expinv(rand,1/L_p); %note that the parameter is 1/rate due to how matlab calls exponential distribution
+          sp_p(k,g) = expinv(rand,1/L_p); 
         end
         g = g + 1;
     end
     
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %% Generate acceptance rates for home and foreign market
+
+    %Initialize the theta distribution parameter vectors
     th0 = zeros(S,1);
     th1 = zeros(S,1);
     th2 = zeros(S,1);
+
+    %Get random draws of theta for each firm
     for k = 1:S
         th0(k) = betainv(rand,ag,bg);
         th1(k) = betainv(rand,ah,bh);
@@ -95,14 +84,15 @@ function bootstrap(X):
     end
     th_draw   = cat(2,th0,th1,th2);
     
+    % Read in the theta grid values 
     th    = cell(3,1);
     th{1} = theta0;
     th{2} = theta1;
     th{3} = theta2;
     
+    % Find the closest grid values to each firms random draw
     indx1 = zeros(S,3);
     theta = zeros(S,3);
-    
     for j = 1:3  % Map theta0, theta1, and theta2 draws onto grid.  
       for s = 1:S
         dif            = abs(th_draw(s,j)-th{j}); 
@@ -111,11 +101,14 @@ function bootstrap(X):
      end
     end
     
+    % Get common vs independent components in success probabilities
     mu_h = alpha*theta(:,1)+(1-alpha)*theta(:,2); %true home success probability
     mu_f = alpha*theta(:,1)+(1-alpha)*theta(:,3); %true foreign success probability
     
-    %% Decell array
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %(THIS UGLY PART OF THE PROGRAM IS DUE TO THE FACT THAT WE FOUND THAT ELIMINATING CELL ARRRAY GIVES THE SIMULATION A DRASTIC SPEED BOOST.  SINCE THE REST OF THE PROGRAM USES CELL ARRAYS, WE JUST DECELL BEFORE THE SIMULATION, AND RECELL AFTER THE SIMULATION)
     
+    %% Decell array 
     lambda_f_new = zeros(size(lambda_f,1),size(lambda_f,2),size(lambda_f,3),size(lambda_f,4),size(lambda_f{1,1,1,1},1),size(lambda_f{1,1,1,1},2));
     lambda_h_new = zeros(size(lambda_h,1),size(lambda_h,2),size(lambda_h,3),size(lambda_h{1,1,1},1),size(lambda_h{1,1,1},2));
     c_val_h_new = zeros(size(c_val_h,1),size(c_val_h{1},1),size(c_val_h{1},2));
@@ -147,13 +140,16 @@ function bootstrap(X):
     c_val_h = c_val_h_new;
     c_val_f = c_val_f_new;
     
-    %% Read in struct before passing to st_traj
-    burn        = mm.burn;
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Model Simulation
+
+    %% Read in additional simulation parameters 
+
     delta       = mm.delta;    %exogenous match death hazard
     d           = mm.d;        %exogenous firm death hazard
-    S           = mm.S;   %number of firms
-    n_size      = mm.n_size;        %number of matches which are learned from
-    net_size    = mm.net_size;      %max number of network effects.
+    S           = mm.S;        %number of firms
+    n_size      = mm.n_size;   %number of matches which are learned from
+    net_size    = mm.net_size; %max number of network effects.
     Z           = mm.Z;        %grid for other firm productivity
     Phi         = mm.Phi;      %grid for own productivity
     X_f         = mm.X_f;      %grid for foreign macro shock
@@ -172,22 +168,18 @@ function bootstrap(X):
     mult_match_max  = mm.mult_match_max; %maximum number of matches per exogenous state change interval
     mms             = mm.mms; %maximum number of matrix rows (memory issues)
     
-    
     %% Get vector of state and time changes
-    [st_ind_cont,st_cont,ds,sh,act,break_flag,deathmat,sh_val_h,sh_val_f] = st_traj_nocell(indx1,mu_h,mu_f,sp_p,lambda_f,lambda_h,c_val_h,c_val_f,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,eta);
-      
-      save boot_int.mat
-      
-      %% Separate dead firms
-      S_old = S;
-      [st_cont,st_ind_cont,S,ds,sh,breakflag,sh_val_h,sh_val_f] = sdead(st_cont,st_ind_cont,S,ds,sh,deathmat,sh_val_h,sh_val_f);
+    [st_ind_cont,st_cont,ds,sh,act,break_flag,deathmat,sh_val_h,sh_val_f,cprod] = st_traj_nocell(indx1,mu_h,mu_f,sp_p,lambda_f,lambda_h,c_val_h,c_val_f,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,eta,TT);
     
+    %% Separate dead firms 
+    S_old = S;
+    [st_cont,st_ind_cont,S,ds,sh,breakflag,sh_val_h,sh_val_f] = sdead(st_cont,st_ind_cont,S,ds,sh,deathmat,sh_val_h,sh_val_f);
     
-        %% Sales
-        [sale_h_cont,sale_f_cont] = sales(scale_f,scale_h,eta,st_ind_cont,S,ds,sh,maxc,Z,Phi,X_h,X_f);
+     %% Calculate Sales
+     [sale_h_cont,sale_f_cont] = sales(scale_f,scale_h,eta,st_ind_cont,S,ds,sh,maxc,Z,Phi,X_h,X_f);
     
-        %% Discretize state vector
-        [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h,sh_val_f);
+    %% Discretize state vector into years
+    [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h,sh_val_f);
     
     if breakflag == 1 || break_flag == 1
            display('ERROR: Ran into size limits in firm generation.  Increase size limits and try again.'); 
