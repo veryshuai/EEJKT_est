@@ -20,9 +20,9 @@ end
 params
 
 % Specify Behavior for each task
-
-% if task == 'est'
-%     calibration_noprod(pop)
+if task == 'est'
+    calibration_noprod(pop);
+end
 
 
 
