@@ -1,0 +1,8 @@
+To run program, call init.m (matlab -r init)
+
+This will give several options for tasks you want completed.  
+
+For all programs, the file params.m must be filled in with your desired parameter values.
+
+
+
