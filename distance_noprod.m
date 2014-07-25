@@ -12,7 +12,7 @@ function [D,W,error,simulated_data] = distance_noprod(X)
     tic
     
     % Change X vector into parameter names
-    X2params(X)
+    X2params;
 
     % Get parameters
     SetParams_noprod;

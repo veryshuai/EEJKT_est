@@ -1,4 +1,4 @@
-function bootstrap(X):
+function bootstrap(X)
 %This function takes parameters solved for in the "calibration" optimization loop, generates a bunch of firms, and bootstraps standard errors for the moments which are used in the indirect inference part of the optimization program.
 
     %number of bootstrap draws
@@ -18,8 +18,8 @@ function bootstrap(X):
     
     %COPIED FROM DISTANCE.M
     %read in parameter names from the X vector
-    X2params(X)
-      
+    X2params;
+
     %Altered set params with more firms
     boot_SetParams;
       
