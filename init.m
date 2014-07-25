@@ -4,12 +4,12 @@
 % Query user for desired task
 acceptable = 'FALSE'; %Is user input interpretable?
 while acceptable == 'FALSE'
-    task = input(['Task options are currently est (estimate the model) or sim (simulate the model once).' char(10) 'Which task shall I perform?: '], 's');
+    task = input(['Task options are currently' char(10) 'est (estimate the model)' char(10) 'sim (simulate the model once).' char(10) 'se (standard error calculation' char(10) 'cf (counterfactuals)' char(10) 'Which task shall I perform?: '], 's');
 
     display([char(10) 'Your input was ' num2str(task) '.' char(10)]);
 
     %Check for validity
-    if task == 'est' | task == 'sim'
+    if task == 'est' | task == 'sim' | task == 'se' | task == 'cf'
         acceptable = 'TRUE ';
     else
         display(['Sorry, I do not understand.  Try again.' char(10)]);
@@ -23,6 +23,14 @@ params
 if task == 'est'
     calibration_noprod(pop);
 end
+if task == 'sim'
+    simulate(X);
+end
+if task == 'se'
+    bootstrap(X)
+    stderr
+end
+
 
 
 
