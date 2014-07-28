@@ -9,7 +9,7 @@ while acceptable == 'FALSE'
     display([char(10) 'Your input was ' num2str(task) '.' char(10)]);
 
     %Check for validity
-    if (task == 'est') | (task == 'sim') | (task == 'std') | (task == 'cf')
+    if (task == 'est') | (task == 'sim') | (task == 'std') | (task == 'cfs')
         acceptable = 'TRUE ';
     else
         display(['Sorry, I do not understand.  Try again.' char(10)]);
