@@ -1,4 +1,4 @@
-function [sh_val_h,sh_val_f,ind,deathmat,ds,sh,act,breakflag,max_mat_violation,match_number_violation,prod_init] = singlefirm(j,max_mat_violation,match_violation,violation,match_number_violation,no_more_rands,breakflag,x_size,Phi_size,z_size,TT,cum_erg_pz,cum_erg_pp,cum_sp_p,th_ind,mu_h,mu_f,sp_p,lambda_f,lambda_h,c_val_h,c_val_f,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_h,scale_f,de,agg_shocks)
+function [sh_val_h,sh_val_f,ind,deathmat,ds,sh,act,breakflag,max_mat_violation,match_number_violation,prod_init] = singlefirm(j,max_mat_violation,match_violation,violation,match_number_violation,no_more_rands,breakflag,x_size,Phi_size,z_size,TT,cum_erg_pz,cum_erg_pp,cum_sp_p,th_ind,mu_h,mu_f,sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_h,scale_f,de,agg_shocks)
 % This function generates the state matrices for a single firm, to be optionally
 % compilied into mex.
 
@@ -142,7 +142,11 @@ obin_fix = zeros(S,1);
                 m_obs = 0; %observed match (able to learn only from observed matches)
                 s_obs = 0; %observed success  
             for k = lag:deathind(n)
-                exp_inv_temp = log(rand)/-lambda_f(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
+                if ind(k-1,1) < TT - 9 % before macro policy change
+                    exp_inv_temp = log(rand)/-lambda_f_orig(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
+                else
+                    exp_inv_temp = log(rand)/-lambda_f_new(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
+                end
                 spell = exp_inv_temp; %time before match
                 gap = ind(k,1)-ind(k-1,1); %time between state changes
                 if spell < gap
@@ -166,7 +170,11 @@ obin_fix = zeros(S,1);
                             ind(obin,:) = [ind(k-1,1)+cum_spell,0,0,0,-1,-1,m,s,0,0,0,0];    
                         end
                         gap = gap - spell; %shrink the gap appropriately 
-                        exp_inv_temp = log(rand)/-lambda_f(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4)); %swing again
+                        if ind(k-1,1) < TT - 9 % before macro policy change
+                            exp_inv_temp = log(rand)/-lambda_f_orig(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4)); %swing again
+                        else
+                            exp_inv_temp = log(rand)/-lambda_f_new(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4)); %swing again
+                        end
                         spell = exp_inv_temp;
                         cum_spell = spell + cum_spell;
                     end
@@ -186,7 +194,11 @@ rng(seed(2));
             m=0;%match
             s=0;%success
             for k = lag:deathind(n)
-                exp_inv_temp = log(rand)/-lambda_h(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
+                if ind(k-1,1) < TT-9
+                    exp_inv_temp = log(rand)/-lambda_h_orig(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
+                else
+                    exp_inv_temp = log(rand)/-lambda_h_new(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
+                end
                 spell = exp_inv_temp;
                 gap = ind(k,1)-ind(k-1,1);
                 if spell < gap             
@@ -211,7 +223,11 @@ rng(seed(2));
                             ind(obin,:) = [ind(k-1,1)+cum_spell,0,0,0,m,s,-1,-1,0,0,0,0];
                         end  
                         gap = gap - spell;
-                        exp_inv_temp = log(rand)/-lambda_h(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
+                        if ind(k-1,1) < TT-9
+                            exp_inv_temp = log(rand)/-lambda_h_orig(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
+                        else
+                            exp_inv_temp = log(rand)/-lambda_h_new(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
+                        end
                         spell = exp_inv_temp;
                         cum_spell = spell + cum_spell;
                     end
@@ -415,9 +431,13 @@ end
 %reseed
 rng(seed(5));
 
+%seed barrage, need one for each 't'
+seed_barrage = randi(1e7,maxc,1);
+
 %home
     g = 1;
     for t = 1:maxc
+             rng(seed_barrage(t));
              loop_ind = find((ds(:,end-1)) == t);
               if isempty(loop_ind) == 0 
                 for o = 1:size(loop_ind,1)
@@ -447,9 +467,13 @@ rng(seed(5));
     %reseed
     rng(seed(6));
     
+    %seed barrage, need one for each 't'
+    seed_barrage = randi(1e7,maxc,1);
+    
     %foreign
     g = 1;
     for t = 1:maxc
+            rng(seed_barrage(t));
             loop_ind = find((ds(:,end)) == maxc+t);
               if isempty(loop_ind) == 0 
                 for o = 1:size(loop_ind,1)
@@ -540,10 +564,18 @@ deathmat(1:obin,:) = deathmat(I,:);
                     dropped = 0; %dummy changes to one if relationship is dropped
                     while p<deathind(n) && (ind(p,1)-ind(k,1)<rel_time-1e-12) %note: I had to take a little bit off here to deal with rounding error
                         if dropped == 0 && sh(p-1,t) ~= 0; %sale is made
-                            if c_val_h(ds(p-1,t),ind(p-1,2),ind(p-1,3))==0 %check for endogenous separation in the last period
-                                sh(p,t) = 0; %kill any shipments in current period  
-                                ind(p,9) = ind(p,9)-1; %reduce current clients by one
-                                dropped = 1;
+                            if ind(k-1,1) < TT - 9 % before macro policy change
+                                if c_val_h_orig(ds(p-1,t),ind(p-1,2),ind(p-1,3))==0 %check for endogenous separation in the last period
+                                    sh(p,t) = 0; %kill any shipments in current period  
+                                    ind(p,9) = ind(p,9)-1; %reduce current clients by one
+                                    dropped = 1;
+                                end
+                            else
+                                if c_val_h_new(ds(p-1,t),ind(p-1,2),ind(p-1,3))==0 %check for endogenous separation in the last period
+                                    sh(p,t) = 0; %kill any shipments in current period  
+                                    ind(p,9) = ind(p,9)-1; %reduce current clients by one
+                                    dropped = 1;
+                                end
                             end
                         elseif dropped == 1   
                             sh(p,t) = 0; %kill further shipments if relationship is over
@@ -572,10 +604,18 @@ deathmat(1:obin,:) = deathmat(I,:);
                     dropped = 0; %dummy changes to one if relationship is dropped
                     while p<deathind(n) && (ind(p,1)-ind(k,1)<rel_time-1e-12) %note: I had to take a little bit off here to deal with rounding error
                         if dropped == 0 && sh(p-1,maxc+t) ~= 0; %sale is made
-                            if c_val_f(ds(p-1,maxc+t),ind(p-1,2),ind(p-1,4))==0 %check for endogenous separation in the last period 
-                                sh(p,maxc+t) = 0; %kill any sales in current period  
-                                ind(p,10) = ind(p,10)-1; %reduce current clients by one
-                                dropped = 1;
+                            if ind(k-1,1) < TT - 9 % before macro policy change
+                                if c_val_f_orig(ds(p-1,maxc+t),ind(p-1,2),ind(p-1,4))==0 %check for endogenous separation in the last period 
+                                    sh(p,maxc+t) = 0; %kill any sales in current period  
+                                    ind(p,10) = ind(p,10)-1; %reduce current clients by one
+                                    dropped = 1;
+                                end
+                            else
+                                if c_val_f_new(ds(p-1,maxc+t),ind(p-1,2),ind(p-1,4))==0 %check for endogenous separation in the last period 
+                                    sh(p,maxc+t) = 0; %kill any sales in current period  
+                                    ind(p,10) = ind(p,10)-1; %reduce current clients by one
+                                    dropped = 1;
+                                end
                             end
                         elseif dropped == 1   
                             sh(p,maxc+t) = 0; %kill further sales if relationship is over
