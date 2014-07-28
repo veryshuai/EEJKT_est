@@ -19,11 +19,11 @@ end
 % matlabpool open 3
 switch task 
     case 1
-      orig(1);
+      simulate(X, {'sim_results', 1});
     case 2
       cost_dec_trans(1);
     case 3
-      mac_bump_trans(1);
+      simulate(X, {'mac_bump_results', 3})
     case 4
       red_var_trans(1);
     case 5
