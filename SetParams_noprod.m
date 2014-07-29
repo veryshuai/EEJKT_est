@@ -69,7 +69,6 @@ mm.theta2(mm.dim2)  =  mm.theta2(mm.dim2) - 0.0001;
 mm.v_tolerance   = 1e-3;  % convergence tolerance, value function iterations (WAS .005)
 mm.pi_tolerance  = 1e-5;  % convergence tolerance, profit function (WAS .001)
 mm.T             = 50;     % horizon for calculating profit function
-display(case_str)
 if case_str == 'est'
     mm.S             = 3000;      % number of potential exporting firms to simulate (WAS 2000)
 else
