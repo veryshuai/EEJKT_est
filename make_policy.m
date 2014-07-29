@@ -2,7 +2,7 @@
 
 % First half policy 
 
-case_str = 'none'
+case_str = 'non';
 
 % Get parameters
 SetParams_noprod;
@@ -15,7 +15,7 @@ SetParams_noprod;
 switch cf_num
     case 1 
 
-        case_str = 'none'
+        case_str = 'non';
 
         % Get parameters
         SetParams_noprod;
@@ -27,10 +27,10 @@ switch cf_num
       %cost_dec_trans(1);
     case 3
 
-        case_str = 'macb'
+        case_str = 'mac';
 
         % Set counterfactual
-        increase = 1.2
+        increase = 1.2; % 20% jump in macro shock
         scale_f    =  scale_f + log(increase);
 
         % Get parameters

@@ -16,8 +16,8 @@ function simulate(X, varargin)
     optargs(1:numvarargs) = varargin;
 
     % memorable variable names
-    savename = optarg{1} % name underwhich to save results 
-    cf_num = optarg{2} % which counterfactual (1 = none, see call.m for other definitions)?
+    savename = optargs{1} % name underwhich to save results 
+    cf_num = optargs{2} % which counterfactual (1 = none, see call.m for other definitions)?
 
     % Parallel setup
     clc
@@ -34,7 +34,7 @@ function simulate(X, varargin)
     % random seed
     rng(80085);
     
-    [D,W,error,simulated_data] = distance_noprod(X, cf_num);
+    [D,W,err,simulated_data] = distance_noprod(X, cf_num);
     
     % End timer
     toc

@@ -5,28 +5,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
     simulated_data = cell(11,1);
 
     % read in parameters
-    burn    = mm.burn;          %number of burn in periods
-    esT     = 18 + burn;        % number of ergodic state periods to be simulated
-    scale_f = mm.scale_f;       %US scale parameter
-    scale_h = mm.scale_h;       %Colombia scale parameter
-    eta     = mm.eta;           %demand elasticity
-    alpha   = mm.alpha;         %success function parameter
-    ah      = mm.ah;            %home Beta parameter
-    bh      = mm.bh;            %home Beta parameter  
-    af      = mm.af;            %foreign Beta parameter
-    bf      = mm.bf;            %foreign Beta parameter
-    S       = mm.S;             %number of firms
-    ag      = mm.ag;            % true common (theta0) beta parameter
-    bg      = mm.bg;            % true common (theta0) beta parameter
-    theta0  = mm.theta0;        % vector of global firm effects
-    theta1  = mm.theta2;        % vector of home market firm effects
-    theta2  = mm.theta2;        % vector of foreign market firm effects
-    TT      = esT;              % Number of time periods to be simulated
-    L_p     = mm.L_p;           %arrival rate for jumps in self productivity
-    L_h     = mm.L_h;
-    L_f     = mm.L_f;
-    d       = mm.d;             %exogenous death rate
-    maxc    = mm.maxc;          %maximum allowable number of clients
+    moms_params
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %% Get Spells for own productivity jumps 
@@ -76,69 +55,13 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
     mu_h = alpha*theta(:,1)+(1-alpha)*theta(:,2); %true home success probability
     mu_f = alpha*theta(:,1)+(1-alpha)*theta(:,3); %true foreign success probability
     
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %(THIS UGLY PART OF THE PROGRAM IS DUE TO THE FACT THAT WE FOUND THAT ELIMINATING CELL ARRRAY GIVES THE SIMULATION A DRASTIC SPEED BOOST.  SINCE THE REST OF THE PROGRAM USES CELL ARRAYS, WE JUST DECELL BEFORE THE SIMULATION, AND RECELL AFTER THE SIMULATION)
-    
-    %% Decell array 
-    lambda_f_new = zeros(size(lambda_f,1),size(lambda_f,2),size(lambda_f,3),size(lambda_f,4),size(lambda_f{1,1,1,1},1),size(lambda_f{1,1,1,1},2));
-    lambda_h_new = zeros(size(lambda_h,1),size(lambda_h,2),size(lambda_h,3),size(lambda_h{1,1,1},1),size(lambda_h{1,1,1},2));
-    c_val_h_new = zeros(size(c_val_h,1),size(c_val_h{1},1),size(c_val_h{1},2));
-    c_val_f_new = zeros(size(c_val_f,1),size(c_val_f{1},1),size(c_val_f{1},2));
-    for m = 1:size(lambda_f,1)
-        for n = 1:size(lambda_f,2)
-            for o = 1:size(lambda_f,3)
-                for p = 1:size(lambda_f,4)
-                    lambda_f_new(m,n,o,p,:,:) = lambda_f{m,n,o,p}(:,:);
-                end
-            end
-        end
-    end
-    for m = 1:size(lambda_h,1)
-        for n = 1:size(lambda_h,2)
-            for o = 1:size(lambda_h,3)
-                lambda_h_new(m,n,o,:,:) = lambda_h{m,n,o}(:,:);
-            end
-        end
-    end
-    for m = 1:size(c_val_h,1)
-                c_val_h_new(m,:,:) = c_val_h{m}(:,:);
-    end
-    for m = 1:size(c_val_f,1)
-                c_val_f_new(m,:,:) = c_val_f{m}(:,:);
-    end
-    lambda_f = lambda_f_new;
-    lambda_h = lambda_h_new;
-    c_val_h = c_val_h_new;
-    c_val_f = c_val_f_new;
+    %eliminating policy function cell arrrays in favor of multi-dimensional matrices gives the simulation a drastic speed boost
+    [lambda_f_orig, lambda_h_orig, c_val_f_orig, c_val_h_orig]  = moms_decell(lambda_f_orig, lambda_h_orig, c_val_f_orig, c_val_h_orig);
+    [lambda_f_new, lambda_h_new, c_val_f_new, c_val_h_new]  = moms_decell(lambda_f_new, lambda_h_new, c_val_f_new, c_val_h_new);
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Model Simulation
 
-    %% Read in additional simulation parameters 
-
-    delta       = mm.delta;    %exogenous match death hazard
-    d           = mm.d;        %exogenous firm death hazard
-    S           = mm.S;        %number of firms
-    n_size      = mm.n_size;   %number of matches which are learned from
-    net_size    = mm.net_size; %max number of network effects.
-    Z           = mm.Z;        %grid for other firm productivity
-    Phi         = mm.Phi;      %grid for own productivity
-    X_f         = mm.X_f;      %grid for foreign macro shock
-    X_h         = mm.X_h;      %grid for home macro shock
-    actual_h    = mm.actual_h; %actual home macro shock indexes (and yrs)
-    actual_f    = mm.actual_f; %actual foreign macro shock indexes (and yrs)
-    L_b         = mm.L_b;
-    L_z         = mm.L_z;
-    L_f         = mm.L_f;
-    L_h         = mm.L_h;
-    erg_pz      = mm.erg_pz;    %stationary distribution of buyer productivities
-    erg_pp      = mm.erg_pp;    %stationary distribution of seller productivites
-    
-    maxc            = mm.maxc; %maximum number of current clients (follows old program)
-    max_client_prod = mm.max_client_prod; %maximum changes in demand shock over relationship
-    mult_match_max  = mm.mult_match_max; %maximum number of matches per exogenous state change interval
-    mms             = mm.mms; %maximum number of matrix rows (memory issues)
-    
     %% Get vector of state and time changes
     [st_ind_cont,st_cont,ds,sh,act,break_flag,deathmat,sh_val_h,sh_val_f,cprod] = st_traj_nocell(indx1,mu_h,mu_f,sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,eta,TT);
     
@@ -317,9 +240,6 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             % Count the number of exporters 
             pbexp = sum(sum(sale_f_mat)>1);
             
-            %pbexp_check = sum(sum(sale_d_mat) > 1 | sum(sale_f_mat) > 1);
-            %display(pbexp_check);
-            
             % match level ar1
             try
                 [b,~,r] = regress(log(sh_ann_f_mat(2:end))',[ones(size(sh_ann_f_mat(2:end)))',log(sh_ann_f_mat(1:end-1))',sh_first_yr_dum_mat(1:end-1)']);
@@ -363,53 +283,15 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
     
             % Reject if number of post-burn in exporters less than 500
             if pbexp < 500
-                mreg = ones(3,1)*100;
-                mavship = ones(1,1)*100;
-                mstat = ones(2,1)*100;
-                clidist = ones(3,1)*100;
-                hazrate = ones(5,1)*100;
-                mavex = ones(5,1)*100;
-                mnumex = ones(5,1)*100;
-                vtran = ones(8,1)*100;
-                mexshr = ones(1,1)*100;
-                mexreg = ones(2,1)*100;
-                mlagereg = ones(3,1)*100;
-                mlagdreg = ones(2,1)*100;
-                mdeathreg = ones(4,1)*100;
+                sim_err %fill in parameters to make solver continue
             end
-
-        % reject if error in separation of dead firms
         else
-            mreg = ones(3,1)*100;
-            mavship = ones(1,1)*100;
-            mstat = ones(2,1)*100;
-            clidist = ones(3,1)*100;
-            hazrate = ones(5,1)*100;
-            mavex = ones(5,1)*100;
-            mnumex = ones(5,1)*100;
-            vtran = ones(8,1)*100;
-            mexshr = ones(1,1)*100;
-            mexreg = ones(2,1)*100;
-            mlagereg = ones(3,1)*100;
-            mlagdreg = ones(2,1)*100;
-            mdeathreg = ones(4,1)*100;
+            %simulation error
+            sim_err %fill in parameters to make solver continue
         end
-
-    % Reject if error in simulation
     else
-        mreg = ones(3,1)*100;
-        mavship = ones(1,1)*100;
-        mstat = ones(2,1)*100;
-        clidist = ones(3,1)*100;
-        hazrate = ones(5,1)*100;
-        mavex = ones(5,1)*100;
-        mnumex = ones(5,1)*100;
-        vtran = ones(8,1)*100;
-        mexshr = ones(1,1)*100;
-        mexreg = ones(2,1)*100;
-        mlagereg = ones(3,1)*100;
-        mlagdreg = ones(2,1)*100;
-        mdeathreg = ones(4,1)*100;
+        %simulation error
+        sim_err %fill in parameters to make solver continue
     end
 
 end %end function
