@@ -13,18 +13,9 @@ SetParams_noprod;
 % Second half policy
 
 switch cf_num
-    case 1 
-
-        case_str = 'non';
-
-        % Get parameters
-        SetParams_noprod;
-        
-        % Get policy and value functions
-        [lambda_f_new,lambda_h_new,pi_tilda_h_new,pi_tilda_f_new,c_val_h_new,c_val_f_new,punishment_new] = solve(mm);
-
     case 2
       %cost_dec_trans(1);
+
     case 3
 
         case_str = 'mac';
@@ -41,7 +32,19 @@ switch cf_num
 
     case 4
       %red_var_trans(1);
+
     case 5
       %search_dec_trans(1);
+
+    otherwise
+
+        case_str = 'non';
+
+        % Get parameters
+        SetParams_noprod;
+        
+        % Get policy and value functions
+        [lambda_f_new,lambda_h_new,pi_tilda_h_new,pi_tilda_f_new,c_val_h_new,c_val_f_new,punishment_new] = solve(mm);
+
 end
 

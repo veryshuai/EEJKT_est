@@ -281,7 +281,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             display(['Number of post-burn, ever active exporters is ', num2str(pbexp), '.']);
 
             % save results for plotting counterfactuals
-            if cf_num != 1
+            if cf_num != 0
                 save cf_sim_results
             end
     

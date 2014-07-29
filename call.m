@@ -20,10 +20,12 @@ end
 switch task 
     case 1
       simulate(X, {'sim_results', 1});
+      cf_decomposition('orig_decomp')
     case 2
       cost_dec_trans(1);
     case 3
       simulate(X, {'mac_bump_results', 3})
+      cf_decomposition('mac_bump_decomp')
     case 4
       red_var_trans(1);
     case 5
