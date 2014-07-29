@@ -35,5 +35,5 @@ function cf_decomposition(savename)
     D_m_numclients  = log(numclients(2:18)./act_exp(2:18)) - log(numclients(1:17)./act_exp(1:17));
     D_m_spc         = log(sum(sale_f_mat(2:18,:),2)./numclients(2:18)) - log(sum(sale_f_mat(1:17,:),2)./numclients(1:17));
     
-    save savename
+    save(savename)
 end

@@ -68,7 +68,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
     if break_flag == 0
 
         %clear memory of unnecessary stuff
-        clearvars -except sh_val_h sh_val_f cprod Z Phi X_f X_h st_ind_cont st_cont eta scale_f scale_h S TT burn ds sh act maxc deathmat mu_f mu_h 
+        clearvars -except cf_num sh_val_h sh_val_f cprod Z Phi X_f X_h st_ind_cont st_cont eta scale_f scale_h S TT burn ds sh act maxc deathmat mu_f mu_h
     
         %% Separate dead firms 
         S_old = S;
@@ -281,7 +281,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             display(['Number of post-burn, ever active exporters is ', num2str(pbexp), '.']);
 
             % save results for plotting counterfactuals
-            if cf_num != 0
+            if cf_num ~= 0
                 save cf_sim_results
             end
     

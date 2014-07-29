@@ -43,7 +43,7 @@ function simulate(X, varargin)
     matlabpool close
     
     % Save results
-    save savename;
+    save(savename);
     
     % Generate Profit Variance Graph
     prof_var(simulated_data);
