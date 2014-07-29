@@ -16,8 +16,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
           sp_p(k,g) = expinv(rand,1/L_p); 
         end
         g = g + 1;
-    end
-    
+    end 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %% Generate acceptance rates for home and foreign market
 
@@ -52,8 +51,8 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
     end
     
     % Get common vs independent components in success probabilities
-    mu_h = alpha*theta(:,1)+(1-alpha)*theta(:,2); %true home success probability
-    mu_f = alpha*theta(:,1)+(1-alpha)*theta(:,3); %true foreign success probability
+    mu_h = myalpha*theta(:,1)+(1-myalpha)*theta(:,2); %true home success probability
+    mu_f = myalpha*theta(:,1)+(1-myalpha)*theta(:,3); %true foreign success probability
     
     %eliminating policy function cell arrrays in favor of multi-dimensional matrices gives the simulation a drastic speed boost
     [lambda_f_orig, lambda_h_orig, c_val_f_orig, c_val_h_orig]  = moms_decell(lambda_f_orig, lambda_h_orig, c_val_f_orig, c_val_h_orig);
@@ -280,6 +279,11 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             end
             
             display(['Number of post-burn, ever active exporters is ', num2str(pbexp), '.']);
+
+            % save results for plotting counterfactuals
+            if cf_num != 1
+                save cf_sim_results
+            end
     
             % Reject if number of post-burn in exporters less than 500
             if pbexp < 500
