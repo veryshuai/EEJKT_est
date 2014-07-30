@@ -3,24 +3,23 @@ function simulate(X, varargin)
 % for use in creating plots and counterfactuals
 
     % only allow a two inputs
-    numvarargs = length(varargin);
+    numvarargs = size(varargin, 2);
     if numvarargs > 2
         error('distance_noprod:TooManyInputs', ...
             'allow at most 2 optional inputs');
     end
 
     % set defaults for optional inputs
-    optargs = {'sim_results' 1};
+    optargs = {'sim_results', 0};
 
     % overwrite defaults with user input
     optargs(1:numvarargs) = varargin;
 
     % memorable variable names
-    savename = optargs{1} % name underwhich to save results 
-    cf_num = optargs{2} % which counterfactual (1 = none, see call.m for other definitions)?
+    savename = optargs{1}; % name underwhich to save results 
+    cf_num = optargs{2}; % which counterfactual (0 = none, see call.m for other definitions)?
 
     % Parallel setup
-    clc
     if matlabpool('size')~=12 %if pool not equal to 12, open 12
        if matlabpool('size')>0
          matlabpool close
@@ -34,13 +33,14 @@ function simulate(X, varargin)
     % random seed
     rng(80085);
     
-    [D,W,err,simulated_data] = distance_noprod(X, cf_num);
+    parfor k=1 %behavior or randoms is different when in parfor loop
+        [D,W,err,simulated_data] = distance_noprod(X, cf_num);
+    end
     
     % End timer
     toc
     
-    % Close parallel
-    matlabpool close
+    % Close parallel matlabpool close
     
     % Save results
     save(savename);
