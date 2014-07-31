@@ -22,7 +22,7 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num)
     rng(80085);
 
     % Simulate model and create loss function statistics
-    [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,mlagereg,mlagdreg,mdeathreg,simulated_data] = moms_nocell(mm,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,cf_num, increase);
+    [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,mlagereg,mlagdreg,mdeathreg,simulated_data] = moms_nocell(mm,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,cf_num,increase);
     
     %% Targets
     [Data, W] = target_stats();

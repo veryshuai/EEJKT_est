@@ -1,4 +1,4 @@
-function [sale_h,sale_f] = sales(scale_f,scale_h,de,st_cont,S,ds,sh,maxc,Z,Phi,X_h,X_f)
+function [sale_h,sale_f] = sales(scale_f,scale_h,de,st_cont,S,ds,sh,maxc,Z,Phi,X_h,X_f, increase)
 %this function takes scale factors, elasticity of demand, and the simulated
 %state transition vector and returns sales per period between events for
 %each firm.
