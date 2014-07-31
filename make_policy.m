@@ -4,6 +4,7 @@
 
 case_str = 'non';
 
+
 % Get parameters
 SetParams_noprod;
 
@@ -45,6 +46,7 @@ switch cf_num
     otherwise
 
         case_str = 'non';
+        increase = 1; % no counterfactual
 
         % Get parameters
         SetParams_noprod;

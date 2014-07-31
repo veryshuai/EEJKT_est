@@ -66,9 +66,6 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
     
     % check for errors in simulation routine
     if break_flag == 0
-
-        %clear memory of unnecessary stuff
-        clearvars -except cf_num sh_val_h sh_val_f cprod Z Phi X_f X_h st_ind_cont st_cont eta scale_f scale_h S TT burn ds sh act maxc deathmat mu_f mu_h
     
         %% Separate dead firms 
         S_old = S;
@@ -78,7 +75,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
         if breakflag == 0
     
             %% Calculate Sales
-            [sale_h_cont,sale_f_cont] = sales(scale_f,scale_h,eta,st_ind_cont,S,ds,sh,maxc,Z,Phi,X_h,X_f);
+            [sale_h_cont,sale_f_cont] = sales(scale_f,scale_h,eta,st_ind_cont,S,ds,sh,maxc,Z,Phi,X_h,X_f,cf_num,increase);
     
             %% Discretize state vector into years
             [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h,sh_val_f);
