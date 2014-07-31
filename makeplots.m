@@ -1,4 +1,5 @@
 function makeplots(loadname, savename)
+
 % This function creates plots for a counter-factual
 
     %get original data

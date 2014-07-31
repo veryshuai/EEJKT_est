@@ -2,6 +2,9 @@ function simulate(X, varargin)
 % This script returns simulated data
 % for use in creating plots and counterfactuals
 
+    % Start timer 
+    tic
+
     % only allow a two inputs
     numvarargs = size(varargin, 2);
     if numvarargs > 2
@@ -46,6 +49,6 @@ function simulate(X, varargin)
     save(savename);
     
     % Generate Profit Variance Graph
-    prof_var(simulated_data);
+    %prof_var(simulated_data);
 
 end
