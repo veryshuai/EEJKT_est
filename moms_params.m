@@ -1,7 +1,11 @@
 %Read parameters into moms_nocell
 
 burn            = mm.burn;          %number of burn in periods
-esT             = 18 + burn;        % number of ergodic state periods to be simulated
+if cf_num == 6 % Caculate network value
+    esT         = 60 + 18 % 60 years of usable data with random macro shocks
+else 
+    esT         = 18 + burn;        % number of ergodic state periods to be simulated
+end
 scale_f         = mm.scale_f;       %US scale parameter
 scale_h         = mm.scale_h;       %Colombia scale parameter
 eta             = mm.eta;           %demand elasticity

@@ -277,9 +277,11 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             
             display(['Number of post-burn, ever active exporters is ', num2str(pbexp), '.']);
 
-            % save results for plotting counterfactuals
-            if cf_num ~= 0
-                save cf_sim_results
+            % save results 
+            if cf_num > 0 & cf_num < 6
+                save('results/cf_sim_results') %for plotting counterfactuals
+            elseif cf_num == 6
+                save('results/val_sim_results') %for calculating the value of the network
             end
     
             % Reject if number of post-burn in exporters less than 500

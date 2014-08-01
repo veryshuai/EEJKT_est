@@ -3,7 +3,7 @@ function makeplots(loadname, savename)
 % This function creates plots for a counter-factual
 
     %get original data
-    orig = read_plot_data('orig_decomp');
+    orig = read_plot_data('results/orig_decomp');
     
     %get cf data
     cf = read_plot_data(loadname);

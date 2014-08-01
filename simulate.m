@@ -20,7 +20,7 @@ function simulate(X, varargin)
 
     % memorable variable names
     savename = optargs{1}; % name underwhich to save results 
-    cf_num = optargs{2}; % which counterfactual (0 = none, see call.m for other definitions)?
+    cf_num = optargs{2}; % which counterfactual (0 = none, 6 = calc value, see call_cfs.m for other definitions)?
 
     % Parallel setup
     if matlabpool('size')~=12 %if pool not equal to 12, open 12
@@ -43,7 +43,8 @@ function simulate(X, varargin)
     % End timer
     toc
     
-    % Close parallel matlabpool close
+    % Close parallel 
+    matlabpool close
     
     % Save results
     save(savename);
