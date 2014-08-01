@@ -66,7 +66,7 @@ mm.theta1(mm.dim1)  =  mm.theta1(mm.dim1) - 0.0001;
 mm.theta2(mm.dim2)  =  mm.theta2(mm.dim2) - 0.0001;
 
 %% Solution parameters
-mm.v_tolerance   = 1e-3;  % convergence tolerance, value function iterations (WAS .005)
+mm.v_tolerance   = 1e-5;  % convergence tolerance, value function iterations (WAS .005)
 mm.pi_tolerance  = 1e-5;  % convergence tolerance, profit function (WAS .001)
 mm.T             = 50;     % horizon for calculating profit function
 if case_str == 'est'

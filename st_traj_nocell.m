@@ -50,7 +50,7 @@ function [cind,cst,cds,csh,cact,breakflag,cdeathmat,csh_val_h,csh_val_f,cprod] =
     
     %% EXOGENOUS TRAJECTORIES (MACRO STATES AND SELF PRODUCTIVITY)
     for j = 1:S
-        rng(seeds(j));
+        rng(seeds(j)); %reset random seed!
         nonactives = 0;
         if breakflag == 0
             notempty = 0;
