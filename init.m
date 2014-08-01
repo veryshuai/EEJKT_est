@@ -27,14 +27,16 @@ if task == 'sim'
     simulate(X, {});
 end
 if task == 'std'
-    bootstrap(X)
+    bootstrap(X);
     stderr
 end
 if task == 'cfs'
-    call_cfs
+    call_cfs;
 end
 if task == 'val'
-    simulate(X, 'results/val_results', 6)
+    beta = 0.95 % annual discount
+    simulate(X, 'results/val_results', 6);
+    calc_val(beta);
 end
 
 
