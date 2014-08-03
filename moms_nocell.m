@@ -106,6 +106,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             simulated_data{8} = sh_ann_f_mat;
             simulated_data{9} = sh_first_yr_dum_mat;
             simulated_data{10} = [prods,mu_f,mu_h];
+            simulated_data{11} = [st_cont,st_ind_cont];
     
             %client transition counts
             trans_f = zeros(4);

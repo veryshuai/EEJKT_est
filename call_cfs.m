@@ -20,12 +20,12 @@ end
 switch task 
     case 1
       simulate(X, 'results/sim_results', 1);
-      cf_decomposition('results/orig_decomp')
+      cf_decomposition('results/cf_sim_results','results/orig_decomp')
     case 2
       cost_dec_trans(1);
     case 3
       simulate(X, 'results/mac_bump_results', 3)
-      cf_decomposition('results/mac_bump_decomp')
+      cf_decomposition('results/cf_sim_results','results/mac_bump_decomp')
       makeplots('results/mac_bump_decomp', 'results/mac_bump_subplots.eps')
     case 4
       red_var_trans(1);
