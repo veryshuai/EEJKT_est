@@ -40,7 +40,7 @@ function [cind,cst,cds,csh,cact,breakflag,cdeathmat,csh_val_h,csh_val_f,cprod] =
     TT = esT;
     
     %reset random seed
-    rng(80085);
+    rng(800854);
     
     %create common aggregate shocks (for burn in)
     agg_shocks = rand(10000,1);
