@@ -34,8 +34,7 @@ mm.rho_phi     = 0.74;     % root, idiosyncratic productivity shock (JC's estima
 mm.sig_eps_phi = 0.46;     % std. deviation of innovation in productivity shock (JC's estimate)
 
 mm.mean_z      = 0;        % Mean product appeal in U.S.
-%mm.sig_eps_z   = sig_eps_z;% std. deviation of innovation in product appeal shock
-%mm.rho_z       = rho_z;    % root, product appeal shock 
+%mm.sig_eps_z   = sig_eps_z;% std. deviation of innovation in product appeal shock %mm.rho_z       = rho_z;    % root, product appeal shock 
 
 mm.mean_x_h    = 0;        % Mean home macro state 
 mm.rho_x_h     = 0.961;    % root, home macro shock (JC's results, final, intermediate and cap. good expend.)
@@ -85,6 +84,9 @@ mm.maxc            = mm.net_size; %maximum number of current clients (follows ol
 mm.max_client_prod = 5000; %maximum changes in demand shock over relationship
 mm.mult_match_max  = 5000; %maximum number of matches per exogenous state change interval
 mm.mms             = 100000; %max event number (max matrix size)
+
+%% Cost function
+mm.cost = @(x,n) (mm.cs * (1+x).^(1+1/mm.b)-1)/((1+1/mm.b)*n^mm.gam);
 
 %% Exogenous Jump Process Parameters
 
