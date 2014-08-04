@@ -43,3 +43,4 @@ erg_pp          = mm.erg_pp;    %stationary distribution of seller productivites
 max_client_prod = mm.max_client_prod; %maximum changes in demand shock over relationship
 mult_match_max  = mm.mult_match_max; %maximum number of matches per exogenous state change interval
 mms             = mm.mms; %maximum number of matrix rows (memory issues)
+cost            = mm.cost; %cost function

@@ -12,7 +12,7 @@ function [V,l_opt,punishment] = val_loop_f(Q0,Q0_d,a,pi,mm)
     net         = mm.net_size; %maximum network effects
     tol         = mm.v_tolerance; %tolerance for loop below
     gam         = mm.gam; %network effect parameter
-    cscale      = mm.cs; %counterfactual scaling term
+    cscale      = mm.cs; %cost scaling term
     
     % initialize punishment for non-convergence
     punishment = 0; 
