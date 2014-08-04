@@ -25,4 +25,7 @@ for j = 1:S
     sale_f{j} = scale_f_vec.*exp(Phi(st_cont{j}(:,2))).^(de-1).*exp(X_f(st_cont{j}(:,4))).*sum(exp(Z_big(ds{j}(:,maxc+1:2*maxc)+1)).*sh{j}(:,maxc+1:2*maxc),2);  
 end
 
+%debug
+save('results/sales_test')
+
 end
