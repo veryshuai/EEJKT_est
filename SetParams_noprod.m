@@ -71,12 +71,14 @@ mm.pi_tolerance  = 1e-5;  % convergence tolerance, profit function (WAS .001)
 mm.T             = 50;     % horizon for calculating profit function
 if case_str == 'est'
     mm.S         = 3000;      % number of potential exporting firms to simulate (WAS 2000)
+    mm.burn      = 15;        %number of burn-in periods
 elseif case_str == 'val'
     mm.S         = 3000;      % number of potential exporting firms to simulate (WAS 2000)
+    mm.burn      = 0;        %number of burn-in periods
 else
     mm.S         = 10000;      % number of potential exporting firms to simulate (WAS 2000)
+    mm.burn      = 15;        %number of burn-in periods
 end
-mm.burn          = 15;        %number of burn-in periods
 
 %% Simulation restrictions
 mm.maxc            = mm.net_size; %maximum number of current clients (follows old program)
