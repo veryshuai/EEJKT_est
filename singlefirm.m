@@ -28,15 +28,15 @@ if breakflag == 0
     ind(:,:) = repmat([0,0,0,0,-1,-1,-1,-1,zeros(1,2),-1,-1],mms,1); % holds state
     deathmat(:) = zeros(mms,1); % holds dummy for a firm death
     
-    %put in "actual" X_f's (foreign macro shocks)
-    for k = 1:size(actual_f,1)-2
-        ind(k+1,1) = burn+k; % time of the shock
+    %put in "actual" X_f's (foreign macro shocks) at end of period
+    for k = 1:size(actual_f,1)-2 
+        ind(k+1,1) = TT - (size(actual_f,1) - 2) + k; % time of the shock
         ind(k+1,4)  = actual_f(k+2,2); % value of the shock
     end
 
-    %put in "actual" X_h's (home macro shocks)
+    %put in "actual" X_h's (home macro shocks) at end of period
     for k = 1:size(actual_h,1)-2
-        ind(k+1,1) = burn+k; %time of the shock 
+        ind(k+1,1) = TT - (size(actual_h,1) - 2) + k; %time of the shock 
         ind(k+1,3)  = actual_h(k+2,2); % value of the shock
     end 
 
