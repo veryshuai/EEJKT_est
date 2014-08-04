@@ -1,6 +1,6 @@
 function [cli_no,sales_h,sales_f,ship_f,sh_ann_f,sh_first_yr_dum] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h_cont,sh_val_f_cont)
 %this function takes the continuous versions of state and sale vectors, and
-%collapses them into aggregate yearly vectors
+%collapses them into aggregate annual vectors
 
 %preallocate
 cli_no = mat2cell(repmat(zeros(TT-burn,2),S,1),ones(S,1)*TT-burn,2);
@@ -11,15 +11,15 @@ sh_first_yr_dum = cell(S,1);
 ship_f = mat2cell(repmat(zeros(TT-burn,1),S,1),ones(S,1)*TT-burn,1);
     
 for j = 1:S
-t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last');
-    if isempty(t_lag) == 1;
+t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn event
+    if isempty(t_lag) == 1; %deal with firms which die before burn ends
         t_lag = 0;
     end
 
     % get a list of foreign clients to allocate a matrix to sh_ann_f 
-    t_ind = find(st_ind_cont{j}(:,1)<TT,1,'last');        
-    fclients = unique(full(sh_val_f_cont{j}(t_lag+1:t_ind,2)));
-    fclients = fclients(2:end); % get rid of zero, which is always there
+    t_ind = find(st_ind_cont{j}(:,1)<TT,1,'last'); %find index of last pre TT event
+    fclients = unique(full(sh_val_f_cont{j}(t_lag+1:t_ind,2))); %find list of all unique clients in the 'data' period
+    fclients = fclients(2:end); % get rid of the 'zero' client, which is just a placeholder 
     sh_ann_f{j} = ones(TT-burn+1,size(fclients,1))*NaN; % extra row is for NaN, will be useful a barrier for stacking later when I calculate the moments
     sh_first_yr_dum{j} = ones(TT-burn+1,size(fclients,1))*NaN; % this holds a dummy for the first year of a relationship
 
