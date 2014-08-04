@@ -40,7 +40,9 @@ t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn ev
             if sales_f{j}(t-burn)==0 && cli_no{j}(t-burn,2) > 0
                 display('WARNING: in st_disc, positive clients, but zero sales!');
             end
-            if isempty(fclients) ~= 1
+
+            % Calculate annual shipments
+            if isempty(fclients) ~= 1 %did the firm have any clients?
                 for k = 1:size(fclients,1)
                     ind = find(sh_val_f_cont{j}(t_lag:t_ind,2) == fclients(k));
                     if isempty(ind) == 1
@@ -56,7 +58,7 @@ t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn ev
             end
 
             t_lag = t_ind;
-        end        
+        end
     end
 end
 end
