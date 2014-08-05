@@ -78,7 +78,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             [sale_h_cont,sale_f_cont] = sales(scale_f,scale_h,eta,st_ind_cont,S,ds,sh,maxc,Z,Phi,X_h,X_f,cf_num,increase,TT);
     
             %% Discretize state vector into years
-            [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h,sh_val_f);
+            [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h,sh_val_f,cost_vec);
     
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %% Moments calculations

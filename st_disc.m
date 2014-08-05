@@ -1,4 +1,4 @@
-function [cli_no,sales_h,sales_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_vec] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h_cont,sh_val_f_cont,cost_h,cost_f)
+function [cli_no,sales_h,sales_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h_cont,sh_val_f_cont,cost_vec_cont)
 %this function takes the continuous versions of state and sale vectors, and
 %collapses them into aggregate annual vectors
 
@@ -26,9 +26,9 @@ t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn ev
     sh_first_yr_dum{j} = ones(TT-burn+1,size(fclients,1))*NaN; % this holds a dummy for the first year of a relationship
 
     % Calculate summable flow search costs (later can easily add fixed costs)
-    gaps = st_ind_cont{j}(2:end,1) - st_ind_cont(1:end-1,1); %get time passed in each period
-    cost_f_sumable = gaps * cost_vec_cont(1:end-1,1); %multiply gaps by instantaneous flow cost
-    cost_h_sumable = gaps * cost_vec_cont(1:end-1,3); %multiply gaps by instantaneous flow cost
+    gaps = st_ind_cont{j}(2:end,1) - st_ind_cont{j}(1:end-1,1); %get time passed in each period
+    cost_f_sumable = [0;gaps .* cost_vec_cont{j}(1:end-1,1)]; %multiply gaps by instantaneous flow cost
+    cost_h_sumable = [0;gaps .* cost_vec_cont{j}(1:end-1,3)]; %multiply gaps by instantaneous flow cost
 
     for t = burn+1:TT
         t_ind = find(st_ind_cont{j}(:,1)<t,1,'last');

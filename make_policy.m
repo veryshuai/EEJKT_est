@@ -48,14 +48,14 @@ switch cf_num
         case_str = 'non';
         increase = 1; % no counterfactual
 
-        % Get parameters
-        SetParams_noprod;
-
-        %reset random seed
-        rng(80085);
-        
         % Get policy and value functions
-        [lambda_f_new,lambda_h_new,pi_tilda_h_new,pi_tilda_f_new,c_val_h_new,c_val_f_new,punishment_new] = solve(mm);
+        lambda_f_new   =  lambda_f_orig;
+        lambda_h_new   =  lambda_h_orig;
+        pi_tilda_h_new =  pi_tilda_h_orig;
+        pi_tilda_f_new =  pi_tilda_f_orig;
+        c_val_h_new    =  c_val_h_orig;
+        c_val_f_new    =  c_val_f_orig;
+        punishment_new =  punishment_orig;
 
 end
 

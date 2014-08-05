@@ -65,18 +65,18 @@ mm.theta1(mm.dim1)  =  mm.theta1(mm.dim1) - 0.0001;
 mm.theta2(mm.dim2)  =  mm.theta2(mm.dim2) - 0.0001;
 
 %% Solution parameters
-mm.v_tolerance   = 1e-5;  % convergence tolerance, value function iterations (WAS .005)
-mm.pi_tolerance  = 1e-5;  % convergence tolerance, profit function (WAS .001)
-mm.T             = 50;     % horizon for calculating profit function
-if case_str == 'est' | case_str == 'val'
-    mm.S         = 3000;      % number of potential exporting firms to simulate (WAS 2000)
-    mm.burn      = 15;        %number of burn-in periods
-elseif case_str == 'dbg'
-    mm.S         = 100;      % number of potential exporting firms to simulate (WAS 2000)
-    mm.burn      = 0;        %number of burn-in periods
+mm.v_tolerance   = 1e-5;    % convergence tolerance, value function iterations (WAS .005)
+mm.pi_tolerance  = 1e-5;    % convergence tolerance, profit function (WAS .001)
+mm.T             = 50;      % horizon for calculating profit function
+if case_str == 'est'
+    mm.S         = 3000;    % number of potential exporting firms to simulate (WAS 2000)
+    mm.burn      = 15;      %number of burn-in periods
+elseif case_str == 'non'    %not a counterfactual
+    mm.S         = 10;      % number of potential exporting firms to simulate (WAS 2000)
+    mm.burn      = 0;       %number of burn-in periods
 else
-    mm.S         = 10000;      % number of potential exporting firms to simulate (WAS 2000)
-    mm.burn      = 15;        %number of burn-in periods
+    mm.S         = 10000;   % number of potential exporting firms to simulate (WAS 2000)
+    mm.burn      = 15;      %number of burn-in periods
 end
 
 %% Simulation restrictions

@@ -39,7 +39,7 @@ if task == 'val'
     calc_val(beta);
 end
 if task == 'dbg'
-    simulate(X, 'results/init_sim_results', 1, 1);
+    simulate(X, 'results/debug_results', 1, 1);
 end
 
 
