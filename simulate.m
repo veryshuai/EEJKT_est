@@ -6,14 +6,14 @@ function simulate(X, varargin)
     tic
 
     % only allow a two inputs
-    numvarargs = size(varargin, 2);
-    if numvarargs > 2
+    numvarargs = size(varargin, 3);
+    if numvarargs > 3
         error('distance_noprod:TooManyInputs', ...
-            'allow at most 2 optional inputs');
+            'allow at most 3 optional inputs');
     end
 
     % set defaults for optional inputs
-    optargs = {'sim_results', 0};
+    optargs = {'sim_results', 0, 0};
 
     % overwrite defaults with user input
     optargs(1:numvarargs) = varargin;
@@ -21,13 +21,16 @@ function simulate(X, varargin)
     % memorable variable names
     savename = optargs{1}; % name underwhich to save results 
     cf_num = optargs{2}; % which counterfactual (0 = none, 6 = calc value, see call_cfs.m for other definitions)?
+    debug = optargs{3}; % debug mode -- turn parallel off
 
     % Parallel setup
-    if matlabpool('size')~=12 %if pool not equal to 12, open 12
-       if matlabpool('size')>0
-         matlabpool close
-       end
-       matlabpool open 12
+    if debug == 0
+        if matlabpool('size')~=12 %if pool not equal to 12, open 12
+           if matlabpool('size')>0
+             matlabpool close
+           end
+           matlabpool open 12
+        end
     end
     
     % Put numbers in long format for printing
