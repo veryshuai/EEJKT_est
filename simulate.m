@@ -52,11 +52,13 @@ function simulate(X, varargin)
     % End timer
     toc
     
-    % Close parallel 
-    matlabpool close
-    
     % Save results
     save(savename);
+    
+    % Close parallel 
+    if matlabpool('size')>0
+      matlabpool close
+    end
     
     % Generate Profit Variance Graph
     %prof_var(simulated_data);

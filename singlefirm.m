@@ -152,7 +152,7 @@ if breakflag == 0
                 lam = lambda_f_new(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
                 exp_inv_temp = log(rand)/-lam;
             end
-            cost_vec(k,1) = cost(lam,min(s,net_size)+1);
+            cost_vec(k-1,1) = cost(lam,min(s,net_size)+1);
             spell = exp_inv_temp; %time before match
             gap = ind(k,1)-ind(k-1,1); %time between state changes
             if spell < gap
@@ -559,7 +559,13 @@ if breakflag == 0
         cli_ind = find(ds(loop_ind(k),:),1,'first');
         sh_val_f(loop_ind(k),1) = exp(scale_f)*exp(Phi(ind(loop_ind(k),2)))^(de-1)*exp(X_f(ind(loop_ind(k),3)))*exp(Z_big(ds(loop_ind(k),cli_ind)+1)); 
     end
-    for t = 1:2:4 %fill in flow costs
+
+    %fill in flow costs
+    for t = 1:2:4 
+        cost_vec(1:3,1) = 0; %these are nonsense placeholders at beginning of state vector
+        cost_vec(1:3,3) = 0; %these are nonsense placeholders at beginning of state vector
+
+        % fill in
         loop_ind = find(cost_vec(2:obin,t) == -1);
         if isempty(loop_ind)==0
             for k = 1:size(loop_ind,1) %fill forward
