@@ -20,7 +20,7 @@ sh       = zeros(mms,maxc*2+2);
 act      = zeros(mms,2);
 sh_val_h = zeros(mms,3);
 sh_val_f = zeros(mms,3);
-cost_vec = zeros(mms,4); % flow and fixed
+cost_vec = ones(mms,4) * -1; % flow and fixed, 0 is meaningful
 
 if breakflag == 0
 
@@ -559,7 +559,15 @@ if breakflag == 0
         cli_ind = find(ds(loop_ind(k),:),1,'first');
         sh_val_f(loop_ind(k),1) = exp(scale_f)*exp(Phi(ind(loop_ind(k),2)))^(de-1)*exp(X_f(ind(loop_ind(k),3)))*exp(Z_big(ds(loop_ind(k),cli_ind)+1)); 
     end
-    
+    for t = 1:2:4 %fill in flow costs
+        loop_ind = find(cost_vec(2:obin,t) == -1);
+        if isempty(loop_ind)==0
+            for k = 1:size(loop_ind,1) %fill forward
+                temp = cost_vec(loop_ind(k),t);
+                cost_vec(loop_ind(k)+1,t) = temp;
+            end
+        end
+    end
     
     %% Endogenous separation
     

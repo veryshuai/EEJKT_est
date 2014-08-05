@@ -1,4 +1,4 @@
-function [cli_no,sales_h,sales_f,ship_f,sh_ann_f,sh_first_yr_dum] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h_cont,sh_val_f_cont)
+function [cli_no,sales_h,sales_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_vec] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h_cont,sh_val_f_cont,cost_h,cost_f)
 %this function takes the continuous versions of state and sale vectors, and
 %collapses them into aggregate annual vectors
 
@@ -9,6 +9,8 @@ sales_f = mat2cell(repmat(zeros(TT-burn,1),S,1),ones(S,1)*TT-burn,1);
 sh_ann_f = cell(S,1);
 sh_first_yr_dum = cell(S,1);
 ship_f = mat2cell(repmat(zeros(TT-burn,1),S,1),ones(S,1)*TT-burn,1);
+cost_f = mat2cell(repmat(zeros(TT-burn,1),S,1),ones(S,1)*TT-burn,1);
+cost_h = mat2cell(repmat(zeros(TT-burn,1),S,1),ones(S,1)*TT-burn,1);
     
 for j = 1:S
 t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn event
@@ -22,6 +24,11 @@ t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn ev
     fclients = fclients(2:end); % get rid of the 'zero' client, which is just a placeholder 
     sh_ann_f{j} = ones(TT-burn+1,size(fclients,1))*NaN; % extra row is for NaN, will be useful a barrier for stacking later when I calculate the moments
     sh_first_yr_dum{j} = ones(TT-burn+1,size(fclients,1))*NaN; % this holds a dummy for the first year of a relationship
+
+    % Calculate summable flow search costs (later can easily add fixed costs)
+    gaps = st_ind_cont{j}(2:end,1) - st_ind_cont(1:end-1,1); %get time passed in each period
+    cost_f_sumable = gaps * cost_vec_cont(1:end-1,1); %multiply gaps by instantaneous flow cost
+    cost_h_sumable = gaps * cost_vec_cont(1:end-1,3); %multiply gaps by instantaneous flow cost
 
     for t = burn+1:TT
         t_ind = find(st_ind_cont{j}(:,1)<t,1,'last');
@@ -37,6 +44,8 @@ t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn ev
             ship_f{j}(t-burn) = sum(sum(sh{j}(t_lag:t_ind,maxc+1:2*maxc)));
             sales_h{j}(t-burn) = sum(sale_h_cont{j}(t_lag:t_ind,1)); %sum of sales from last period to this period
             sales_f{j}(t-burn) = sum(sale_f_cont{j}(t_lag:t_ind,1)); %sum of sales from last period to this period
+            cost_f{j}(t-burn) = sum(cost_f_sumable(t_lag:t_ind,1)); %sum of search (and fixed) costs by year 
+            cost_h{j}(t-burn) = sum(cost_h_sumable(t_lag:t_ind,1)); %sum of search (and fixed) costs by year 
             if sales_f{j}(t-burn)==0 && cli_no{j}(t-burn,2) > 0
                 display('WARNING: in st_disc, positive clients, but zero sales!');
             end
@@ -56,6 +65,10 @@ t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn ev
                     end
                 end
             end
+
+            
+
+
 
             t_lag = t_ind;
         end

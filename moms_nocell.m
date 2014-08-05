@@ -78,7 +78,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             [sale_h_cont,sale_f_cont] = sales(scale_f,scale_h,eta,st_ind_cont,S,ds,sh,maxc,Z,Phi,X_h,X_f,cf_num,increase,TT);
     
             %% Discretize state vector into years
-            [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h,sh_val_f);
+            [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h,sh_val_f);
     
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %% Moments calculations
@@ -105,8 +105,9 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             simulated_data{7} = sale_f_mat_count;
             simulated_data{8} = sh_ann_f_mat;
             simulated_data{9} = sh_first_yr_dum_mat;
-            simulated_data{10} = [prods,mu_f,mu_h];
-            simulated_data{11} = [st_cont,st_ind_cont,cost_vec];
+            simulated_data{10} = [cost_f,cost_h];
+            simulated_data{11} = [prods,mu_f,mu_h];
+            simulated_data{12} = [st_cont,st_ind_cont,cost_vec];
     
             %client transition counts
             trans_f = zeros(4);
