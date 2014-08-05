@@ -177,10 +177,10 @@ if breakflag == 0
                     end
                     gap = gap - spell; %shrink the gap appropriately 
                     if ind(k-1,1) + cum_spell < TT - 9 % before macro policy change
-                        lam = lambda_f_orig(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4))
+                        lam = lambda_f_orig(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
                         exp_inv_temp = log(rand)/-lam; %swing again
                     else
-                        lam lambda_f_new(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4))
+                        lam=lambda_f_new(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
                         exp_inv_temp = log(rand)/-lam; %swing again
                     end
                     cost_vec(obin,1) = cost(lam,min(s,net_size)+1);
@@ -208,7 +208,7 @@ if breakflag == 0
                 lam = lambda_h_orig(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
                 exp_inv_temp = log(rand)/-lam;
             else
-                lam = lambda_h_new(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3))
+                lam = lambda_h_new(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
                 exp_inv_temp = log(rand)/-lam;
             end
             cost_vec(k,3) = cost(lam,min(s,net_size)+1);
@@ -237,10 +237,10 @@ if breakflag == 0
                     end  
                     gap = gap - spell;
                     if ind(k-1,1) + cum_spell < TT-9
-                        lam = lambda_h_orig(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3))
+                        lam = lambda_h_orig(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
                         exp_inv_temp = log(rand)/-lam;
                     else
-                        lam = lambda_h_new(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3))
+                        lam = lambda_h_new(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
                         exp_inv_temp = log(rand)/-lam;
                     end
                     cost_vec(obin,3) = cost(lam,min(s,net_size)+1);

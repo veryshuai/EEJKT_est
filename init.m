@@ -24,7 +24,7 @@ if task == 'est'
     calibration_noprod(pop, {});
 end
 if task == 'sim'
-    simulate(X, {});
+    simulate(X, 'results/init_sim_results', 1);
 end
 if task == 'std'
     bootstrap(X);
