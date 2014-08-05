@@ -6,7 +6,7 @@ function simulate(X, varargin)
     tic
 
     % only allow a two inputs
-    numvarargs = size(varargin, 3);
+    numvarargs = size(varargin, 2);
     if numvarargs > 3
         error('distance_noprod:TooManyInputs', ...
             'allow at most 3 optional inputs');
