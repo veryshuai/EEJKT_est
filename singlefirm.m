@@ -1,4 +1,4 @@
-function [sh_val_h,sh_val_f,ind,deathmat,ds,sh,act,breakflag,max_mat_violation,match_number_violation,prod_init, cost_vec] = singlefirm(j,max_mat_violation,match_violation,violation,match_number_violation,no_more_rands,breakflag,x_size,Phi_size,z_size,TT,cum_erg_pz,cum_erg_pp,cum_sp_p,th_ind,mu_h,mu_f,sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_h,scale_f,de,agg_shocks,cost)
+function [sh_val_h,sh_val_f,ind,deathmat,ds,sh,act,breakflag,max_mat_violation,match_number_violation,prod_init, cost_vec] = singlefirm(j,max_mat_violation,match_violation,violation,match_number_violation,no_more_rands,breakflag,x_size,Phi_size,z_size,TT,cum_erg_pz,cum_erg_pp,cum_sp_p,th_ind,mu_h,mu_f,sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_h,scale_f,de,agg_shocks,cost,F)
 % This function generates the state matrices for a single firm, this is the main simulation function. 
 
 % repeatedly reseed in the sequel:
@@ -21,6 +21,8 @@ act      = zeros(mms,2);
 sh_val_h = zeros(mms,3);
 sh_val_f = zeros(mms,3);
 cost_vec = ones(mms,4) * -1; % flow and fixed, 0 is meaningful
+cost_vec(:,4) = 0; %home fixed cost
+cost_vec(:,2) = 0; %foreign fixed cost
 
 if breakflag == 0
 
@@ -169,6 +171,7 @@ if breakflag == 0
                         rel_time = min(exp_inv_temp,ind(deathind(n),1)-ind(k-1,1)-cum_spell-1e-12); %exogenous match separation time
                         [obin,max_mat_violation,vio] = step(obin,mms,max_mat_violation); if vio == 1 breakflag = 1; break; end
                         ind(obin,:) = [ind(k-1,1)+cum_spell,0,0,0,-1,-1,m,s,0,1,0,rel_time];
+                        cost_vec(obin,2) = F;
                         [obin,max_mat_violation,vio] = step(obin,mms,max_mat_violation); if vio == 1 breakflag = 1; break; end
                         ind(obin,:) = [ind(k-1,1)+cum_spell+rel_time,0,0,0,-1,-1,-1,-1,0,-1,0,0];
                     else
@@ -228,6 +231,7 @@ if breakflag == 0
                         rel_time = min(exp_inv_temp,ind(deathind(n),1)-ind(k-1,1)-cum_spell-1e-12);
                         [obin,max_mat_violation,vio] = step(obin,mms,max_mat_violation); if vio == 1 breakflag = 1; break; end
                         ind(obin,:) = [ind(k-1,1)+cum_spell,0,0,0,m,s,-1,-1,1,0,rel_time,0];
+                        cost_vec(obin,4) = F;
                         [obin,max_mat_violation,vio] = step(obin,mms,max_mat_violation); if vio == 1 breakflag = 1; break; end
                         ind(obin,:) = [ind(k-1,1)+cum_spell+rel_time,0,0,0,-1,-1,-1,-1,-1,0,0,0];
                     else
@@ -474,6 +478,7 @@ if breakflag == 0
                         ds(obin,:) = [-1*ones(1,2*maxc),0,0];
                         sh(obin,:) = zeros(1,2*maxc+2);
                         sh(obin,t) = sh(k,t);
+                        cost_vec(obin,4) = F;
                         sh_val_h(obin,2) = ind(k,5); %copy identity into sh_val
                     end
                 tot_time = tot_time + next_ship_time;
@@ -510,6 +515,7 @@ if breakflag == 0
                             ds(obin,:) = [-1*ones(1,2*maxc),0,0];
                             sh(obin,:) = zeros(1,2*maxc+2);
                             sh(obin,maxc+t) = sh(k,maxc+t);
+                            cost_vec(obin,2) = F;
                             sh_val_f(obin,2) = ind(k,7); %copy identity into sh_val
                         end
                         tot_time = tot_time + next_ship_time;
@@ -600,18 +606,21 @@ if breakflag == 0
                         if ind(k-1,1) < TT - 9 % before macro policy change
                             if c_val_h_orig(ds(p-1,t),ind(p-1,2),ind(p-1,3))==0 %check for endogenous separation in the last period
                                 sh(p,t) = 0; %kill any shipments in current period  
+                                cost_vec(p,4) = 0;
                                 ind(p,9) = ind(p,9)-1; %reduce current clients by one
                                 dropped = 1;
                             end
                         else
                             if c_val_h_new(ds(p-1,t),ind(p-1,2),ind(p-1,3))==0 %check for endogenous separation in the last period
                                 sh(p,t) = 0; %kill any shipments in current period  
+                                cost_vec(p,4) = 0;
                                 ind(p,9) = ind(p,9)-1; %reduce current clients by one
                                 dropped = 1;
                             end
                         end
                     elseif dropped == 1   
                         sh(p,t) = 0; %kill further shipments if relationship is over
+                        cost_vec(p,4) = 0;
                         ind(p,9) = ind(p,9)-1; %reduce current clients by one
                     end
                     p = p+1;
@@ -640,18 +649,21 @@ if breakflag == 0
                         if ind(k-1,1) < TT - 9 % before macro policy change
                             if c_val_f_orig(ds(p-1,maxc+t),ind(p-1,2),ind(p-1,4))==0 %check for endogenous separation in the last period 
                                 sh(p,maxc+t) = 0; %kill any sales in current period  
+                                cost_vec(p,2) = 0;
                                 ind(p,10) = ind(p,10)-1; %reduce current clients by one
                                 dropped = 1;
                             end
                         else
                             if c_val_f_new(ds(p-1,maxc+t),ind(p-1,2),ind(p-1,4))==0 %check for endogenous separation in the last period 
                                 sh(p,maxc+t) = 0; %kill any sales in current period  
+                                cost_vec(p,2) = 0;
                                 ind(p,10) = ind(p,10)-1; %reduce current clients by one
                                 dropped = 1;
                             end
                         end
                     elseif dropped == 1   
                         sh(p,maxc+t) = 0; %kill further sales if relationship is over
+                        cost_vec(p,2) = 0;
                         ind(p,10) = ind(p,10)-1; %reduce current clients by one
                     end
                     p = p+1;
