@@ -8,7 +8,8 @@ mm = struct();
 
 mm.r         = 0.05;       % Rate of time preference
 mm.d         = 0.03;       % Component of time preference due to exogenous death
-mm.delta     = delta;      % Exogenous match separation rate mm.b         = beta;       % Cost function parameter
+mm.delta     = delta;      % Exogenous match separation rate 
+mm.b         = beta;       % Cost function parameter
 mm.scale_f   = scale_f;    % Export profit function scale parameter
 mm.scale_h   = scale_h;    % Domestic profit function scale parameter
 mm.eta       = 5;          % Demand elasticity 
