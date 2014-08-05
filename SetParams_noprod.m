@@ -8,8 +8,7 @@ mm = struct();
 
 mm.r         = 0.05;       % Rate of time preference
 mm.d         = 0.03;       % Component of time preference due to exogenous death
-mm.delta     = delta;      % Exogenous match separation rate
-mm.b         = beta;       % Cost function parameter
+mm.delta     = delta;      % Exogenous match separation rate mm.b         = beta;       % Cost function parameter
 mm.scale_f   = scale_f;    % Export profit function scale parameter
 mm.scale_h   = scale_h;    % Domestic profit function scale parameter
 mm.eta       = 5;          % Demand elasticity 
@@ -68,11 +67,11 @@ mm.theta2(mm.dim2)  =  mm.theta2(mm.dim2) - 0.0001;
 mm.v_tolerance   = 1e-5;  % convergence tolerance, value function iterations (WAS .005)
 mm.pi_tolerance  = 1e-5;  % convergence tolerance, profit function (WAS .001)
 mm.T             = 50;     % horizon for calculating profit function
-if case_str == 'est'
+if case_str == 'est' | case_str == 'val'
     mm.S         = 3000;      % number of potential exporting firms to simulate (WAS 2000)
     mm.burn      = 15;        %number of burn-in periods
-elseif case_str == 'val'
-    mm.S         = 3000;      % number of potential exporting firms to simulate (WAS 2000)
+elseif case_str == 'dbg'
+    mm.S         = 100;      % number of potential exporting firms to simulate (WAS 2000)
     mm.burn      = 0;        %number of burn-in periods
 else
     mm.S         = 10000;      % number of potential exporting firms to simulate (WAS 2000)
