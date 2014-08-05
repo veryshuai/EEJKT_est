@@ -39,8 +39,14 @@ function simulate(X, varargin)
     % random seed
     rng(80085);
     
-    parfor k=1 %behavior or randoms is different when in parfor loop
-        [D,W,err,simulated_data] = distance_noprod(X, cf_num);
+    if debug == 0
+        parfor k=1 %behavior or randoms is different when in parfor loop
+            [D,W,err,simulated_data] = distance_noprod(X, cf_num);
+        end
+    else
+        for k = 1 %debug with no parallel
+            [D,W,err,simulated_data] = distance_noprod(X, cf_num);
+        end
     end
     
     % End timer
