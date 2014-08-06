@@ -1,4 +1,4 @@
-function [cind,cst,cds,csh,cact,breakflag,cdeathmat,csh_val_h,csh_val_f,cprod,ccost_vec] = st_traj_nocell(th_ind,mu_h,mu_f,sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,de,esT,cost,F)
+function [cind,cst,cds,csh,cact,breakflag,cdeathmat,csh_val_h,csh_val_f,cprod,ccost_vec] = st_traj_nocell(th_ind,mu_h,mu_f,sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,de,esT,cost,F,cf_num)
     %This function does the simulation needed to calculate moments
     
     breakflag = 0; %this flag goes to one if there is a maximum matrix violation, and allows us to stop the loop  
@@ -41,7 +41,11 @@ function [cind,cst,cds,csh,cact,breakflag,cdeathmat,csh_val_h,csh_val_f,cprod,cc
     TT = esT;
     
     %reset random seed
-    rng(800854);
+    if cf_num == 6 % for some calculations, we require different random shocks each simulation
+        rng('shuffle');
+    else
+        rng(80085);
+    end
     
     %create common aggregate shocks (for burn in)
     agg_shocks = rand(10000,1);
