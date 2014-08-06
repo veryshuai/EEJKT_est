@@ -30,7 +30,7 @@ t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn ev
     cost_f_sumable = [0;gaps .* cost_vec_cont{j}(1:end-1,1)]; %multiply gaps by instantaneous flow cost
     cost_f_sumable = cost_f_sumable + cost_vec_cont{j}(:,2); %add in fixed costs
     cost_h_sumable = [0;gaps .* cost_vec_cont{j}(1:end-1,3)]; %multiply gaps by instantaneous flow cost
-    cost_h_sumable = cost_h_sumable + cost_vec_cont{j}(:,t); %add in fixed costs
+    cost_h_sumable = cost_h_sumable + cost_vec_cont{j}(:,4); %add in fixed costs
 
     for t = burn+1:TT
         t_ind = find(st_ind_cont{j}(:,1)<t,1,'last');
