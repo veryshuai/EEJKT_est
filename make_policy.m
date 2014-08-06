@@ -43,18 +43,22 @@ switch cf_num
     case 5
       %search_dec_trans(1);
 
-    case 6
+    case 6 % calculate value of network
 
-    case_str = 'val';
+        case_str = 'val';
+        increase = 1; % no counterfactual
 
-    % Get parameters
-    SetParams_noprod;
+        % Get parameters
+        SetParams_noprod;
 
-    %reset random seed
-    rng(80085);
-    
-    % Get policy and value functions
-    [lambda_f_orig,lambda_h_orig,pi_tilda_h_orig,pi_tilda_f_orig,c_val_h_orig,c_val_f_orig,punishment_orig] = solve(mm);
+        % Get policy and value functions
+        lambda_f_new   =  lambda_f_orig;
+        lambda_h_new   =  lambda_h_orig;
+        pi_tilda_h_new =  pi_tilda_h_orig;
+        pi_tilda_f_new =  pi_tilda_f_orig;
+        c_val_h_new    =  c_val_h_orig;
+        c_val_f_new    =  c_val_f_orig;
+        punishment_new =  punishment_orig;
 
     otherwise
 

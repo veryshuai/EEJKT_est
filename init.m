@@ -34,9 +34,7 @@ if task == 'cfs'
     call_cfs;
 end
 if task == 'val'
-    beta = 0.95; % annual discount
-    simulate(X, 'results/val_results', 6);
-    calc_val(beta);
+    call_val;
 end
 if task == 'dbg'
     simulate(X, 'results/debug_results', 1, 1);
