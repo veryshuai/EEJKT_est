@@ -43,11 +43,7 @@ function [cind,cst,cds,csh,cact,breakflag,cdeathmat,csh_val_h,csh_val_f,cprod,cc
     %reset random seed
     
     if cf_num == 6 % for some calculations, we require different random shocks each simulation
-        display('made it!')
         rng('shuffle')
-        rand
-        rng('shuffle')
-
     else
         rng(80085)
     end
