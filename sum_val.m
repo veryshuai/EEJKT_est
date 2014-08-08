@@ -22,19 +22,19 @@ display(['Discounted value of the network per steady-state active exporter is ' 
 sale_f = val_mat{1}{2};
 cost_f = val_mat{1}{3};
 for k=1:size(val_mat,1)
-    sale_f = horzcat(big_list,val_mat{1}{2});
-    cost_f = horzcat(big_list,val_mat{1}{3});
+    sale_f = horzcat(sale_f,val_mat{1}{2});
+    cost_f = horzcat(cost_f,val_mat{1}{3});
 end
 
-% Average number of negative vs revenue years
-ann_rev = sale_f - cost_f;
-firm_neg = sum(ann_rev < 0, 1);
-firm_pos = sum(ann_rev > 0, 1);
+% Average number of negative vs positive profit years
+ann_prof = sale_f/de - cost_f;
+firm_neg = sum(ann_prof < 0, 1);
+firm_pos = sum(ann_prof > 0, 1);
 neg_year_percent = sum(firm_neg(firm_pos>0)) ./ (sum(firm_neg(firm_pos>0)) + sum(firm_pos(firm_pos>0)));
 searchers_with_pos = sum(firm_neg > 0 & firm_pos > 0) / sum(firm_neg > 0);
 
-display([num2str(searchers_with_pos * 100), '% of firms that ever search on the export market ever have positive net revenue.']); display(' ');
-display(['Firms that have at least one year of positive net revenue on the export market have on average ', num2str(sum(firm_neg(firm_pos>0))/sum(firm_pos>0)), ' years with negative net export revenue.']); display(' ');
+display([num2str(searchers_with_pos * 100), '% of firms that ever search on the export market ever have positive net profits.']); display(' ');
+display(['Firms that have at least one year of positive net profits on the export market have on average ', num2str(sum(firm_neg(firm_pos>0))/sum(firm_pos>0)), ' years with negative net export profit.']); display(' ');
 display(['On average, this makes up ', num2str(neg_year_percent), ' of a sometime positive revenue firms lifetime as a potential exporter.']); display(' ');
 
 % Level of search costs

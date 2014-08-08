@@ -1,4 +1,4 @@
-function val_results = calc_val(myvalbeta)
+function val_results = calc_val(myvalbeta,demand_elas)
 % This script calculates the value of the network, using 
 % a 30 year window
 
@@ -7,16 +7,16 @@ load('results/val_sim_results'); % get the data
 val_results = cell(4,1); % this holds the results 
 
 cost_f_mat = cell2mat(cost_f');
-net_rev = sum(sale_f_mat,2) - sum(cost_f_mat,2);
-tot_rev = sum(sale_f_mat,2)
+net_prof = sum(sale_f_mat,2)/demand_elas - sum(cost_f_mat,2);
+tot_prof = sum(sale_f_mat,2)/demand_elas
 
-equil_exp_no = mean(sum(sale_f_mat(26:50,:) > 0,2));
+equil_exp_no = mean(sum(sale_f_mat(30:59,:) > 0,2));
 
-m_net_rev = net_rev / equil_exp_no;
-m_tot_rev = tot_rev / equil_exp_no;
+m_net_prof = net_prof / equil_exp_no;
+m_tot_prof = tot_prof / equil_exp_no;
 
-dval_init = discount(sum(m_net_rev(1:25,:),2),myvalbeta);
-dval_mature = discount(sum(m_net_rev(26:50,:),2),myvalbeta);
+dval_init = discount(sum(m_net_prof(1:29,:),2),myvalbeta);
+dval_mature = discount(sum(m_net_prof(30:59,:),2),myvalbeta);
 
 diff = sum(dval_mature) - sum(dval_init); 
 
