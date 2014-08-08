@@ -7,6 +7,6 @@
         val_mat{k} = calc_val(beta); %get the value of the network
         save('results/network_val_calc_results')
     end
-
+    sum_val
     % Summarize
      
