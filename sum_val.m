@@ -39,7 +39,7 @@ display(['On average, this makes up ', num2str(neg_year_percent), ' of a sometim
 
 % Level of search costs
 sum_costs = sum(cost_f,1);
-display([num2str(sum(sum_costs > 100000) / sum(sum_costs > 0) * 100) '% of firms that ever search spend more than 100,000 USD on search and fixed costs in their lifetime.']); display(' ');
+display([num2str(sum(sum_costs > 10000) / sum(sum_costs > 0) * 100) '% of firms that ever search spend more than 10,000 USD on search and fixed costs in their lifetime.']); display(' ');
 
 
 

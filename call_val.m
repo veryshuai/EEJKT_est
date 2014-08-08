@@ -10,7 +10,7 @@
     mybeta = 1 - mm.r; %discount
     de = mm.eta; %demand elasticity
 
-    val_mat = cell(40,1); 
+    val_mat = cell(50,1); 
     for k=1:size(val_mat,1)
         simulate(X, 'results/val_results', 6);
         val_mat{k} = calc_val(mybeta,de); %get the value of the network
