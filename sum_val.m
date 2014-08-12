@@ -54,7 +54,7 @@ title('Lifetime log negative profits')
 saveas(h,'results/lifetime_log_neg_profits.jpg')
 
 h = figure();
-hist(log(sum_cost(sum_cost>0)),100);
+hist(log(sum_costs(sum_costs>0)),100);
 title('Lifetime log costs')
 saveas(h,'results/lifetime_log_costs.jpg')
 
