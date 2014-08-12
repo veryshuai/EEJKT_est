@@ -42,7 +42,7 @@ sum_costs = sum(cost_f,1);
 display([num2str(sum(sum_costs > 10000) / sum(sum_costs > 0) * 100) '% of firms that ever search spend more than 10,000 USD on search and fixed costs in their lifetime.']); display(' ');
 
 % histograms
-annprof_sum = sum(annprof);
+annprof_sum = sum(ann_prof);
 hist(log(annprof_sum(annprof_sum>0)));
 title('Lifetime log positive profits')
 savefig('results/lifetime_log_pos_profits.eps',100)
