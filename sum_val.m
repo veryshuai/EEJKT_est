@@ -46,16 +46,16 @@ h = figure();
 annprof_sum = sum(ann_prof);
 hist(log(annprof_sum(annprof_sum>0)),100);
 title('Lifetime log positive profits')
-savefig(h,'results/lifetime_log_pos_profits.eps')
+saveas(h,'results/lifetime_log_pos_profits.jpg')
 
 h = figure();
 hist(log(-annprof_sum(annprof_sum<0)),100);
 title('Lifetime log negative profits')
-savefig(h,'results/lifetime_log_neg_profits.eps')
+saveas(h,'results/lifetime_log_neg_profits.jpg')
 
 h = figure();
 hist(log(sum_cost(sum_cost>0)),100);
 title('Lifetime log costs')
-savefig(h,'results/lifetime_log_costs.eps')
+saveas(h,'results/lifetime_log_costs.jpg')
 
 
