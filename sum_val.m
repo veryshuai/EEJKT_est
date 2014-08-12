@@ -41,5 +41,18 @@ display(['On average, this makes up ', num2str(neg_year_percent), ' of a sometim
 sum_costs = sum(cost_f,1);
 display([num2str(sum(sum_costs > 10000) / sum(sum_costs > 0) * 100) '% of firms that ever search spend more than 10,000 USD on search and fixed costs in their lifetime.']); display(' ');
 
+% histograms
+annprof_sum = sum(annprof);
+hist(log(annprof_sum(annprof_sum>0)));
+title('Lifetime log positive profits')
+savefig('results/lifetime_log_pos_profits.eps',100)
+
+hist(log(-annprof_sum(annprof_sum<0)));
+title('Lifetime log negative profits')
+savefig('results/lifetime_log_neg_profits.eps',100)
+
+hist(log(sum_cost(sum_cost>0)));
+title('Lifetime log costs')
+savefig('results/lifetime_log_costs.eps',100)
 
 
