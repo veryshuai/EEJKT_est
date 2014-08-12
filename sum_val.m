@@ -43,16 +43,16 @@ display([num2str(sum(sum_costs > 10000) / sum(sum_costs > 0) * 100) '% of firms 
 
 % histograms
 annprof_sum = sum(ann_prof);
-hist(log(annprof_sum(annprof_sum>0)));
+hist(log(annprof_sum(annprof_sum>0)),100);
 title('Lifetime log positive profits')
-savefig('results/lifetime_log_pos_profits.eps',100)
+savefig('results/lifetime_log_pos_profits.eps')
 
-hist(log(-annprof_sum(annprof_sum<0)));
+hist(log(-annprof_sum(annprof_sum<0)),100);
 title('Lifetime log negative profits')
-savefig('results/lifetime_log_neg_profits.eps',100)
+savefig('results/lifetime_log_neg_profits.eps')
 
-hist(log(sum_cost(sum_cost>0)));
+hist(log(sum_cost(sum_cost>0)),100);
 title('Lifetime log costs')
-savefig('results/lifetime_log_costs.eps',100)
+savefig('results/lifetime_log_costs.eps')
 
 
