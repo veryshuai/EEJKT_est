@@ -28,7 +28,8 @@ if task == 'sim'
 end
 if task == 'std'
     bootstrap(X);
-    stderr
+    stderr;
+    convert_params;
 end
 if task == 'cfs'
     call_cfs;
