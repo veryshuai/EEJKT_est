@@ -60,6 +60,14 @@ switch cf_num
         c_val_f_new    =  c_val_f_orig;
         punishment_new =  punishment_orig;
 
+    case 7 % plot policies 
+
+        case_str = 'non';
+        increase = 1; %no counterfactual
+
+        % Get parameters
+        SetParams_noprod;
+
     otherwise
 
         case_str = 'non';

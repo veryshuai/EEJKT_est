@@ -4,7 +4,7 @@
 % Query user for desired task
 acceptable = 'FALSE'; %Is user input interpretable?
 while acceptable == 'FALSE'
-    task = input(['Task options are currently' char(10) 'est (estimate the model)' char(10) 'sim (simulate the model once)' char(10) 'std (standard error calculation)' char(10) 'cfs (counterfactuals)' char(10) 'val (calc. value of network)' char(10) 'dbg (simulate w/o parallel)' char(10) 'Which task shall I perform?: '], 's');
+    task = input(['Task options are currently' char(10) 'est (estimate the model)' char(10) 'sim (simulate the model once)' char(10) 'std (standard error calculation)' char(10) 'cfs (counterfactuals)' char(10) 'val (calc. value of network)' char(10) 'pol (policy function plots)' char(10) 'dbg (simulate w/o parallel)' char(10) 'Which task shall I perform?: '], 's');
 
     display([char(10) 'Your input was ' num2str(task) '.' char(10)]);
 
@@ -36,6 +36,9 @@ if task == 'cfs'
 end
 if task == 'val'
     call_val;
+end
+if task == 'pol'
+
 end
 if task == 'dbg'
     simulate(X, 'results/debug_results', 1, 1);
