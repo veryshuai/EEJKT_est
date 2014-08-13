@@ -17,6 +17,18 @@ rng(80085);
 % Second half policy
 
 switch cf_num
+    case 0
+        case_str = 'est';
+        increase = 1; % no counterfactual
+
+        % Get policy and value functions
+        lambda_f_new   =  lambda_f_orig;
+        lambda_h_new   =  lambda_h_orig;
+        pi_tilda_h_new =  pi_tilda_h_orig;
+        pi_tilda_f_new =  pi_tilda_f_orig;
+        c_val_h_new    =  c_val_h_orig;
+        c_val_f_new    =  c_val_f_orig;
+        punishment_new =  punishment_orig;
     case 2
       %cost_dec_trans(1);
 
@@ -65,7 +77,6 @@ switch cf_num
         case_str = 'non';
         increase = 1; %no counterfactual
         policy_plot('baseline',lambda_f_orig,0,lambda_f_orig);
-        return
         return
 
     otherwise

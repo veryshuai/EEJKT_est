@@ -84,8 +84,8 @@ end
 
 %% Simulation restrictions
 mm.maxc            = mm.net_size; %maximum number of current clients (follows old program)
-mm.max_client_prod = 5000; %maximum changes in demand shock over relationship
-mm.mult_match_max  = 5000; %maximum number of matches per exogenous state change interval
+mm.max_client_prod = 10000; %maximum changes in demand shock over relationship
+mm.mult_match_max  = 10000; %maximum number of matches per exogenous state change interval
 mm.mms             = 100000; %max event number (max matrix size)
 
 %% Cost function
