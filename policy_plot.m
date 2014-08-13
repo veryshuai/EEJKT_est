@@ -8,7 +8,7 @@ if diff == 0
     plotable = zeros(size(lambda,1),size(lambda,2)) * NaN;
     for j = 1:size(lambda,1)
         for k = 1:j
-            plotable(j - k + 1,k) = lambda{k,j,2,k}(8,8);
+            plotable(j - k + 1,k) = lambda{k,j,2,k}(10,10);
         end
     end
 
@@ -35,7 +35,7 @@ if diff == 0
     set(gca,'XTick',[1:3:25]);
     set(gca,'XTickLabel',{'0','3','6','9','12','15','18','21','24'});
     legend('0 failures','5 failures','10 failures','15 failures','Location','SouthEast')
-    print(fig,'-depsc',['results/', str, '_policy_diff_2d.eps'])
+    print(fig,'-depsc',['results/', str, '_policy_2d.eps'])
     
     %productivity vs trials, no successes
     plotable = zeros(size(lambda,1),size(lambda{1,1,1,1},2)) * NaN;
