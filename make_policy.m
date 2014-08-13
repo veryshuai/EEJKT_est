@@ -64,9 +64,8 @@ switch cf_num
 
         case_str = 'non';
         increase = 1; %no counterfactual
-
-        % Get parameters
-        SetParams_noprod;
+        policy_plot('baseline',lambda_f_orig,0,lambda_f_orig);
+        return
 
     otherwise
 
