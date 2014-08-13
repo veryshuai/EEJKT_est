@@ -8,7 +8,7 @@ mm = struct();
 
 mm.r         = 0.05;       % Rate of time preference
 mm.d         = 0.03;       % Component of time preference due to exogenous death
-mm.delta     = delta;      % Exogenous match separation rate
+mm.delta     = delta;      % Exogenous match separation rate 
 mm.b         = beta;       % Cost function parameter
 mm.scale_f   = scale_f;    % Export profit function scale parameter
 mm.scale_h   = scale_h;    % Domestic profit function scale parameter
@@ -34,8 +34,7 @@ mm.rho_phi     = 0.74;     % root, idiosyncratic productivity shock (JC's estima
 mm.sig_eps_phi = 0.46;     % std. deviation of innovation in productivity shock (JC's estimate)
 
 mm.mean_z      = 0;        % Mean product appeal in U.S.
-%mm.sig_eps_z   = sig_eps_z;% std. deviation of innovation in product appeal shock
-%mm.rho_z       = rho_z;    % root, product appeal shock 
+%mm.sig_eps_z   = sig_eps_z;% std. deviation of innovation in product appeal shock %mm.rho_z       = rho_z;    % root, product appeal shock 
 
 mm.mean_x_h    = 0;        % Mean home macro state 
 mm.rho_x_h     = 0.961;    % root, home macro shock (JC's results, final, intermediate and cap. good expend.)
@@ -66,17 +65,31 @@ mm.theta1(mm.dim1)  =  mm.theta1(mm.dim1) - 0.0001;
 mm.theta2(mm.dim2)  =  mm.theta2(mm.dim2) - 0.0001;
 
 %% Solution parameters
-mm.v_tolerance   = 1e-3;  % convergence tolerance, value function iterations (WAS .005)
-mm.pi_tolerance  = 1e-5;  % convergence tolerance, profit function (WAS .001)
-mm.T             = 50;     % horizon for calculating profit function
-mm.S             = 7000;      % number of potential exporting firms to simulate (WAS 2000)
-mm.burn          = 15;        %number of burn-in periods
+mm.v_tolerance   = 1e-5;    % convergence tolerance, value function iterations (WAS .005)
+mm.pi_tolerance  = 1e-5;    % convergence tolerance, profit function (WAS .001)
+mm.T             = 50;      % horizon for calculating profit function
+if case_str == 'est'
+    mm.S         = 3000;    % number of potential exporting firms to simulate (WAS 2000)
+    mm.burn      = 15;      %number of burn-in periods
+elseif case_str == 'non'    %not a counterfactual
+    mm.S         = 3000;      % number of potential exporting firms to simulate (WAS 2000)
+    mm.burn      = 15;       %number of burn-in periods
+elseif case_str == 'val'    %not a counterfactual
+    mm.S         = 3000;      % number of potential exporting firms to simulate (WAS 2000)
+    mm.burn      = 0;       %number of burn-in periods
+else
+    mm.S         = 10000;   % number of potential exporting firms to simulate (WAS 2000)
+    mm.burn      = 15;      %number of burn-in periods
+end
 
 %% Simulation restrictions
 mm.maxc            = mm.net_size; %maximum number of current clients (follows old program)
 mm.max_client_prod = 5000; %maximum changes in demand shock over relationship
 mm.mult_match_max  = 5000; %maximum number of matches per exogenous state change interval
-mm.mms             = 50000; %max event number (max matrix size)
+mm.mms             = 100000; %max event number (max matrix size)
+
+%% Cost function
+mm.cost = @(x,n) (mm.cs * (1+x).^(1+1/mm.b)-1)/((1+1/mm.b)*n^mm.gam);
 
 %% Exogenous Jump Process Parameters
 
