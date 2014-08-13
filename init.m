@@ -9,7 +9,7 @@ while acceptable == 'FALSE'
     display([char(10) 'Your input was ' num2str(task) '.' char(10)]);
 
     %Check for validity
-    if (task == 'est') | (task == 'sim') | (task == 'std') | (task == 'cfs') | (task == 'val') | (task == 'dbg')
+    if (task == 'est') | (task == 'sim') | (task == 'std') | (task == 'cfs') | (task == 'val') | (task == 'dbg') | (task == 'pol')
         acceptable = 'TRUE ';
     else
         display(['Sorry, I do not understand.  Try again.' char(10)]);
@@ -38,7 +38,7 @@ if task == 'val'
     call_val;
 end
 if task == 'pol'
-
+    policy_plot;
 end
 if task == 'dbg'
     simulate(X, 'results/debug_results', 1, 1);
