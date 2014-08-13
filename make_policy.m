@@ -66,6 +66,7 @@ switch cf_num
         increase = 1; %no counterfactual
         policy_plot('baseline',lambda_f_orig,0,lambda_f_orig);
         return
+        return
 
     otherwise
 
