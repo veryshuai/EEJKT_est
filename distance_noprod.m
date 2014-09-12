@@ -57,7 +57,10 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num)
         %Print loop time in minutes
         last_loop_run_time = toc/60
     
-    catch err 
+    catch err
+
+        % report error
+        getReport(err, 'extended')
     
         % If broken for any reason, return high loss
         D = 1e12;
