@@ -28,7 +28,7 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num)
     [Data, W] = target_stats();
 
     %% Simulated data 
-    Model = cat(1,vtran,hazrate,clidist,mnumex,mavship,mavex,mreg,mexreg,mexshr,mlagereg,mlagdreg,mdeathreg);
+    Model = cat(1,vtran,hazrate,clidist(1),clidist(3),mnumex,mavship,mavex,mreg,mexreg,mexshr,mlagereg,mlagdreg,mdeathreg);
     
     % Construct loss
     try
