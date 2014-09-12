@@ -93,12 +93,12 @@ switch cf_num
         c_val_f_new    =  c_val_f_orig;
         punishment_new =  punishment_orig;
 
-    % Make punishment variable
-    try
-        punishment = punishment_old + punishment_new;
-    catch e
-        punishment = punishment_old
-    end
+end
 
+% Make punishment variable
+try
+    punishment = punishment_orig + punishment_new;
+catch e
+    punishment = punishment_orig;
 end
 

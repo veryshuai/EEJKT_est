@@ -1,10 +1,6 @@
 % This script is the initial call into the search and learning project
 % It gives the user the option of which task he would like to perform
 
-% Warnings off (Many betainv did not converge warnings) 
-warning off
-
-
 % Query user for desired task
 acceptable = 'FALSE'; %Is user input interpretable?
 while acceptable == 'FALSE'

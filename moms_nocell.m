@@ -26,6 +26,9 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
     th2 = zeros(S,1);
 
     %Get random draws of theta for each firm
+    %warnings off (betainv did not converge warnings) 
+    warning off
+
     for k = 1:S
         th0(k) = betainv(rand,ag,bg);
         th1(k) = betainv(rand,ah,bh);
@@ -33,6 +36,9 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
     end
     th_draw   = cat(2,th0,th1,th2);
     
+    %warnings on
+    warning on
+
     % Read in the theta grid values 
     th    = cell(3,1);
     th{1} = theta0;
