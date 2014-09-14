@@ -10,8 +10,7 @@ function [mu_f, mu_h] = update_success_probs(succ_params)
     theta2              = succ_params{3};
     bp                  = succ_params{4};
     myalpha             = succ_params{5};
-    [ag,bg,af,bf,ah,bh] = [bp(1),bp(2),bp(3),bp(4),bp(5),bp(6)];
-
+    ag= bp(1); bg= bp(2); af= bp(3); bf= bp(4); ah= bp(5); bh= bp(6);
     
     %warnings off (occassional betainv did not converge warnings) 
     warning off for k = 1:S
