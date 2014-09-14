@@ -1,4 +1,4 @@
-function [mu_f, mu_h] = update_success_probs(succ_params)
+function [mu_f, mu_h, th_ind_f, th_ind_h] = update_success_probs(succ_params)
 % This function draws success probability draws for a firm at home and abroad, in accordance with parameterized beta distribution
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -42,5 +42,7 @@ function [mu_f, mu_h] = update_success_probs(succ_params)
     % Get common vs independent components in success probabilities
     mu_h = myalpha*theta(1,1)+(1-myalpha)*theta(1,2); %true home success probability
     mu_f = myalpha*theta(1,1)+(1-myalpha)*theta(1,3); %true foreign success probability
+    th_ind_h = indx1(1,2); %holds home theta indexes, used in search intensity choice calculation
+    th_ind_f = indx1(1,3); %holds foreign theta indexes, used in search intensity choice calculation
 
 end

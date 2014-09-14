@@ -43,10 +43,10 @@ for n = 1:size(deathind,1)
                 end  
                 gap = gap - spell;
                 if ind(k-1,1) + cum_spell < TT-9
-                    lam = lambda_h_orig(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
+                    lam = lambda_h_orig(1,succ_prob(obin_fix(j),4),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
                     exp_inv_temp = log(rand)/-lam;
                 else
-                    lam = lambda_h_new(th_ind(j,1),th_ind(j,2),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
+                    lam = lambda_h_new(1,succ_prob(obin_fix(j),4),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
                     exp_inv_temp = log(rand)/-lam;
                 end
                 cost_vec(obin,3) = cost(lam,min(s,net_size)+1);

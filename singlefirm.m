@@ -11,7 +11,7 @@ function [sh_val_h,sh_val_f,ind,deathmat,ds,sh,act,breakflag,max_mat_violation,m
     % display(j);
     obin = 20; %current observation index
     ind      = zeros(mms,12); % Event matrix
-    succ_prob= zeros(mms,2); % holds success probabilities foreign and home
+    succ_prob= zeros(mms,4); % holds success probabilities foreign and home
     deathmat = zeros(mms,1); % Dummy for death of a firm
     ds       = zeros(mms,maxc*2+2); % Demand shocks
     sh       = zeros(mms,maxc*2+2); % Shipment times

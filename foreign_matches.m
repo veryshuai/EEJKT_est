@@ -49,10 +49,10 @@ for n = 1:size(deathind,1)
                 end
                 gap = gap - spell; %shrink the gap appropriately 
                 if ind(k-1,1) + cum_spell < TT - 9 % before macro policy change
-                    lam = lambda_f_orig(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
+                    lam = lambda_f_orig(s_obs+1,m_obs+1,1,min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
                     exp_inv_temp = log(rand)/-lam; %swing again
                 else
-                    lam=lambda_f_new(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
+                    lam=lambda_f_new(s_obs+1,m_obs+1,1,min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
                     exp_inv_temp = log(rand)/-lam; %swing again
                 end
                 cost_vec(obin,1) = cost(lam,min(s,net_size)+1);

@@ -18,7 +18,7 @@ for t = 2:4
         end
     end
 end
-for t = 1:2
+for t = 1:4
     [loop_ind,~] = find((succ_prob(2:obin,t))==0);
     if isempty(loop_ind)==0
         for k = 1:size(loop_ind,1)

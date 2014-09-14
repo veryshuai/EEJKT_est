@@ -17,7 +17,7 @@ for t = 2:4
         ind(loop_ind(k)+1,t) = temp;
     end
 end   
-for t = 1:2
+for t = 1:4
     [loop_ind,~] = find(succ_prob(2:obin,t)==0);
     for k = 1:size(loop_ind,1)
         temp = succ_prob(loop_ind(k),t);
