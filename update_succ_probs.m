@@ -13,12 +13,12 @@ function [mu_f, mu_h] = update_success_probs(succ_params)
     ag= bp(1); bg= bp(2); af= bp(3); bf= bp(4); ah= bp(5); bh= bp(6);
     
     %warnings off (occassional betainv did not converge warnings) 
-    warning off for k = 1:S
+    warning off 
 
     %Get random draws of theta
-    th0(k) = betainv(rand,ag,bg);
-    th1(k) = betainv(rand,ah,bh);
-    th2(k) = betainv(rand,af,bf);
+    th0 = betainv(rand,ag,bg);
+    th1 = betainv(rand,ah,bh);
+    th2 = betainv(rand,af,bf);
     th_draw   = cat(2,th0,th1,th2);
     
     %warnings on
