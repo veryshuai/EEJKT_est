@@ -45,3 +45,10 @@ mult_match_max  = mm.mult_match_max; %maximum number of matches per exogenous st
 mms             = mm.mms; %maximum number of matrix rows (memory issues)
 cost            = mm.cost; %cost function
 F               = mm.F;
+
+succ_params = cell(5,1);
+succ_params{1} = theta0;
+succ_params{2} = theta1;
+succ_params{3} = theta2;
+succ_params{4} = [ag,bg,af,bf,ah,bh];
+succ_params{5} = myalpha;
