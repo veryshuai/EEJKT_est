@@ -17,10 +17,10 @@ for n = 1:size(deathind,1)
     s_obs = 0; %observed success
     for k = lag:deathind(n)
         if ind(k-1,1) < TT - 9 % before macro policy change
-            lam = lambda_f_orig(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
+            lam = lambda_f_orig(s_obs+1,m_obs+1,1,min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
             exp_inv_temp = log(rand)/-lam;
         else
-            lam = lambda_f_new(s_obs+1,m_obs+1,th_ind(j,1),min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
+            lam = lambda_f_new(s_obs+1,m_obs+1,1,min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
             exp_inv_temp = log(rand)/-lam;
         end
         cost_vec(k-1,1) = cost(lam,min(s,net_size)+1);
