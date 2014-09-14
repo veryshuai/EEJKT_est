@@ -5,11 +5,13 @@ function [mu_f, mu_h] = update_success_probs(succ_params)
     %% Generate acceptance rates for home and foreign market
 
     %read_parameters
-    theta0             = succ_params{1};
-    theta1             = succ_params{2};
-    theta2             = succ_params{3};
-    [ag,bg,af,bf,ah,bh]= succ_params{4};
-    myalpha            = succ_params{5};
+    theta0              = succ_params{1};
+    theta1              = succ_params{2};
+    theta2              = succ_params{3};
+    bp                  = succ_params{4};
+    myalpha             = succ_params{5};
+    [ag,bg,af,bf,ah,bh] = [bp(1),bp(2),bp(3),bp(4),bp(5),bp(6)];
+
     
     %warnings off (occassional betainv did not converge warnings) 
     warning off for k = 1:S
