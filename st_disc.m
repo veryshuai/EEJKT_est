@@ -6,14 +6,19 @@ function [cli_no,sales_h,sales_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f] 
 cli_no = mat2cell(repmat(zeros(TT-burn,2),S,1),ones(S,1)*TT-burn,2);
 sales_h = mat2cell(repmat(zeros(TT-burn,1),S,1),ones(S,1)*TT-burn,1);
 sales_f = mat2cell(repmat(zeros(TT-burn,1),S,1),ones(S,1)*TT-burn,1);
-sh_ann_f = cell(S,1);
-sh_first_yr_dum = cell(S,1);
 ship_f = mat2cell(repmat(zeros(TT-burn,1),S,1),ones(S,1)*TT-burn,1);
 cost_f = mat2cell(repmat(zeros(TT-burn,1),S,1),ones(S,1)*TT-burn,1);
 cost_h = mat2cell(repmat(zeros(TT-burn,1),S,1),ones(S,1)*TT-burn,1);
+sh_ann_f = cell(S,1);
+sh_first_yr_dum = cell(S,1);
+prods = zeros(S,1);
     
 for j = 1:S
-t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn event
+
+    % Read in productivity
+    prods(j) = Phi(st_ind_cont{j}(2,2))
+
+    t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn event
     if isempty(t_lag) == 1; %deal with firms which die before burn ends
         t_lag = 0;
     end
@@ -31,6 +36,7 @@ t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn ev
     cost_f_sumable = cost_f_sumable + cost_vec_cont{j}(:,2); %add in fixed costs
     cost_h_sumable = [0;gaps .* cost_vec_cont{j}(1:end-1,3)]; %multiply gaps by instantaneous flow cost
     cost_h_sumable = cost_h_sumable + cost_vec_cont{j}(:,4); %add in fixed costs
+
 
     for t = burn+1:TT
         t_ind = find(st_ind_cont{j}(:,1)<t,1,'last');
@@ -67,10 +73,6 @@ t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn ev
                     end
                 end
             end
-
-            
-
-
 
             t_lag = t_ind;
         end

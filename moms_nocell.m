@@ -17,48 +17,6 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
         end
         g = g + 1;
     end 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %% Generate acceptance rates for home and foreign market
-
-    %Initialize the theta distribution parameter vectors
-    th0 = zeros(S,1);
-    th1 = zeros(S,1);
-    th2 = zeros(S,1);
-
-    %Get random draws of theta for each firm
-    %warnings off (betainv did not converge warnings) 
-    warning off
-
-    for k = 1:S
-        th0(k) = betainv(rand,ag,bg);
-        th1(k) = betainv(rand,ah,bh);
-        th2(k) = betainv(rand,af,bf);
-    end
-    th_draw   = cat(2,th0,th1,th2);
-    
-    %warnings on
-    warning on
-
-    % Read in the theta grid values 
-    th    = cell(3,1);
-    th{1} = theta0;
-    th{2} = theta1;
-    th{3} = theta2;
-    
-    % Find the closest grid values to each firms random draw
-    indx1 = zeros(S,3);
-    theta = zeros(S,3);
-    for j = 1:3  % Map theta0, theta1, and theta2 draws onto grid.  
-      for s = 1:S
-        dif            = abs(th_draw(s,j)-th{j}); 
-        [~,indx1(s,j)] = min(dif);
-        theta(s,j)     = th{j}(indx1(s,j));
-     end
-    end
-    
-    % Get common vs independent components in success probabilities
-    mu_h = myalpha*theta(:,1)+(1-myalpha)*theta(:,2); %true home success probability
-    mu_f = myalpha*theta(:,1)+(1-myalpha)*theta(:,3); %true foreign success probability
     
     %eliminating policy function cell arrrays in favor of multi-dimensional matrices gives the simulation a drastic speed boost
     [lambda_f_orig, lambda_h_orig, c_val_f_orig, c_val_h_orig]  = moms_decell(lambda_f_orig, lambda_h_orig, c_val_f_orig, c_val_h_orig);
@@ -68,7 +26,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
     % Model Simulation
 
     %% Get vector of state and time changes
-    [st_ind_cont,st_cont,ds,sh,act,break_flag,deathmat,sh_val_h,sh_val_f,cprod,cost_vec] = st_traj_nocell(indx1,mu_h,mu_f,sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,eta,TT,cost,F,cf_num);
+    [st_ind_cont,st_cont,ds,sh,act,break_flag,deathmat,sh_val_h,sh_val_f,cprod,cost_vec] = st_traj_nocell(indx1,sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,eta,TT,cost,F,cf_num,succ_params);
     
     % check for errors in simulation routine
     if break_flag == 0
