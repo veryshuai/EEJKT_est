@@ -1,4 +1,4 @@
-This snippet adds shipment dummies to the sh matrices
+%This snippet adds shipment dummies to the sh matrices
 
 %reseed
 rng(seed(5));
