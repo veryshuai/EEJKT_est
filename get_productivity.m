@@ -2,7 +2,8 @@
 
 prod_init = find(rand<cum_erg_pp,1,'first');%initial productivity drawn out of ergodic distribution 
 ind(obin,2) = prod_init(1,1); %read initial productivity into even matrix
-succ_prob(obin,:) = update_succ_probs(succ_params); %draw success probability
+[succ_prob(obin,1),succ_prob(obin,2),succ_prob(obin,3),succ_prob(obin,4)] = update_succ_probs(succ_params); %draw success probability
+
 lag = 1;
 time = 0;
 while time < TT
@@ -22,6 +23,6 @@ while time < TT
     %     lag = scalar_temp+1;
     % end
     ind(obin,:) = [time,find(rand<cum_erg_pp,1,'first'),0,0,0,0,0,0,zeros(1,2),-1,-1];
-    succ_prob(obin,:) = update_succ_probs(succ_params); %draw success probability
+    [succ_prob(obin,1),succ_prob(obin,2),succ_prob(obin,3),succ_prob(obin,4)] = update_succ_probs(succ_params); %draw success probability
     deathmat(obin,1) = 1; %new firm
 end

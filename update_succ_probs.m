@@ -46,3 +46,4 @@ function [mu_f, mu_h, th_ind_f, th_ind_h] = update_success_probs(succ_params)
     th_ind_f = indx1(1,3); %holds foreign theta indexes, used in search intensity choice calculation
 
 end
+

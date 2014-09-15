@@ -24,4 +24,3 @@ for t = 1:4
         succ_prob(loop_ind(k)+1,t) = temp;
     end
 end   
-
