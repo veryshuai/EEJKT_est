@@ -40,6 +40,7 @@ for t = 1:2*maxc
         ds(loop_ind(k)+1,t) = ds(loop_ind(k),t);
     end
 end
+Z_big = [-inf,Z'];
 loop_ind = find(sh_val_h(:,2) ~= 0);
 for k = 1:size(loop_ind,1)
     cli_ind = find(ds(loop_ind(k),:),1,'first');
