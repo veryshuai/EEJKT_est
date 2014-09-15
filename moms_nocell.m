@@ -26,14 +26,14 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
     % Model Simulation
 
     %% Get vector of state and time changes
-    [st_ind_cont,st_cont,ds,sh,act,break_flag,deathmat,sh_val_h,sh_val_f,cprod,cost_vec] = st_traj_nocell(sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,eta,TT,cost,F,cf_num,succ_params);
+    [st_ind_cont,st_cont,ds,sh,act,break_flag,deathmat,sh_val_h,sh_val_f,cprod,cost_vec,succ_prob] = st_traj_nocell(sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,eta,TT,cost,F,cf_num,succ_params);
     
     % check for errors in simulation routine
     if break_flag == 0
     
         %% Separate dead firms 
         S_old = S;
-        [st_cont,st_ind_cont,S,ds,sh,breakflag,sh_val_h,sh_val_f,cost_vec] = sdead(st_cont,st_ind_cont,S,ds,sh,deathmat,sh_val_h,sh_val_f,cost_vec);
+        [st_cont,st_ind_cont,S,ds,sh,breakflag,sh_val_h,sh_val_f,cost_vec,succ_prob] = sdead(st_cont,st_ind_cont,S,ds,sh,deathmat,sh_val_h,sh_val_f,cost_vec,succ_prob);
     
         % check for errors in separation of dead firms 
         if breakflag == 0
@@ -42,7 +42,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             [sale_h_cont,sale_f_cont] = sales(scale_f,scale_h,eta,st_ind_cont,S,ds,sh,maxc,Z,Phi,X_h,X_f,cf_num,increase,TT);
     
             %% Discretize state vector into years
-            [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h,sh_val_f,cost_vec);
+            [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f,succ_prob,prods] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h,sh_val_f,cost_vec,Phi,succ_prob);
     
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %% Moments calculations
@@ -57,7 +57,6 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             sale_f_mat_count = (sale_f_mat>0);
             sh_ann_f_mat = cell2mat(sh_ann_f');
             sh_first_yr_dum_mat = cell2mat(sh_first_yr_dum');
-            prods = cell2mat(cprod);
 
             %pack simulation info up to return it
             simulated_data{1} = cli_no_mat;
@@ -70,7 +69,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             simulated_data{8} = sh_ann_f_mat;
             simulated_data{9} = sh_first_yr_dum_mat;
             simulated_data{10} = [cost_f,cost_h];
-            simulated_data{11} = [prods,mu_f,mu_h];
+            simulated_data{11} = [prods,succ_prob];
             simulated_data{12} = [st_cont,st_ind_cont,cost_vec];
     
             %client transition counts

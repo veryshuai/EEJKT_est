@@ -1,4 +1,4 @@
-function [cli_no,sales_h,sales_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h_cont,sh_val_f_cont,cost_vec_cont)
+function [cli_no,sales_h,sales_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f,succ_prob,prods] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h_cont,sh_val_f_cont,cost_vec_cont,Phi,succ_prob_cont)
 %this function takes the continuous versions of state and sale vectors, and
 %collapses them into aggregate annual vectors
 
@@ -12,11 +12,18 @@ cost_h = mat2cell(repmat(zeros(TT-burn,1),S,1),ones(S,1)*TT-burn,1);
 sh_ann_f = cell(S,1);
 sh_first_yr_dum = cell(S,1);
 prods = zeros(S,1);
+succ_prob = zeros(S,4);
     
 for j = 1:S
 
     % Read in productivity
-    prods(j) = Phi(st_ind_cont{j}(2,2))
+    if isempty(st_ind_cont{j}) == 0
+        prods(j) = Phi(st_ind_cont{j}(1,2));
+        succ_prob(j,:) = succ_prob_cont{j}(1,:);
+    else 
+        prods(j) = -1;
+        succ_prob(j,:) = [-1,-1,-1,-1];
+    end
 
     t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn event
     if isempty(t_lag) == 1; %deal with firms which die before burn ends
