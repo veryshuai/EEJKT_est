@@ -67,4 +67,8 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num)
     
     end %end try/catch
 
+    % Free up memory
+    clearvars -except D W error simulated_data
+    java.lang.Runtime.getRuntime.gc; %java garbage collector
+
 end %end function
