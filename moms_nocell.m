@@ -123,7 +123,7 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             %foreign log log inverse-cdf slope and MSE
             ub = max(cli_no_mat(:,2)); %upper bound on client number
             inv_cdf = zeros(ub,1);
-            if ub > 0;
+            try %allow errors due to no observations etc to be caught
                 for k = 1:ub
                     inv_cdf(k) = sum(cli_no_mat(:,2)>=k);
                 end
@@ -131,10 +131,10 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
                 [b,~,r] = regress(log(inv_cdf),[ones(ub,1),log((1:ub)'),log((1:ub)').^2]);
                 % display(b);
                 rMSE = sqrt(sum(r.^2)/ub);
-                clidist = [b(2);b(3);rMSE];
-            else
+                clidist = [b(2);b(3);rMSE]; %load into moment vector
+            catch err
+                getReport(err, 'extended') %report error
                 clidist = [100;100];
-                display('ERROR: Nothing to regress moms.m client distribution');
             end
             
             %average log domestic sales, log foreign sales, and standard deviations.
@@ -146,13 +146,13 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             %regression of log(exports) on log(domestic sales) given positive exports
             %and positive domestic sales
             ind = find(sale_f_mat>sale_size & sale_h_mat>sale_size);
-            if isempty(ind) == 0
+            try %allow errors due to no observations etc to be caught
                 [b,~,r] = regress(log(sale_f_mat(ind)),[ones(size(ind,1),1),log(sale_h_mat(ind))]);
                 rMSE = sqrt(sum(r.^2)/size(ind,1));
                 mexreg = [b(2);rMSE];
-            else
+            catch err
+                getReport(err, 'extended') %report error
                 mexreg = [100;100];
-                display('ERROR: Nothing to regress moms.m exports on domestic sales regression');
             end
             
             %share of exporting plants among active plants
@@ -162,13 +162,13 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             %positive sales.
             spc = sale_f_spc./cli_no_mat(:,2);
             ind = find(isnan(spc) ==0 & spc>0);
-            if isempty(ind) == 0 && rank([ones(size(ind,1),1),log(cli_no_mat(ind,2)),log(cli_no_mat(ind,2)).^2]) == 3 %make sure we have full rank
+            try %allow errors due to no observations etc to be caught
                 [b,~,r] = regress(log(spc(ind)),[ones(size(ind,1),1),log(cli_no_mat(ind,2)),log(cli_no_mat(ind,2)).^2]);              
                 rMSE = sqrt(sum(r.^2)/size(ind,1));
                 mreg = [b(2);b(3);rMSE];
-            else
+            catch err
+                getReport(err, 'extended') %report error
                 mreg = [100;100;100];
-                display('ERROR: Nothing to regress moms.m sales-per-client regression');
             end
             if isnan(mreg) ~= [0;0;0]
                 mreg = [100;100;200];
@@ -189,13 +189,13 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
             end
             lag = [lag1;lag2];
             lag = lag((lag(:,1)>0 & lag(:,2)>0),:);
-            if isempty(lag) == 0
+            try
                 [b,~,r] = regress(log(lag(:,2)),[ones(size(lag(:,2))),log(lag(:,1))]);
                 rMSE = sqrt(sum(r.^2)/size(lag,1));
                 mlagdreg = [b(2);rMSE];
-            else
-               mlagdreg = [100;100];
-               display('ERROR: Nothing to regress moms.m domestic sales ar1 regression');
+            catch err
+                getReport(err, 'extended') %report error
+                mlagdreg = [100;100];
             end 
             
             % Count the number of exporters 
@@ -207,8 +207,8 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
                 rMSE = sqrt(sum(r(isnan(r)==0).^2)/size(sh_ann_f_mat(isnan(sh_ann_f_mat)==0),1));
                 mlagereg = [b(2);b(3);rMSE];
             catch err
-               mlagereg = [100;100];
-               display('ERROR: Nothing to regress moms.m match ar1 regression');
+                getReport(err, 'extended') %report error
+                mlagereg = [100;100];
             end 
             
             %death regression
@@ -261,5 +261,8 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
         %simulation error
         sim_err %fill in parameters to make solver continue
     end
+
+    %free memory
+    clearvars -except vtran hazrate clidist mstat mnumex mavex mavship mreg mexreg mexshr mlagereg mlagdreg mdeathreg simulated_data
 
 end %end function
