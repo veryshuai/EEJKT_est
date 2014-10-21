@@ -25,11 +25,11 @@ function simulate(X, varargin)
 
     % Parallel setup
     if debug == 0
-        if matlabpool('size')~=12 %if pool not equal to 12, open 12
+        if matlabpool('size')~=8 %if pool not equal to 12, open 12
            if matlabpool('size')>0
              matlabpool close
            end
-           matlabpool open 12
+           matlabpool open 8
         end
     end
     
