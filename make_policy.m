@@ -29,6 +29,20 @@ switch cf_num
         c_val_h_new    =  c_val_h_orig;
         c_val_f_new    =  c_val_f_orig;
         punishment_new =  punishment_orig;
+
+    case 1
+        case_str = 'sim';
+        increase = 1; % no counterfactual
+
+        % Get policy and value functions
+        lambda_f_new   =  lambda_f_orig;
+        lambda_h_new   =  lambda_h_orig;
+        pi_tilda_h_new =  pi_tilda_h_orig;
+        pi_tilda_f_new =  pi_tilda_f_orig;
+        c_val_h_new    =  c_val_h_orig;
+        c_val_f_new    =  c_val_f_orig;
+        punishment_new =  punishment_orig;
+
     case 2
       %cost_dec_trans(1);
 
