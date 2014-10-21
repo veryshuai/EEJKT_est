@@ -10,7 +10,7 @@ function [] = calibration_noprod(pop, varargin)
          matlabpool close
        end
        try
-            matlabpool open 12
+            matlabpool open 8
        catch
             matlabpool open 7
        end
