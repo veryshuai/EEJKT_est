@@ -9,7 +9,11 @@ function [] = calibration_noprod(pop, varargin)
        if matlabpool('size')>0
          matlabpool close
        end
-       matlabpool open 12
+       try
+            matlabpool open 12
+       catch
+            matlabpool open 7
+       end
     end
     
     % Start timer

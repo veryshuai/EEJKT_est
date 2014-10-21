@@ -75,4 +75,8 @@ function [sh_val_h,sh_val_f,ind,deathmat,ds,sh,act,breakflag,max_mat_violation,m
         active;
     
     end
+
+% Free up memory
+clearvars -except sh_val_h sh_val_f ind deathmat ds sh act breakflag max_mat_violation match_number_violation prod_init  cost_vec  succ_prob
+
 end

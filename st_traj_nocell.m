@@ -102,4 +102,8 @@ function [cind,cst,cds,csh,cact,breakflag,cdeathmat,csh_val_h,csh_val_f,cprod,cc
     if breakflag == 1
         display('WARNING: Broke out of loop! Results not reliable.')
     end
+
+    % Free up memory
+    clearvars -except cind cst cds csh cact breakflag cdeathmat csh_val_h csh_val_f cprod ccost_vec csucc_prob
+
 end
