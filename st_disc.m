@@ -20,7 +20,7 @@ for j = 1:S
     if isempty(st_ind_cont{j}) == 0
         prods(j) = Phi(st_ind_cont{j}(1,2));
         succ_prob_full = full(succ_prob_cont{j}); %create full version instead of sparse
-        succ_prob(j,:) = succ_prob_full(2,:);
+        succ_prob(j,:) = succ_prob_full(1,:); %read in first row (all rows are the same!)
     else 
         prods(j) = -1;
         succ_prob(j,:) = [-1,-1,-1,-1];
