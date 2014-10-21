@@ -30,7 +30,7 @@ for n = 1:size(deathind,1)
             p=0; %mult match counter
             cum_spell = spell; %cumulative spell since last exogenous state change
             while spell < gap && p < mult_match_max
-                p = p+1;
+               p = p+1;
                 [~,match_violation] = step(p,mult_match_max,match_violation);
                 m = m+1;                
                 if rand<succ_prob(obin_fix(j),1) %check for success
