@@ -21,6 +21,7 @@ function [sh_val_h,sh_val_f,ind,deathmat,ds,sh,act,breakflag,max_mat_violation,m
     cost_vec = ones(mms,4) * -1; % flow and fixed, 0 is meaningful
     cost_vec(:,4) = 0; %home fixed cost
     cost_vec(:,2) = 0; %foreign fixed cost
+    prod_init = 0; %initialize initial productivity
     
     if breakflag == 0
     
