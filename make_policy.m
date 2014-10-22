@@ -32,7 +32,9 @@ switch cf_num
 
     case 1
         case_str = 'sim';
-        increase = 1; % no counterfactual
+
+        % Get parameters (firm number)
+        SetParams_noprod;
 
         % Get policy and value functions
         lambda_f_new   =  lambda_f_orig;
