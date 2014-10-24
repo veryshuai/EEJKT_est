@@ -1,4 +1,4 @@
-function cf_decomposition(loadname, savename)
+function [sale_f_mat,cli_no] = cf_decomposition(loadname, savename)
 % This function decomposes the sales change from a counterfactualinto sales
 % per client, number of active exporters, and number of clients.
 
