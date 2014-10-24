@@ -3,6 +3,10 @@
 %load simulation data
 clear; load results/cf_sim_results
 
+%Plotting paramters 
+c_num = 3; %number of "cohorts" to plot
+c_max = 9; %last cohort age to plot
+
 %Create matrix of sales by cohort
 sale_f_coh = ones(18,size(sale_f_mat,2)) * -1; %holds profits by cohorts
 for firm_id=1:size(sale_f_mat,2) %loop through all potential exporters
@@ -25,15 +29,20 @@ end
 %Density by cohort
 % high productivity 
 subplot(2,2,1);
-dens_by_cohort(sale_f_coh(:,prods>=2))
+dens_by_cohort(sale_f_coh(:,prods>=2),c_num,c_max)
+title('high productivity');
 % low productivity 
 subplot(2,2,2);
-dens_by_cohort(sale_f_coh(:,prods<2))
+dens_by_cohort(sale_f_coh(:,prods<2),c_num,c_max)
+title('low productivity')
 % high succ
 subplot(2,2,3);
 mean_succ = mean(succ_prob_correct(succ_prob_correct(:,1)>0,1)); %mean non-zero success probability
-dens_by_cohort(sale_f_coh(:,succ_prob_correct(:,1)>=mean_succ));
+dens_by_cohort(sale_f_coh(:,succ_prob_correct(:,1)>=mean_succ),c_num,c_max);
+title('high success')
 % low succ
 subplot(2,2,4);
-dens_by_cohort(sale_f_coh(:,succ_prob_correct(:,1)<mean_succ));
+dens_by_cohort(sale_f_coh(:,succ_prob_correct(:,1)<mean_succ),c_num,c_max);
+title('low success')
+legend('show')
 
