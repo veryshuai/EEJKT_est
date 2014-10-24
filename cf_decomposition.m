@@ -5,19 +5,20 @@ function cf_decomposition(loadname, savename)
     %load file
     load(loadname)
 
-    %get file size
+    %get file size (number of years)
     sz = size(sale_f_mat,1);
     
     cli_no_temp     = cell2mat(cli_no'); % get client nos in a matrix like sale_f_mat
-    cli_no_spc      = cli_no_temp(:,2:2:end);
-    cli_no_dom      = cli_no_temp(:,1:2:end);
+    cli_no_spc      = cli_no_temp(:,2:2:end); %this is is client number abroad
+    cli_no_dom      = cli_no_temp(:,1:2:end); %client number of home
     spc             = sale_f_mat./cli_no_spc; %sales per client
-    m_spc           = zeros(sz,1); 
-    act_exp         = zeros(sz,1); 
-    act_dom         = zeros(sz,1);
-    m_numclients    = zeros(sz,1);
-    numclients      = zeros(sz,1);
+    m_spc           = zeros(sz,1); %preallocate mean sales per client
+    act_exp         = zeros(sz,1); %preallocate number of active exporters 
+    act_dom         = zeros(sz,1); %preallocate number of active domestic sellers
+    m_numclients    = zeros(sz,1); %mean number of clients
+    numclients      = zeros(sz,1); %absolute number of clients
     
+    % Populate all the things I just preallocated by years
     for k = 1:sz
         sumable         = spc(k,:);
         cli             = cli_no_spc(k,:);
