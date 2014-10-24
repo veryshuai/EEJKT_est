@@ -1,16 +1,23 @@
-function [sale_f_mat,cli_no] = cf_decomposition(loadname, savename)
+function [sale_f_mat,cli_no] = cf_decomposition(loadname, savename, sim_no)
 % This function decomposes the sales change from a counterfactualinto sales
 % per client, number of active exporters, and number of clients.
 
     %load file
     load(loadname)
 
+    %append various the macro shocks
+    sale_f_mat = [];
+    cli_no = [];
+    for k = 1:sim_no
+        sale_f_mat = horzcat(sale_f_mat, dat{k,1});
+        cli_no = horzcat(cli_no, dat{k,2});
+    end
+
     %get file size (number of years)
     sz = size(sale_f_mat,1);
     
-    cli_no_temp     = cell2mat(cli_no'); % get client nos in a matrix like sale_f_mat
-    cli_no_spc      = cli_no_temp(:,2:2:end); %this is is client number abroad
-    cli_no_dom      = cli_no_temp(:,1:2:end); %client number of home
+    cli_no_spc      = cli_no(:,2:2:end); %this is is client number abroad
+    cli_no_dom      = cli_no(:,1:2:end); %client number of home
     spc             = sale_f_mat./cli_no_spc; %sales per client
     m_spc           = zeros(sz,1); %preallocate mean sales per client
     act_exp         = zeros(sz,1); %preallocate number of active exporters 

@@ -16,16 +16,30 @@ while acceptable == 'FALSE'
     end
 end
 
+% Query user for desired number of simulations to average with random macro shocks
+sim_no = input([char(10) 'Please enter the desired number of random macro shock simulations you would like to average (default 10):' char(10)]);
+
+    display([char(10) 'Your input was ' num2str(sim_no) '.' char(10)]);
+
+    %Check for validity
+    if isnumeric(sim_no) == 0 | sim_no != round(sim_no) | sim_no < 0
+        display(['Sorry, I do not understand.  Using default value of 10']);
+        sim_no = 10;
+    end
+end
+
 % Counterfactual loop (many macro shocks) and plot
 % matlabpool open 3
 switch task 
     case 1
-        cfs_loop(task,'results/orig_decomp');
+        cfs_loop(task,'results/orig',sim_no);
+        cf_decomposition('results/orig','results/orig_decomp')
     case 2
         pass;
     case 3
-        cfs_loop(task,'results/mac_bump_decomp')
-%        makeplots('results/mac_bump_decomp', 'results/mac_bump_subplots.eps')
+        cfs_loop(task,'results/mac_bump',sim_no);
+        cf_decomposition('results/mac_bump','results/mac_bump_decomp')
+        makeplots('results/mac_bump_decomp', 'results/mac_bump_subplots.eps')
     case 4
         pass;
     case 5
