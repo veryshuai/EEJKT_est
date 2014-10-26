@@ -16,7 +16,7 @@ for n = 1:size(deathind,1)
     m_obs = 0; %observed match (able to learn only from observed matches)
     s_obs = 0; %observed success
     for k = lag:deathind(n)
-        if ind(k-1,1) < TT - 9 % before macro policy change
+        if ind(k-1,1) < TT - shock_year % before macro policy change
             lam = lambda_f_orig(s_obs+1,m_obs+1,1,min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
             exp_inv_temp = log(rand)/-lam;
         else
@@ -48,7 +48,7 @@ for n = 1:size(deathind,1)
                     ind(obin,:) = [ind(k-1,1)+cum_spell,0,0,0,-1,-1,m,s,0,0,0,0];    
                 end
                 gap = gap - spell; %shrink the gap appropriately 
-                if ind(k-1,1) + cum_spell < TT - 9 % before macro policy change
+                if ind(k-1,1) + cum_spell < TT - shock_year % before macro policy change
                     lam = lambda_f_orig(s_obs+1,m_obs+1,1,min(s,net_size)+1,ind(k-1,2),ind(k-1,4));
                     exp_inv_temp = log(rand)/-lam; %swing again
                 else

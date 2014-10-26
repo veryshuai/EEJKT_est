@@ -9,7 +9,7 @@ for n = 1:size(deathind,1)
     m=0;%match
     s=0;%success
     for k = lag:deathind(n)
-        if ind(k-1,1) < TT-9
+        if ind(k-1,1) < TT-38
             lam = lambda_h_orig(1,succ_prob(obin_fix(j),4),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
             exp_inv_temp = log(rand)/-lam;
         else
@@ -42,7 +42,7 @@ for n = 1:size(deathind,1)
                     ind(obin,:) = [ind(k-1,1)+cum_spell,0,0,0,m,s,-1,-1,0,0,0,0];
                 end  
                 gap = gap - spell;
-                if ind(k-1,1) + cum_spell < TT-9
+                if ind(k-1,1) + cum_spell < TT-38
                     lam = lambda_h_orig(1,succ_prob(obin_fix(j),4),min(s,net_size)+1,ind(k-1,2),ind(k-1,3));
                     exp_inv_temp = log(rand)/-lam;
                 else

@@ -1,9 +1,9 @@
-function [sale_f_mat,cli_no] = cf_decomposition(loadname, savename, sim_no)
+function [sale_f_mat,cli_no] = cf_decomposition(loadname, savename_decomp, sim_no)
 % This function decomposes the sales change from a counterfactualinto sales
 % per client, number of active exporters, and number of clients.
 
     %load file
-    load(loadname)
+    load(loadname);
 
     %append various the macro shocks
     sale_f_mat = [];
@@ -49,5 +49,5 @@ function [sale_f_mat,cli_no] = cf_decomposition(loadname, savename, sim_no)
     D_m_numclients  = log(numclients(2:sz)./act_exp(2:sz)) - log(numclients(1:sz-1)./act_exp(1:sz-1));
     D_m_spc         = log(sum(sale_f_mat(2:sz,:),2)./numclients(2:sz)) - log(sum(sale_f_mat(1:sz-1,:),2)./numclients(1:sz-1));
 
-    save(savename)
+    save(savename_decomp);
 end

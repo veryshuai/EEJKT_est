@@ -9,7 +9,9 @@ case_str = 'non';
 SetParams_noprod;
 
 %reset random seed
-rng(80085);
+if seed == 1
+    rng(80085);
+end
 
 % Get policy and value functions
 [lambda_f_orig,lambda_h_orig,pi_tilda_h_orig,pi_tilda_f_orig,c_val_h_orig,c_val_f_orig,punishment_orig] = solve(mm);
@@ -61,7 +63,9 @@ switch cf_num
         SetParams_noprod;
         
         %reset random seed
-        rng(80085);
+        if seed
+            rng(80085);
+        end
     
         % Get policy and value functions
         [lambda_f_new,lambda_h_new,pi_tilda_h_new,pi_tilda_f_new,c_val_h_new,c_val_f_new,punishment_new] = solve(mm);

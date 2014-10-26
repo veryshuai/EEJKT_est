@@ -7,13 +7,13 @@ function simulate(X, varargin)
 
     % only allow a two inputs
     numvarargs = size(varargin, 2);
-    if numvarargs > 3
+    if numvarargs > 4
         error('distance_noprod:TooManyInputs', ...
-            'allow at most 3 optional inputs');
+            'allow at most 4 optional inputs');
     end
 
     % set defaults for optional inputs
-    optargs = {'sim_results', 0, 0};
+    optargs = {'sim_results', 0, 0, 1};
 
     % overwrite defaults with user input
     optargs(1:numvarargs) = varargin;
@@ -22,14 +22,15 @@ function simulate(X, varargin)
     savename = optargs{1}; % name underwhich to save results 
     cf_num = optargs{2}; % which counterfactual (0 = none, 6 = calc value, see call_cfs.m for other definitions)?
     debug = optargs{3}; % debug mode -- turn parallel off
+    seed = optargs{4}; % seed random number generator?
 
     % Parallel setup
     if debug == 0
-        if matlabpool('size')~=3 %if pool not equal to 12, open 12
+        if matlabpool('size')~=2 %if pool not equal to 12, open 12
            if matlabpool('size')>0
              matlabpool close
            end
-           matlabpool open 3 
+           matlabpool open 2
         end
     end
     
@@ -37,15 +38,17 @@ function simulate(X, varargin)
     format long;
     
     % random seed
-    rng(80085);
+    if seed
+        rng(80085);
+    end
     
     if debug == 0
         parfor k=1 %behavior or randoms is different when in parfor loop
-            [D,W,err,simulated_data] = distance_noprod(X, cf_num);
+            [D,W,err,simulated_data] = distance_noprod(X, cf_num, seed);
         end
     else
         for k = 1 %debug with no parallel
-            [D,W,err,simulated_data] = distance_noprod(X, cf_num);
+            [D,W,err,simulated_data] = distance_noprod(X, cf_num, seed);
         end
     end
     
