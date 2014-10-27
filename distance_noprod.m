@@ -7,7 +7,7 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num, seed)
     format long;
 
     % Reset random number generator
-    if seed
+    if seed == 1
         rng(80085);
     end
     
@@ -21,7 +21,7 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num, seed)
     make_policy;
 
     % Reset random number generator
-    if seed
+    if seed == 1
         rng(80085);
     end
 

@@ -42,12 +42,14 @@ function [cind,cst,cds,csh,cact,breakflag,cdeathmat,csh_val_h,csh_val_f,cprod,cc
     TT = esT;
     
     %reset random seed
-    if seed %Seeding is optional
+    if seed == 1%Seeding is optional
         if cf_num == 6 % for some calculations, we require different random shocks each simulation
             rng('shuffle')
         else
             rng(80085)
         end
+    else
+        rng('shuffle') % randomly reseed if seed option is off
     end 
     
     %create common aggregate shocks (for burn in)
