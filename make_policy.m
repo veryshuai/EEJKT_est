@@ -4,7 +4,6 @@
 
 case_str = 'non';
 
-
 % Get parameters
 SetParams_noprod;
 
@@ -13,8 +12,10 @@ if seed == 1
     rng(80085);
 end
 
+display('made it before orig!')
 % Get policy and value functions
 [lambda_f_orig,lambda_h_orig,pi_tilda_h_orig,pi_tilda_f_orig,c_val_h_orig,c_val_f_orig,punishment_orig] = solve(mm);
+display('made it after orig!')
 
 % Second half policy
 
@@ -95,9 +96,7 @@ switch cf_num
 
     case 7 % plot policies 
 
-        case_str = 'non';
-        increase = 1; %no counterfactual
-        policy_plot('baseline',lambda_f_orig,0,lambda_f_orig);
+        run_policy_stuff;
         return
 
     otherwise
