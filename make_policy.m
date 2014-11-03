@@ -96,8 +96,8 @@ switch cf_num
 
     case 7 % plot policies 
 
+        increase = 1; % no counterfactual
         run_policy_stuff;
-        return
 
     otherwise
 

@@ -1,6 +1,5 @@
 % This script gives the user options over what policy function related task to perform
 
-display('made it here!')
 % Query user for desired task
 acceptable = 'FALSE'; %Is user input interpretable?
 while acceptable == 'FALSE'
@@ -36,6 +35,19 @@ elseif task == 'est'
 
     % Calculate the missed opportunities    
     calc_missed_ops;
+
+    % Get no learning sales simulation
+    lambda_f_new   =  lambda_f;
+    lambda_h_new   =  lambda_f_full_info;
+    pi_tilda_h_new =  pi_tilda_full_info;
+    pi_tilda_f_new =  pi_tilda_f;
+    c_val_h_new    =  c_val_f_full_info;
+    c_val_f_new    =  c_val_f;
+    punishment_new =  punishment;
+    lambda_h_orig   =  lambda_f_full_info;
+    pi_tilda_h_orig =  pi_tilda_full_info;
+    c_val_h_orig    =  c_val_f_full_info;
+    punishment_orig =  punishment;
     
 end
 
