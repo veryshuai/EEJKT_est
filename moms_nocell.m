@@ -247,6 +247,8 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
                 save('results/cf_sim_results') %for plotting counterfactuals
             elseif cf_num == 6
                 save('results/val_sim_results') %for calculating the value of the network
+            elseif cf_num == 7
+                save('results/no_learning_sim_results') %for calculating no learning sales
             end
     
             % Reject if number of post-burn in exporters less than 500

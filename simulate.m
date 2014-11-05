@@ -24,15 +24,15 @@ function simulate(X, varargin)
     debug = optargs{3}; % debug mode -- turn parallel off
     seed = optargs{4}; % seed random number generator?
 
-    % Parallel setup
-    if debug == 0
-        if matlabpool('size')~=2 %if pool not equal to 12, open 12
-           if matlabpool('size')>0
-             matlabpool close
-           end
-           matlabpool open 2
-        end
-    end
+    % % Parallel setup
+    % if debug == 0
+    %     if matlabpool('size')~=2 %if pool not equal to 12, open 12
+    %        if matlabpool('size')>0
+    %          matlabpool close
+    %        end
+    %        matlabpool open 2
+    %     end
+    % end
     
     % Put numbers in long format for printing
     format long;
@@ -43,7 +43,8 @@ function simulate(X, varargin)
     end
     
     if debug == 0
-        parfor k=1 %behavior or randoms is different when in parfor loop
+        %parfor k=1 %behavior or randoms is different when in parfor loop
+        for k=1 %behavior or randoms is different when in parfor loop
             [D,W,err,simulated_data] = distance_noprod(X, cf_num, seed);
         end
     else
