@@ -42,7 +42,7 @@ if diff == 0
     for j = 1:size(lambda,1)
         for k = 1:size(lambda{1,1,1,1},2)
             suc = 1;
-            plotable(j,k) = lambda{suc,j,1,suc}(6,k);
+            plotable(j,k) = lambda{suc,j,1,suc}(k,10);
         end
     end
 
@@ -59,13 +59,13 @@ if diff == 0
 
     % Alternative 2d figure
     fig = figure(4);
-    plot(plotable(:,1),'b');
+    plot(plotable(:,8),'b');
     hold on;
-    plot(plotable(:,5),'r--');
+    plot(plotable(:,10),'r--');
     hold on;
-    plot(plotable(:,10),'g-.');
+    plot(plotable(:,12),'g-.');
     hold on;
-    plot(plotable(:,15),'k*');
+    plot(plotable(:,14),'k*');
     hold off;
     xlabel('trials')
     ylabel('search intensity')
