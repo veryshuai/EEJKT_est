@@ -34,10 +34,10 @@ function [Data, W] = target_stats()
     mdeathregSE = [0.0265;0.00348;0.000847;sqrt(2)*0.453^2/sqrt(81383)]; %CJ's email of 3-27-2013
     
     % Data vector
-    Data = cat(1,vtranData,mhazData,clidistData(1),clidistData(3),mnumexData,mavshipData,mavexData,mregData,mexregData,mexshrData,mlageregData,mlagdregData,mdeathregData);
+    Data = cat(1,vtranData,mhazData,clidistData,mnumexData,mavshipData,mavexData,mregData(1),mregData(3),mexregData,mexshrData,mlageregData,mlagdregData,mdeathregData);
     
     % Weighting matrix 
     W = zeros(size(Data,1));
-    W(1:size(Data,1)+1:end) = (1./cat(1,vtranSE,mhazSE,clidistSE(1),clidistSE(3),mnumexSE,mavshipSE,mavexSE,mregSE,mexregSE,mexshrSE,mlageregSE,mlagdregSE,mdeathregSE)).^2;
+    W(1:size(Data,1)+1:end) = (1./cat(1,vtranSE,mhazSE,clidistSE,mnumexSE,mavshipSE,mavexSE,mregSE(1),mregSE(3),mexregSE,mexshrSE,mlageregSE,mlagdregSE,mdeathregSE)).^2;
 
 ; %Close function
