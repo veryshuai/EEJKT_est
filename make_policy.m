@@ -12,10 +12,8 @@ if seed == 1
     rng(80085);
 end
 
-display('made it before orig!')
 % Get policy and value functions
 [lambda_f_orig,lambda_h_orig,pi_tilda_h_orig,pi_tilda_f_orig,c_val_h_orig,c_val_f_orig,punishment_orig] = solve(mm);
-display('made it after orig!')
 
 % Second half policy
 

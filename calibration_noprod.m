@@ -25,13 +25,13 @@ function [] = calibration_noprod(pop, varargin)
     rng(80085);
     
     % Options for genetic algorithm
-    options = gaoptimset('Display','iter','PopulationSize',24,...
+    options = gaoptimset('Display','iter','PopulationSize',28,...
     'MutationFcn',@mutationadaptfeasible,...
     'FitnessScalingFcn',@fitscalingrank,'InitialPopulation',pop,'UseParallel','always',...
     'PlotFcns',@gaplotbestf,'EliteCount',0);%,'HybridFcn',{@fmincon,fminconoptions});
     
     % Call estimation routine
-    [X,fval,exitflag,output,population,scores] = ga(@(X) distance_noprod(X, 0),13, [],[],[],[],[   0.005;  0.01;    6.5;    0.1;  .005; 0.1; 0.1;  0.005; 0.005; 0.5; 0.00; 50; .01], [.5;  1;    10;     1;  0.5;    3;  10; 2; 1; 5; 0.4; 500; 2],[],options);  
+    [X,fval,exitflag,output,population,scores] = ga(@(X) distance_noprod(X, 0, 1),13, [],[],[],[],[   0.005;  0.01;    6.5;    0.1;  .005; 0.1; 0.1;  0.005; 0.005; 0.5; 0.00; 50; .01], [.5;  1;    10;     1;  0.5;    3;  10; 2; 1; 8; 0.4; 400; 2],[],options);
     
     % lnF         =  scale_h+log(X(1));
     % delta       =  X(2);

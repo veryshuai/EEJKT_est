@@ -28,7 +28,7 @@ while diff > mat_tol
 end
 
 % payoff to shipment
-payoff = 1 / de * exp(sf) * exp((de-1)*st(1,:)+st(2,:)); %st(1,:) is productivity, st(2,:) is macro state
+payoff = 1 / de * exp(sf) * exp((de-1)*st(1,:)+st(2,:)); %sf is estimated scalar, st(1,:) is productivity, st(2,:) is macro state
 
 % get expected profits for each type of buyer 
 pi_z = bsxfun(@times,ones(size(Q0,1),n_z),payoff'); %initial guess on profits

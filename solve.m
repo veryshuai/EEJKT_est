@@ -2,7 +2,6 @@
 function [lambda_f,lambda_h,pi_h,pi_f,c_val_h,c_val_f,punishment] = solve(mm)
 % takes current parameters and calculates value and policy functions
 
-    display('made it 1')
     % Read in parameters
     scale_f     = mm.scale_f;       % Export profit function scale parameter
     scale_h     = mm.scale_h;       % Domestic profit function scale parameter
@@ -33,13 +32,11 @@ function [lambda_f,lambda_h,pi_h,pi_f,c_val_h,c_val_f,punishment] = solve(mm)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%=====Solution=====%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
     %% CALCULATE PROFIT STREAM OF SUCCESSFUL MATCH
     
-    display('made it 2')
     [pi_f,~,c_val_f] = makepie(scale_f,st_f,Z,Q0_f,Q0_f_d,Q_z,Q_z_d,erg_pz,mm);
     [pi_h,~,c_val_h] = makepie(scale_h,st_h,Z,Q0_h,Q0_h_d,Q_z,Q_z_d,erg_pz,mm);
     
     %% CALCULATE POSTERIOR MATCH PROBABILITIES
     
-    display('made it 3')
     % foreign
     a_f = makepost(n_size,th_g,af,bf,alp); %[trials,successes,th_g]
 
@@ -53,10 +50,8 @@ function [lambda_f,lambda_h,pi_h,pi_f,c_val_h,c_val_f,punishment] = solve(mm)
     
     %% SOLVE FOR SEARCH EFFORTS AT HOME AND AT FOREIGN
     
-    display('made it 4')
     [~,lh,punishment_h] = val_loop_h(Q0_h,Q0_h_d,a_h,pi_h,mm); %lh = (exogenous shock vector,theta_g,theta_h,client no)
     [~,lf,punishment_f] = val_loop_f(Q0_f,Q0_f_d,a_f,pi_f,mm); %lf = (exogenous shock vector,successes,trials,theta_g,client no) 
-    display('made it 5')
     punishment = punishment_h + punishment_f;
 
     %For use in "no learning" counterfactual
@@ -90,7 +85,6 @@ function [lambda_f,lambda_h,pi_h,pi_f,c_val_h,c_val_f,punishment] = solve(mm)
         end
     end
     
-    display('made it 6')
     %also reshape profits
     pi_f = reshape(pi_f,x_size,phi_size)';
     pi_h = reshape(pi_h,x_size,phi_size)';
@@ -105,5 +99,4 @@ function [lambda_f,lambda_h,pi_h,pi_f,c_val_h,c_val_f,punishment] = solve(mm)
     c_val_f = c_val_f_cell;
     c_val_h = c_val_h_cell;
 
-    display('made it 7')
 end
