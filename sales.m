@@ -3,6 +3,8 @@ function [sale_h,sale_f] = sales(scale_f,scale_h,de,st_cont,S,ds,sh,maxc,Z,Phi,X
 %state transition vector and returns sales per period between events for
 %each firm.
 
+shockyear = 30; %year of the policy shock
+
 sale_h = cell(S,1);
 sale_f = cell(S,1);
 
@@ -15,7 +17,7 @@ for j = 1:S
 
     if cf_num == 3
         % Insert macro shock
-        shock_time = find(st_cont{j}(:,1) < TT - 9,1,'last'); %find shock time
+        shock_time = find(st_cont{j}(:,1) < shockyear,1,'last'); %find shock time
         scale_f_vec = ones(size(st_cont{j}(:,1))) * exp(scale_f); % read in shocked scale_f
         if isempty(shock_time) == 0
             scale_f_vec(1:shock_time) = exp(scale_f - log(increase)); % read in unshocked scale_f

@@ -62,7 +62,7 @@ switch cf_num
         SetParams_noprod;
         
         %reset random seed
-        if seed
+        if seed == 1
             rng(80085);
         end
     

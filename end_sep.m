@@ -16,7 +16,7 @@ for n = 1:size(deathind,1)
             dropped = 0; %dummy changes to one if relationship is dropped
             while p<deathind(n) && (ind(p,1)-ind(k,1)<rel_time-1e-12) %note: I had to take a little bit off here to deal with rounding error
                 if dropped == 0 && sh(p-1,t) ~= 0; %sale is made
-                    if ind(k-1,1) < TT - shock_year % before macro policy change
+                    if ind(k-1,1) < shock_year % before macro policy change
                         if c_val_h_orig(ds(p-1,t),ind(p-1,2),ind(p-1,3))==0 %check for endogenous separation in the last period
                             sh(p,t) = 0; %kill any shipments in current period  
                             cost_vec(p,4) = 0;
@@ -59,7 +59,7 @@ for n = 1:size(deathind,1)
             dropped = 0; %dummy changes to one if relationship is dropped
             while p<deathind(n) && (ind(p,1)-ind(k,1)<rel_time-1e-12) %note: I had to take a little bit off here to deal with rounding error
                 if dropped == 0 && sh(p-1,maxc+t) ~= 0; %sale is made
-                    if ind(k-1,1) < TT - shock_year % before macro policy change
+                    if ind(k-1,1) < shock_year % before macro policy change
                         if c_val_f_orig(ds(p-1,maxc+t),ind(p-1,2),ind(p-1,4))==0 %check for endogenous separation in the last period 
                             sh(p,maxc+t) = 0; %kill any sales in current period  
                             cost_vec(p,2) = 0;

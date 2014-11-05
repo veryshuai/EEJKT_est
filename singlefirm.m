@@ -22,7 +22,7 @@ function [sh_val_h,sh_val_f,ind,deathmat,ds,sh,act,breakflag,max_mat_violation,m
     cost_vec(:,4) = 0; %home fixed cost
     cost_vec(:,2) = 0; %foreign fixed cost
     prod_init = 0; %initialize initial productivity
-    shock_year = 38; %number of periods before end to introduce shock
+    shock_year = 30; %period number (don't forget to also change in sales.m!)
     
     if breakflag == 0
     

@@ -38,7 +38,7 @@ function simulate(X, varargin)
     format long;
     
     % random seed
-    if seed
+    if seed == 1;
         rng(80085);
     end
     
