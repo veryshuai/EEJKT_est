@@ -38,7 +38,9 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num, seed)
     try
     
         error = Data-Model;
+        W = eye(size(error,1)); %remove weights
         D = error'*W*error;
+        %D = norm(error)/norm(Data)
     
         % Check for NaNs
         nanflag = isnan(D); 

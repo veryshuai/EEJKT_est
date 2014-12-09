@@ -97,6 +97,24 @@ switch cf_num
         increase = 1; % no counterfactual
         run_policy_stuff;
 
+    case 8 % bootstrap for std err 
+
+        case_str = 'boo';
+
+        increase = 1; % no counterfactual
+
+        % Get parameters
+        SetParams_noprod;
+
+        % Get policy and value functions
+        lambda_f_new   =  lambda_f_orig;
+        lambda_h_new   =  lambda_h_orig;
+        pi_tilda_h_new =  pi_tilda_h_orig;
+        pi_tilda_f_new =  pi_tilda_f_orig;
+        c_val_h_new    =  c_val_h_orig;
+        c_val_f_new    =  c_val_f_orig;
+        punishment_new =  punishment_orig;
+
     otherwise
 
         case_str = 'non';

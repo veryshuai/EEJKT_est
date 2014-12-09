@@ -59,6 +59,9 @@ elseif case_str == 'non'    %not a counterfactual
 elseif case_str == 'val'    %not a counterfactual
     mm.S         = 3000;      % number of potential exporting firms to simulate (WAS 2000)
     mm.burn      = 0;       %number of burn-in periods
+elseif case_str == 'boo';
+    mm.S         = 10000;      % number of potential exporting firms to simulate (WAS 2000)
+    mm.burn      = 15;       %number of burn-in periods
 else
     mm.S         = 3000;   % number of potential exporting firms to simulate (WAS 2000)
     mm.burn      = 15;      %number of burn-in periods

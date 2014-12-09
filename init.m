@@ -27,6 +27,7 @@ if task == 'sim'
     simulate(X, 'results/init_sim_results', 1);
 end
 if task == 'std'
+    simulate(X, 'results/boot_sim_results', 8);
     bootstrap(X);
     stderr;
     convert_params;

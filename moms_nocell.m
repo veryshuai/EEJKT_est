@@ -249,6 +249,8 @@ function [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,ml
                 save('results/val_sim_results') %for calculating the value of the network
             elseif cf_num == 7
                 save('results/no_learning_sim_results') %for calculating no learning sales
+            elseif cf_num == 8
+                save('results/boot_firm_dat') %for bootstrap standard error calculation
             end
     
             % Reject if number of post-burn in exporters less than 500
