@@ -1,0 +1,7 @@
+*.mat
+*.eps
+*.png
+*.jpg
+*.pdf
+logs/
+results/
