@@ -15,8 +15,6 @@ while acceptable == 'FALSE'
     end
 end
 
-display('and here!')
-
 if task == 'plt'
 
     % Plot the policy function
