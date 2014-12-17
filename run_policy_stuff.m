@@ -52,4 +52,7 @@ elseif task == 'est'
     
 end
 
+%Inform user that an error after this script is run is normal
+display('NOTE: A WARNING FOLLOWING THIS MESSAGE IS NORMAL!')
+
 
