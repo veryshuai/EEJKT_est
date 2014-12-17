@@ -15,7 +15,7 @@ tic;
 
 pop = X; %use the same parameters as in the bootstrap
 
-findif = 1e-3;
+findif = 1e-4;
 
 jac = zeros(41,13);
 

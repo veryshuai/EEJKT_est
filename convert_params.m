@@ -2,7 +2,7 @@
 
 clear
 
-load se_7_25_2014
+load results/se_results
 
 vc = temp;
 
