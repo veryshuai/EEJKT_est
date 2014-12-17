@@ -17,6 +17,9 @@ end
 
 if task == 'plt'
 
+    % Get policy function
+    [lambda_f_orig,lambda_f_new,pi_tilda_f_orig,pi_tilda_f_new,c_val_f_orig,c_val_f_new,punishment] = solve(mm);
+
     % Plot the policy function
     case_str = 'non';
     increase = 1; %no counterfactual
