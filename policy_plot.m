@@ -9,7 +9,7 @@ function null = policy_plot(str,lambda,diff,lambda_new)
         plotable = zeros(size(lambda,1),size(lambda,2)) * NaN;
         for j = 1:size(lambda,1)
             for k = 1:j
-                plotable(j - k + 1,k) = lambda{k,j,2,k}(8,8);
+                plotable(j - k + 1,k) = lambda{k,j,2,k}(10,9);
             end
         end
     
