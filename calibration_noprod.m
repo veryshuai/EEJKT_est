@@ -3,6 +3,23 @@ function [] = calibration_noprod(pop, varargin)
 %the parameters of the model.  Initial parameter guesses can be set here,
 %as well as optional settings for the genetic algorithm.
 
+    % set defaults for optional inputs
+    optargs = {0};
+
+    % overwrite defaults with user input
+    numvarargs = size(varargin, 2);
+    optargs(1:numvarargs) = varargin;
+
+    % memorable variable names
+    rst = optargs{1}; % parameter restriction?
+
+    % what type of parameter restriction?
+    rst_type = 'non';
+    if rst == 1
+        rst_type = query(['Which type of parameter restriction?' char(10) 'nln (no learning)' char(10) 'nnt (no network effect)?'],{'nln','nnt'});
+    end
+
+
     % Parallel setup
     clc
     if matlabpool('size')~=7 %if pool not equal to 12, open 12
@@ -29,9 +46,17 @@ function [] = calibration_noprod(pop, varargin)
     'MutationFcn',@mutationadaptfeasible,...
     'FitnessScalingFcn',@fitscalingrank,'InitialPopulation',pop,'UseParallel','always',...
     'PlotFcns',@gaplotbestf,'EliteCount',0);%,'HybridFcn',{@fmincon,fminconoptions});
+
+    % Network parameter restrictions
+    net_lb =  0;
+    net_ub =  0.4;
+    if rst_type == 'nnt'
+        net_lb = 0;
+        net_ub = 0;
+    end
     
     % Call estimation routine
-    [X,fval,exitflag,output,population,scores] = ga(@(X) distance_noprod(X, 0, 1),13, [],[],[],[],[   0.005;  0.01;    6.5;    0.1;  .005; 0.1; 0.1;  0.005; 0.005; 0.5; 0.00; 50; .01], [.5;  1;    10;     1;  0.5;    3;  10; 2; 1; 15; 0.4; 400; 2],[],options);
+    [X,fval,exitflag,output,population,scores] = ga(@(X) distance_noprod(X, 0, 1),13, [],[],[],[],[   0.005;  0.01;    6.5;    0.1;  .005; 0.1; 0.1;  0.005; 0.005; 0.5; net_lb; 50; .01], [.5;  1;    10;     1;  0.5;    3;  10; 2; 1; 15; net_ub; 400; 2],[],options);
     
     % lnF         =  scale_h+log(X(1));
     % delta       =  X(2);

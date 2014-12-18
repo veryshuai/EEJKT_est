@@ -4,12 +4,12 @@
 % Query user for desired task
 acceptable = 'FALSE'; %Is user input interpretable?
 while acceptable == 'FALSE'
-    task = input(['Task options are currently' char(10) 'est (estimate the model)' char(10) 'sim (simulate the model once)' char(10) 'std (standard error calculation)' char(10) 'cfs (counterfactuals)' char(10) 'val (calc. value of network)' char(10) 'pol (policy function stuff)' char(10) 'dbg (simulate w/o parallel)' char(10) 'Which task shall I perform?: '], 's');
+    task = input(['Task options are currently' char(10) 'est (estimate the model)' char(10) 'sim (simulate the model once)' char(10) 'std (standard error calculation)' char(10) 'cfs (counterfactuals)' char(10) 'val (calc. value of network)' char(10) 'pol (policy function stuff)' char(10) 'dbg (simulate w/o parallel)' char(10) 'rst (restricted parameter model)' char(10) 'Which task shall I perform?: '], 's');
 
     display([char(10) 'Your input was ' num2str(task) '.' char(10)]);
 
     %Check for validity
-    if (task == 'est') | (task == 'sim') | (task == 'std') | (task == 'cfs') | (task == 'val') | (task == 'dbg') | (task == 'pol')
+    if (task == 'est') | (task == 'sim') | (task == 'std') | (task == 'cfs') | (task == 'val') | (task == 'dbg') | (task == 'pol') | (task == 'rst')
         acceptable = 'TRUE ';
     else
         display(['Sorry, I do not understand.  Try again.' char(10)]);
@@ -43,5 +43,8 @@ if task == 'pol'
 end
 if task == 'dbg'
     simulate(X, 'results/debug_results', 1, 1);
+end
+if task == 'rst'
+    calibration_noprod(pop, 1);
 end
 
