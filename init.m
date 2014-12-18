@@ -21,7 +21,7 @@ params
 
 % Specify Behavior for each task
 if task == 'est'
-    calibration_noprod(pop, {});
+    calibration_noprod(pop, 0);
 end
 if task == 'sim'
     simulate(X, 'results/init_sim_results', 1);
