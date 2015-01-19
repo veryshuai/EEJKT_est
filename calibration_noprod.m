@@ -26,7 +26,7 @@ function [] = calibration_noprod(pop, varargin)
        if matlabpool('size')>0
          matlabpool close
        end
-       matlabpool open 7
+       matlabpool open 5
     end
     
     % Start timer
