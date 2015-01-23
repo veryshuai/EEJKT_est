@@ -36,7 +36,7 @@ function null = policy_plot(str,lambda,diff,lambda_new)
         set(gca,'XTick',[1:3:25]);
         set(gca,'XTickLabel',{'0','3','6','9','12','15','18','21','24'});
         legend('0 failures','5 failures','10 failures','15 failures','Location','SouthEast')
-        print(fig,'-dpngc',['results/', str, '_policy_2d.png'])
+        print(fig,'-dpng',['results/', str, '_policy_2d.png'])
         
         %productivity vs trials, no successes
         plotable = zeros(size(lambda,1),size(lambda{1,1,1,1},2)) * NaN;
@@ -71,7 +71,7 @@ function null = policy_plot(str,lambda,diff,lambda_new)
         xlabel('trials')
         ylabel('search intensity')
         legend('low productivity','mid low productivity','mid high productivity','high productivity','Location','SouthEast')
-        print(fig,'-dpngc',['results/', str, '_policy_no_suc_2d.png'])
+        print(fig,'-dpng',['results/', str, '_policy_no_suc_2d.png'])
     
     
     elseif diff == 1
@@ -104,7 +104,7 @@ function null = policy_plot(str,lambda,diff,lambda_new)
         set(gca,'XTick',[1:3:25]);
         set(gca,'XTickLabel',{'0','3','6','9','12','15','18','21','24'});
         legend('0 failures','5 failures','10 failures','15 failures','Location','SouthEast')
-        print(fig,'-dpngc',['results/', str, '_policy_diff_2d.png'])
+        print(fig,'-dpng',['results/', str, '_policy_diff_2d.png'])
     
         %productivity vs trials, no successes
         plotable = zeros(size(lambda,1),size(lambda{1,1,1,1},2)) * NaN;
@@ -139,6 +139,6 @@ function null = policy_plot(str,lambda,diff,lambda_new)
         xlabel('trials')
         ylabel('search intensity')
         legend('low productivity','mid low productivity','mid high productivity','high productivity','Location','SouthEast')
-        print(fig,'-dpngc',['results/', str, '_policy_no_suc_2d.png'])
+        print(fig,'-dpng',['results/', str, '_policy_no_suc_2d.png'])
     end
 end
