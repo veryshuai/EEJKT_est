@@ -5,3 +5,4 @@
 *.pdf
 logs/
 results/
+batch_submit_results/
