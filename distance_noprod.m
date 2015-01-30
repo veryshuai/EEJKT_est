@@ -73,6 +73,16 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num, seed)
     
     end %end try/catch
 
+    % Write current results to file
+    fileID = fopen('results/running_output.txt','a');
+    fprintf(fileID, '\n moments = \n');
+    dlmwrite('results/running_output.txt',mmm,'-append','precision',12);
+    fprintf(fileID, '\n params = \n');
+    dlmwrite('results/running_output.txt',X,'-append','precision',12);
+    fprintf(fileID, '\n fit = \n');
+    dlmwrite('results/running_output.txt',D,'-append','precision',12);
+    fclose(fileID);
+
     % Free up memory
     clearvars -except D W error simulated_data
     % java.lang.Runtime.getRuntime.gc; %java garbage collector

@@ -22,11 +22,11 @@ function [] = calibration_noprod(pop, varargin)
 
     % Parallel setup
     clc
-    if matlabpool('size')~=12 %if pool not equal to 12, open 12
+    if matlabpool('size')~=5 %if pool not equal to 12, open 12
        if matlabpool('size')>0
          matlabpool close
        end
-       matlabpool open 12 
+       matlabpool open 5 
     end
     
     % Start timer
