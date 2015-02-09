@@ -22,19 +22,11 @@ function [] = calibration_noprod(pop, varargin)
 
     % Parallel setup
     clc
-<<<<<<< HEAD
     if matlabpool('size')~=5 %if pool not equal to 12, open 12
        if matlabpool('size')>0
          matlabpool close
        end
        matlabpool open 5 
-=======
-    if matlabpool('size')~=24 %if pool not equal to 12, open 12
-       if matlabpool('size')>0
-         matlabpool close
-       end
-       matlabpool open 24 
->>>>>>> 0d35e856072651f2a1a49d9da1bd394b7ab7b370
     end
     
     % Start timer
@@ -50,11 +42,7 @@ function [] = calibration_noprod(pop, varargin)
     rng(80085);
     
     % Options for genetic algorithm
-<<<<<<< HEAD
-    options = gaoptimset('Display','iter','PopulationSize',24,...
-=======
-    options = gaoptimset('Display','iter','PopulationSize',23,...
->>>>>>> 0d35e856072651f2a1a49d9da1bd394b7ab7b370
+    options = gaoptimset('Display','iter','PopulationSize',5,...
     'MutationFcn',@mutationadaptfeasible,...
     'FitnessScalingFcn',@fitscalingrank,'InitialPopulation',pop,'UseParallel','always',...
     'PlotFcns',@gaplotbestf,'EliteCount',0,'Generations',1000);%,'HybridFcn',{@fmincon,fminconoptions});
