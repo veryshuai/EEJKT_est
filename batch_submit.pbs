@@ -2,11 +2,11 @@
 #   
 #   Request 1 processors on 1 node 
 #   
-#PBS -l nodes=2:ppn=6
+#PBS -l nodes=4:ppn=6
 #
 #PBS -l walltime=24:00:00
 #
-#   Request 1 gigabyte of memory per process
+#   Request 10 gigabytes of memory per process
 #
 #PBS -l pmem=15gb
 #
