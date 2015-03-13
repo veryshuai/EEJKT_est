@@ -1,14 +1,14 @@
 # This script submits the calibration job
 #   
-#   Request 1 processors on 1 node 
+#   Request processors on node 
 #   
-#PBS -l nodes=4:ppn=6
+#PBS -l nodes=5:ppn=6
 #
 #PBS -l walltime=24:00:00
 #
-#   Request 10 gigabytes of memory per process
+#   Request memory per process
 #
-#PBS -l pmem=15gb
+#PBS -l pmem=12gb
 #
 #   Request that regular output and terminal output go to the same file
 #
