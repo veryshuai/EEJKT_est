@@ -35,7 +35,7 @@ for j = 1:S
     t_ind = find(st_ind_cont{j}(:,1)<TT,1,'last'); %find index of last pre TT event
     fclients = unique(full(sh_val_f_cont{j}(t_lag+1:t_ind,2))); %find list of all unique clients in the 'data' period
     fclients = fclients(2:end); % get rid of the 'zero' client, which is just a placeholder 
-    sh_ann_f{j} = ones(TT-burn+1,size(fclients,1))*NaN; % extra row is for NaN, will be useful a barrier for stacking later when I calculate the moments
+    sh_ann_f{j} = ones(TT-burn+1,size(fclients,1))*NaN; % extra row is for NaN, will be useful a barrier for stacking later when I calculate the moments, column is the number of clients!
     sh_first_yr_dum{j} = ones(TT-burn+1,size(fclients,1))*NaN; % this holds a dummy for the first year of a relationship
 
     % Calculate summable flow search costs (later can easily add fixed costs)
