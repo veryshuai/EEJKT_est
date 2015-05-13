@@ -34,36 +34,52 @@ simulated_data{12} = [st_cont,st_ind_cont,cost_vec];
 % 1. number of clients
 cli_no_f = cli_no_mat(:,2:2:end);
 
-% 2 (this one is missing from the initial list) 1 if match exits market
+% 2 (this one is missing from the initial list) 1 if firm exits market
 death = zeros(size(sh_ann_f_mat(:)));
 death = death.*sh_ann_f_mat(:); % NaNs in sh_ann_f_mat if firm is not exporter
 check4nan = zeros(size(death));
 check4nan(1:end-1) = isnan(death(2:end)); % is the next element a NaN?
 death = death + check4nan; % Only 1 if the next period contains NaN, i.e. a firm death
 
-% 3. 1 if match first year
-fy = zeros(size(sh_ann_f_mat(:)));
-fy = fy.*sh_ann_f_mat(:); % NaNs in sh_ann_f_mat if firm is not exporter
+% 3. 1 if exporter first year
+exp_fy = zeros(size(sh_ann_f_mat(:)));
+exp_fy = exp_fy.*sh_ann_f_mat(:); % NaNs in sh_ann_f_mat if firm is not exporter
 check4nan = zeros(size(death));
 check4nan(2:end) = isnan(death(1:end-1)); % is the last element a NaN?
-fy = fy + check4nan; % Only 1 if the last period contains NaN, i.e. match first year 
+exp_fy = exp_fy + check4nan; % Only 1 if the last period contains NaN, i.e. exporter first year 
+
+% 3. share of first year matches 
+match_fy = cell(size(sh_first_yr_dum));
+share_fy = cell(size(sh_first_yr_dum));
+for j=1:size(sh_first_yr_dum,1) % sum up all first years 
+    match_fy{j} = nansum(sh_first_yr_dum{j},2); 
+    share_fy{j} = match_fy{j}(1:end-1,:) ./ cli_no{j}(:,2); %extra end row in sh_first_yr_dum was added in st_disc.m for "stacking"
+end
 
 % 4. Age of match
-age = zeros(size(sh_ann_f_mat));
-age = age.*sh_ann_f_mat; % NaNs in sh_ann_f_mat if firm is not exporter
-%count durations and total exports
-for j = 1:size(sh_ann_f_mat,2)
-    [first_exp,~] = find(isnan(sh_ann_f_mat(:,j)) == 0,1,'first'); %find the first period of exports
-    if isempty(first_exp) == 0 %we want matches that have positive exports 
-        for k = 0:size(sh_ann_f_mat,1)-1
-            if first_exp + k <= size(sh_ann_f_mat,1) %check to make sure we aren't going past the end of the matrix
-                age(first_exp + k,j) = k; % assign age
+match_age = sh_ann_f;
+%count durations and total export
+for l = 1:size(sh_ann_f,1)
+    for j = 1:size(sh_ann_f{l},2)
+        [first_exp,~] = find(isnan(sh_ann_f{l}(:,j)) == 0,1,'first'); %find the first period of exports
+        [last_exp,~] = find(isnan(sh_ann_f{l}(:,j)) == 0,1,'last'); %find the first period of exports
+        if isempty(first_exp) == 0 %we want matches that have positive exports 
+            for k = 0:size(sh_ann_f_mat,1)-1
+                if first_exp + k <= size(sh_ann_f_mat,1) & first_exp + k <= last_exp %check to make sure we aren't going past the end of the matrix
+                    match_age{l}(first_exp + k,j) = k; % assign age
+                end
             end
         end
     end
 end
 
-
+% 5. Average match age by firm
+tot_match_age = cell(size(match_age));
+avg_match_age = cell(size(match_age));
+for j=1:size(match_age,1) % sum up all first years
+    tot_match_age{j} = nansum(match_age{j},2);
+    avg_match_age{j} = tot_match_age{j}(1:end-1,:) ./ cli_no{j}(:,2); %extra end row in sh_first_yr_dum was added in st_disc.m for "stacking"
+end
 
 %  
 cli_no_f_first = cli_no_mat(1:end-1,:);
