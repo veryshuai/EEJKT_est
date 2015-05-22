@@ -26,7 +26,7 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num, seed)
     end
 
     % Simulate model and create loss function statistics
-    [vtran,hazrate,clidist,mstat,mnumex,mavex,mavship,mreg,mexreg,mexshr,mlagereg,mlagdreg,mdeathreg,simulated_data] = moms_nocell(mm,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,cf_num,increase,seed);
+    [simulated_data,mavship,loglog_coefs,exp_dom_coefs,dom_ar1_coefs,cli_coefs,exp_death_coefs,match_death_coefs,exp_sales_coefs,match_ar1_coefs] = moms_nocell(mm,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,cf_num,increase,seed);
     
     %% Targets
     [Data, W] = target_stats();
