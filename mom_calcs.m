@@ -122,7 +122,7 @@ exp_death_coefs = regress(cell2mat(exp_last),[ones(size(cell2mat(cli_no_next_per
 
 match_death_coefs = regress(match_last_mat(:),[ones(size(match_last_mat(:))),match_first_mat(:),log(sh_ann_f_mat(:)),log(match_age_mat(:)),log(match_exp_age_mat(:))]);
 
-exp_sales_coefs = regress(log(cell2mat(sale_f) - log(cell2mat(cli_no_for_only)),[ones(size(cell2mat(sale_f))),cell2mat(share_fy),cell2mat(cli_no_for_only),log(cell2mat(exp_age))]);
+exp_sales_coefs = regress(log(cell2mat(sale_f) - log(cell2mat(cli_no_for_only))),[ones(size(cell2mat(sale_f))),cell2mat(share_fy),cell2mat(cli_no_for_only),log(cell2mat(exp_age))]);
 
 match_ar1_coefs = regress(log(sh_ann_f_mat(2:end))',[ones(size(sh_ann_f_mat(2:end)))',log(sh_ann_f_mat(1:end-1))',match_first_mat(1:end-1)',log(match_exp_age_mat(1:end-1))']);
 
@@ -148,7 +148,7 @@ end
 
 %regression of log(exports) on log(domestic sales) given positive exports
 %and positive domestic sales
-sale_size = 0
+sale_size = 0;
 ind = find(sale_f_mat>sale_size & sale_h_mat>sale_size);
 try %allow errors due to no observations etc to be caught
     [exp_dom_coefs,~,r] = regress(log(sale_f_mat(ind)),[ones(size(ind,1),1),log(sale_h_mat(ind))]);
@@ -160,11 +160,12 @@ catch err
 end
 
 %foreign log log inverse-cdf slope and MSE
-ub = max(cli_no_mat(:,2)); %upper bound on client number
+cli_no_for_only_mat = cell2mat(cli_no_for_only);
+ub = max(cli_no_for_only_mat); %upper bound on client number
 inv_cdf = zeros(ub,1);
 try %allow errors due to no observations etc to be caught
     for k = 1:ub
-        inv_cdf(k) = sum(cli_no_mat(:,2)>=k);
+        inv_cdf(k) = sum(cli_no_for_only_mat>=k);
     end
     inv_cdf = inv_cdf/sum(inv_cdf);
     [loglog_coefs,~,r] = regress(log(inv_cdf),[ones(ub,1),log((1:ub)'),log((1:ub)').^2]);

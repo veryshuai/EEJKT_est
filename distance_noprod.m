@@ -32,14 +32,14 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num, seed)
     [Data, W] = target_stats();
 
     %% Simulated data 
-    Model = cat(1,vtran,hazrate,clidist,mnumex,mavship,mavex,mreg(1),mreg(3),mexreg,mexshr,mlagereg,mlagdreg,mdeathreg);
-    
+    Model = cat(1,cli_coefs,exp_death_coefs,match_death_coefs,exp_sales_coefs,match_ar1_coefs,loglog_coefs,mavship,exp_dom_coefs,dom_ar1_coefs);
+
     % Construct loss
     try
     
-        error = Data-Model;
+        error = Data'-Model;
         %W = eye(size(error,1)); %remove weights
-        D = error'*W*error;
+        D = error'*W^-1*error;
         %D = norm(error)/norm(Data)
     
         % Check for NaNs
@@ -53,12 +53,12 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num, seed)
         D = D*(1+punishment);
         
         % Print Diagnostics
-        mmm = cat(2,Data,Model) %data/model comparison
+        mmm = cat(2,Data',Model) %data/model comparison
         X %print out current parameter guess
         D %loss
     
         %Simple unweighted loss
-        Old_D = norm(error)/norm(Data)
+        Old_D = norm(error)/norm(Data')
     
         %Print loop time in minutes
         last_loop_run_time = toc/60

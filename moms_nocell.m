@@ -48,11 +48,15 @@ function [simulated_data,mavship,loglog_coefs,exp_dom_coefs,dom_ar1_coefs,cli_co
             %% Moments calculations
             try 
                 mom_calcs;
+                % Reject if number of post-burn in exporters less than 500
+                display(['Number of post-burn, ever active exporters is ', num2str(pbexp), '.']);
+                if pbexp < 500
+                    sim_err %fill in parameters to make solver continue
+                end
             catch 
-                breakflag == 1;
+                display('Error in moment calculation');
+                sim_err %fill in parameters to make solver continue
             end
-            
-            display(['Number of post-burn, ever active exporters is ', num2str(pbexp), '.']);
 
             % save results 
             if cf_num > 0 & cf_num < 6
@@ -65,10 +69,6 @@ function [simulated_data,mavship,loglog_coefs,exp_dom_coefs,dom_ar1_coefs,cli_co
                 save('results/boot_firm_dat') %for bootstrap standard error calculation
             end
     
-            % Reject if number of post-burn in exporters less than 500
-            if pbexp < 500
-                sim_err %fill in parameters to make solver continue
-            end
         else
             %simulation error
             sim_err %fill in parameters to make solver continue
