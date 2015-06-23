@@ -22,12 +22,22 @@ function [] = calibration_noprod(pop, varargin)
 
     % Parallel setup
     clc
-    if matlabpool('size')~=5 %if pool not equal to 12, open 12
-       if matlabpool('size')>0
-         matlabpool close
-       end
-       matlabpool open 5 
+    try
+
+        matlabpool open 25
+
+    catch err
+
+        getReport(err, 'extended')
+
     end
+
+    % if matlabpool('size')~=25 %if pool not equal to 12, open 12
+    %    if matlabpool('size')>0
+    %      matlabpool close
+    %    end
+    %    matlabpool open 25 
+    % end
     
     % Start timer
     tic;
@@ -45,12 +55,14 @@ function [] = calibration_noprod(pop, varargin)
     options = optimoptions('particleswarm','Display','iter','UseParallel','always');%,'HybridFcn',{@fmincon,fminconoptions});
 
     % Network parameter restrictions
-    net_lb =  0;
-    net_ub =  0.4;
+    net_lb =  -0.2;
+    net_ub =  0.2;
     if rst_type == 'nnt'
         net_lb = 0;
         net_ub = 0;
     end
+
+    display('Hello!')
     
     % Call estimation routine
     [X,fval,exitflag] = particleswarm(@(X) distance_noprod(X, 0, 1),13,[   0.005;  0.01;    6.5;    0.1;  .005; 0.1; 0.1;  0.005; 0.005; 0.5; net_lb; 1; .01], [.5;  1;    14;     1;  0.5;    3;  10; 10; 1; 15; net_ub; 300; 2],options);
