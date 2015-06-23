@@ -2,7 +2,7 @@
 #   
 #   Request 1 processors on 1 node 
 #   
-#PBS -l nodes=4:ppn=6
+#PBS -l nodes=25
 #
 #PBS -l walltime=24:00:00
 #

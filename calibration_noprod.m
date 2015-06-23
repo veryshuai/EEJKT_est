@@ -53,7 +53,7 @@ function [] = calibration_noprod(pop, varargin)
     end
     
     % Call estimation routine
-    [X,fval,exitflag] = particleswarm(@(X) distance_noprod(X, 0, 1),13,[   0.005;  0.01;    6.5;    0.1;  .005; 0.1; 0.1;  0.005; 0.005; 0.5; net_lb; 50; .01], [.5;  1;    10;     1;  0.5;    3;  10; 2; 1; 15; net_ub; 400; 2],options);
+    [X,fval,exitflag] = particleswarm(@(X) distance_noprod(X, 0, 1),13,[   0.005;  0.01;    6.5;    0.1;  .005; 0.1; 0.1;  0.005; 0.005; 0.5; net_lb; 1; .01], [.5;  1;    14;     1;  0.5;    3;  10; 10; 1; 15; net_ub; 300; 2],options);
     
     % lnF         =  scale_h+log(X(1));
     % delta       =  X(2);

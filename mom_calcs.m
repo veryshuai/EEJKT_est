@@ -178,7 +178,11 @@ catch err
 end
 
 %average shipments per client per year
-mavship = mean(ship_f_spc(cli_no_mat(:,2)>0)./cli_no_mat(cli_no_mat(:,2)>0,2));
+cli_no_long = cell2mat(cli_no);
+tot_ships = sum(ship_f_spc(cli_no_long(:,2)>0))
+tot_client_years = sum(cli_no_long(cli_no_long(:,2)>0,2))
+mavship = tot_ships / tot_client_years
+%mavship = mean(ship_f_spc(cli_no_mat(:,2)>0)./cli_no_mat(cli_no_mat(:,2)>0,2));
 
 % Count the number of exporters 
 pbexp = sum(sum(sale_f_mat)>1);
