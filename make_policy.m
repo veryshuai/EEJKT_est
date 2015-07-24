@@ -22,6 +22,9 @@ switch cf_num
         case_str = 'est';
         increase = 1; % no counterfactual
 
+        % Get parameters (firm number)
+        SetParams_noprod;
+
         % Get policy and value functions
         lambda_f_new   =  lambda_f_orig;
         lambda_h_new   =  lambda_h_orig;

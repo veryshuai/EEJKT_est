@@ -26,14 +26,14 @@ function [simulated_data,mavship,loglog_coefs,exp_dom_coefs,dom_ar1_coefs,cli_co
     % Model Simulation
 
     %% Get vector of state and time changes
-    [st_ind_cont,st_cont,ds,sh,act,break_flag,deathmat,sh_val_h,sh_val_f,cprod,cost_vec,succ_prob_vec] = st_traj_nocell(sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,eta,TT,cost,F,cf_num,succ_params,seed);
+    [break_flag,t] = st_traj_nocell(sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,eta,TT,cost,F,cf_num,succ_params,seed);
     
     % check for errors in simulation routine
     if break_flag == 0
     
         %% Separate dead firms 
         S_old = S;
-        [st_cont,st_ind_cont,S,ds,sh,breakflag,sh_val_h,sh_val_f,cost_vec,succ_prob_vec] = sdead(st_cont,st_ind_cont,S,ds,sh,deathmat,sh_val_h,sh_val_f,cost_vec,succ_prob_vec);
+        sdead(S_old,t);
     
         % check for errors in separation of dead firms 
         if breakflag == 0

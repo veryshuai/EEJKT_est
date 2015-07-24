@@ -51,7 +51,7 @@ mm.v_tolerance   = 1e-5;    % convergence tolerance, value function iterations (
 mm.pi_tolerance  = 1e-5;    % convergence tolerance, profit function (WAS .001)
 mm.T             = 50;      % horizon for calculating profit function
 if case_str == 'est'
-    mm.S         = 3000;    % number of potential exporting firms to simulate (WAS 2000)
+    mm.S         = 300;    % number of potential exporting firms to simulate (WAS 2000)
     mm.burn      = 15;      %number of burn-in periods
 elseif case_str == 'non'    %not a counterfactual
     mm.S         = 3000;      % number of potential exporting firms to simulate (WAS 2000)
