@@ -4,4 +4,4 @@
 params
 
 % Call calibration
-calibration_noprod(pop, 0);
+calibration_noprod(X, 0);

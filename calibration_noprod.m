@@ -24,7 +24,7 @@ function [] = calibration_noprod(pop, varargin)
     clc
     try
 
-        matlabpool open 25
+        matlabpool open 20
 
     catch err
 
@@ -52,7 +52,7 @@ function [] = calibration_noprod(pop, varargin)
     rng(80085);
     
     % Options for genetic algorithm
-    options = optimoptions('particleswarm','Display','iter','UseParallel','always');%,'HybridFcn',{@fmincon,fminconoptions});
+    options = optimoptions('fmincon','Display','iter','UseParallel','always');%,'HybridFcn',{@fmincon,fminconoptions});
 
     % Network parameter restrictions
     net_lb =  -0.2;
@@ -62,10 +62,8 @@ function [] = calibration_noprod(pop, varargin)
         net_ub = 0;
     end
 
-    display('Hello!')
-    
     % Call estimation routine
-    [X,fval,exitflag] = particleswarm(@(X) distance_noprod(X, 0, 1),13,[   0.005;  0.01;    6.5;    0.1;  .005; 0.1; 0.1;  0.005; 0.005; 0.5; net_lb; 1; .01], [.5;  1;    14;     1;  0.5;    3;  10; 10; 1; 15; net_ub; 300; 2],options);
+    [X,fval,exitflag] = fmincon(@(X) distance_noprod(X, 0, 1),pop,[],[],[],[],[ 0.005;  0.01;    6.5;    0.1;  .005; 0.1; 0.1;  0.005; 0.005; 0.5; net_lb; 1; .01], [.5;  1;    14;     1;  0.5;    3;  10; 10; 1; 15; net_ub; 300; 2],[],options);
     
     % lnF         =  scale_h+log(X(1));
     % delta       =  X(2);
