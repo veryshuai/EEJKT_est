@@ -33,16 +33,16 @@ function [simulated_data,mavship,loglog_coefs,exp_dom_coefs,dom_ar1_coefs,cli_co
     
         %% Separate dead firms 
         S_old = S;
-        sdead(S_old,t);
+        S = sdead(S_old,t);
     
         % check for errors in separation of dead firms 
-        if breakflag == 0
+        if break_flag == 0
     
             %% Calculate Sales
-            [sale_h_cont,sale_f_cont] = sales(scale_f,scale_h,eta,st_ind_cont,S,ds,sh,maxc,Z,Phi,X_h,X_f,cf_num,increase,TT);
+            sales(scale_f,scale_h,eta,maxc,Z,Phi,X_h,X_f,cf_num,increase,TT,S,t);
     
             %% Discretize state vector into years
-            [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f,succ_prob,prods] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h,sh_val_f,cost_vec,Phi,succ_prob_vec);
+            [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f,succ_prob,prods] = st_disc(S,TT,burn,maxc,Phi,t);
     
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %% Moments calculations

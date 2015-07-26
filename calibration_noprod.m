@@ -24,7 +24,7 @@ function [] = calibration_noprod(pop, varargin)
     clc
     try
 
-        matlabpool open 4
+        matlabpool open 2
 
     catch err
 

@@ -1,4 +1,4 @@
-function [] = sdead(S_old,t)
+function [S] = sdead(S_old,t)
 %this function simply puts new firms into new cells
 
 
@@ -60,7 +60,7 @@ if flag == 0
       end
       
       % Resave to disk
-          save(sprintf('temp_data/temp_%d_%d.mat', j, t),'st_ind_cont' ,'ds' ,'sh' ,'sh_val_h' ,'sh_val_f' ,'cost_vec' ,'succ_prob','t')
+          save(sprintf('temp_data/temp_%d_%d.mat', j, t),'st_ind_cont' ,'ds' ,'sh' ,'sh_val_h' ,'sh_val_f' ,'cost_vec' ,'succ_prob','t','S')
       
   end
 end
