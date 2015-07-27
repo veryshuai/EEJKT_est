@@ -12,8 +12,14 @@ cli_no_f = cli_no_mat(:,2:2:end);
 match_fy = cell(size(sh_first_yr_dum));
 share_fy = cell(size(sh_first_yr_dum));
 for j=1:size(sh_first_yr_dum,1) % sum up all first years 
-    match_fy{j} = nansum(sh_first_yr_dum{j},2); 
-    share_fy{j} = match_fy{j}(1:end-1,:) ./ cli_no{j}(:,2); %extra end row in sh_first_yr_dum was added in st_disc.m for "stacking"
+    if isempty(sh_first_yr_dum{j})
+        match_fy{j} = zeros(size(cli_no{j}(:,2)));
+        share_fy{j} = match_fy{j} * NaN;
+    else
+        match_fy{j} = nansum(sh_first_yr_dum{j},2); 
+        share_fy{j} = (match_fy{j}(1:end-1,:) + zeros(size(cli_no{j}(:,2)))) ./ cli_no{j}(:,2); %extra end row in sh_first_yr_dum was added in st_disc.m for "stacking"
+
+    end
 end
 
 % 6. Age of exporter, first and last export year dummies
@@ -75,8 +81,13 @@ end
 tot_match_age = cell(size(match_age));
 avg_match_age = cell(size(match_age));
 for j=1:size(match_age,1) % sum up all first years
-    tot_match_age{j} = nansum(match_age{j},2);
-    avg_match_age{j} = tot_match_age{j}(1:end-1,:) ./ cli_no{j}(:,2); %extra end row in sh_first_yr_dum was added in st_disc.m for "stacking"
+    if isempty(match_age{j})
+        tot_match_age{j} = zeros(size(cli_no{j}(:,2)));
+        avg_match_age{j} = tot_match_age{j} * NaN;
+    else
+        tot_match_age{j} = nansum(match_age{j},2);
+        avg_match_age{j} = tot_match_age{j}(1:end-1,:) ./ cli_no{j}(:,2); %extra end row in sh_first_yr_dum was added in st_disc.m for "stacking"
+    end
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% convert things from cells to matrices %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -106,7 +117,7 @@ simulated_data{8} = sh_ann_f_mat;
 simulated_data{9} = sh_first_yr_dum_mat;
 simulated_data{10} = [cost_f,cost_h];
 simulated_data{11} = [prods,succ_prob];
-simulated_data{12} = [st_cont,st_ind_cont,cost_vec];
+%simulated_data{12} = [st_cont,st_ind_cont,cost_vec];
 
 %%%%%%%%%% Client Transition Regression %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Offset client number by one, which will make my life easier during the autoregression

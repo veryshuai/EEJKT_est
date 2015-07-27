@@ -39,10 +39,10 @@ function [simulated_data,mavship,loglog_coefs,exp_dom_coefs,dom_ar1_coefs,cli_co
         if break_flag == 0
     
             %% Calculate Sales
-            sales(scale_f,scale_h,eta,maxc,Z,Phi,X_h,X_f,cf_num,increase,TT,S,t);
+            sales(scale_f,scale_h,eta,maxc,Z,Phi,X_h,X_f,cf_num,increase,TT,S_old,t);
     
             %% Discretize state vector into years
-            [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f,succ_prob,prods] = st_disc(S,TT,burn,maxc,Phi,t);
+            [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f,succ_prob,prods] = st_disc(S,S_old,TT,burn,maxc,Phi,t);
     
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %% Moments calculations

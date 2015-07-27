@@ -1,8 +1,8 @@
-function [S] = sdead(S_old,t)
+function [tot_S] = sdead(S_old,t)
 %this function simply puts new firms into new cells
 
 
-flag = 0;
+flag = 0; tot_S = 0;
 
 st_cont = [];
 
@@ -22,19 +22,21 @@ if flag == 0
         cost_vec_old = ccost_vec;
         succ_prob_old = csucc_prob;
         
+        % Find Deaths
+        ind = find(deathmat==1); %find position of any death
+        ind_ext = [ind;size(st_ind_cont_old,1)]; % append final slot of event matrix for firm j 
         
         % initialize new cell arrays (note old arrays called, well, old)
         S           = 1+sum(deathmat); % new number of firms (after death is included)
-        st_ind_cont = cell(S,1);
-        ds          = cell(S,1);
-        sh          = cell(S,1); 
-        sh_val_h    = cell(S,1);
-        sh_val_f    = cell(S,1);
-        cost_vec    = cell(S,1);
-        succ_prob   = cell(S,1);
+        tot_S       = tot_S + S; % running sum of total firm number
+        st_ind_cont = cell(size(ind,1),1);
+        ds          = cell(size(ind,1),1);
+        sh          = cell(size(ind,1),1);
+        sh_val_h    = cell(size(ind,1),1);
+        sh_val_f    = cell(size(ind,1),1);
+        cost_vec    = cell(size(ind,1),1);
+        succ_prob   = cell(size(ind,1),1);
         
-        ind = find(deathmat==1); %find position of any death
-        ind_ext = [ind;size(st_ind_cont_old,1)]; % append final slot of event matrix for firm j 
 
       % first firm in slot 1
       sh_val_h{1} = sh_val_h_old(1:ind_ext(1),:); %home shipment values
@@ -47,7 +49,7 @@ if flag == 0
 
       % loop through 2nd to nth firms in slot j
       lag = ind_ext(1)+1; %first event row of next firm in slot j
-      for k = 2:size(ind_ext)
+      for k = 2:size(ind) %EMPRICALLY USING IND_EXT WAS JUST MAKING AN EXTRA BLANK CELL
           sh_val_h{obin} = sh_val_h_old(lag:ind_ext(k),:);
           sh_val_f{obin} = sh_val_f_old(lag:ind_ext(k),:);
           cost_vec{obin} = cost_vec_old(lag:ind_ext(k),:);
