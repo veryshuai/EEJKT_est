@@ -12,7 +12,7 @@ if flag == 0
         obin = 2; %current index
 
         % Load written files
-        load(sprintf('temp_data/temp_%d_%d.mat', j, t))
+        load(sprintf('/gpfs/home/dcj138/scratch/temp_data/temp_%d_%d.mat', j, t))
         st_ind_cont_old = cind;
         ds_old = cds;
         sh_old = csh;
@@ -27,8 +27,7 @@ if flag == 0
         ind_ext = [ind;size(st_ind_cont_old,1)]; % append final slot of event matrix for firm j 
         
         % initialize new cell arrays (note old arrays called, well, old)
-        S           = 1+sum(deathmat); % new number of firms (after death is included)
-        tot_S       = tot_S + S; % running sum of total firm number
+        S           = 1+sum(deathmat); % new number of firms (after death is included) tot_S       = tot_S + S; % running sum of total firm number
         st_ind_cont = cell(size(ind,1),1);
         ds          = cell(size(ind,1),1);
         sh          = cell(size(ind,1),1);
@@ -62,7 +61,7 @@ if flag == 0
       end
       
       % Resave to disk
-          save(sprintf('temp_data/temp_%d_%d.mat', j, t),'st_ind_cont' ,'ds' ,'sh' ,'sh_val_h' ,'sh_val_f' ,'cost_vec' ,'succ_prob','t','S')
+          save(sprintf('/gpfs/home/dcj138/scratch/temp_data/temp_%d_%d.mat', j, t),'st_ind_cont' ,'ds' ,'sh' ,'sh_val_h' ,'sh_val_f' ,'cost_vec' ,'succ_prob','t','S')
       
   end
 end

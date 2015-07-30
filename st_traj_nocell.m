@@ -101,10 +101,12 @@ function [breakflag,t] = st_traj_nocell(sp_p,lambda_f_orig,lambda_h_orig,lambda_
             t = getCurrentTask();
             if isempty(t)
                 t = 0;
-                save(sprintf('temp_data/temp_%d_0.mat', j),'cind','cds','csh','cact','breakflag','cdeathmat','csh_val_h','csh_val_f','cprod','ccost_vec','csucc_prob','t');
+                fid = sprintf('/gpfs/home/dcj138/scratch/temp_data/temp_%d_0.mat', j)
+                save(fid,'cind','cds','csh','cact','breakflag','cdeathmat','csh_val_h','csh_val_f','cprod','ccost_vec','csucc_prob','t');
             else
                 t = t.ID;
-                save(sprintf('temp_data/temp_%d_%d.mat', j, t),'cind','cds','csh','cact','breakflag','cdeathmat','csh_val_h','csh_val_f','cprod','ccost_vec','csucc_prob','t'); 
+                fid = sprintf('/gpfs/home/dcj138/scratch/temp_data/temp_%d_%d.mat',j,t)
+                save(fid,'cind','cds','csh','cact','breakflag','cdeathmat','csh_val_h','csh_val_f','cprod','ccost_vec','csucc_prob','t'); 
             end
         end
     end
@@ -116,7 +118,6 @@ function [breakflag,t] = st_traj_nocell(sp_p,lambda_f_orig,lambda_h_orig,lambda_
         display('WARNING: Broke out of loop! Results not reliable.')
     end
 
-    % Free up memory
-    %clearvars -except cind cds csh cact breakflag cdeathmat csh_val_h csh_val_f cprod ccost_vec csucc_prob
+    % Free up memory %clearvars -except cind cds csh cact breakflag cdeathmat csh_val_h csh_val_f cprod ccost_vec csucc_prob
 
 end
