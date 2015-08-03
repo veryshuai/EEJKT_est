@@ -51,6 +51,7 @@ function [simulated_data,mavship,loglog_coefs,exp_dom_coefs,dom_ar1_coefs,cli_co
                 % Reject if number of post-burn in exporters less than 500
                 display(['Number of post-burn, ever active exporters is ', num2str(pbexp), '.']);
                 if pbexp < 500
+                    display('Too few exporters!');
                     sim_err %fill in parameters to make solver continue
                 end
             catch err
