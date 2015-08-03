@@ -10,7 +10,7 @@ Z_big = [-inf,Z'];
 for j = 1:S_old
 
         % Load written files
-        load(sprintf('/gpfs/home/dcj138/scratch/temp_data/temp_%d_%d.mat', j, t))
+        load(sprintf('temp_data/temp_%d_%d.mat', j, t))
         
         sale_h = cell(size(st_ind_cont));
         sale_f = cell(size(st_ind_cont));
@@ -38,7 +38,7 @@ for j = 1:S_old
         sale_h_cont = sale_h;
 
         % Save to disk
-        save(sprintf('/gpfs/home/dcj138/scratch/temp_data/temp_%d_%d.mat', j, t),'st_ind_cont' ,'ds' ,'sh' ,'sh_val_h' ,'sh_val_f' ,'cost_vec' ,'succ_prob','t','S','sale_h_cont','sale_f_cont')
+        save(sprintf('temp_data/temp_%d_%d.mat', j, t),'st_ind_cont' ,'ds' ,'sh' ,'sh_val_h' ,'sh_val_f' ,'cost_vec' ,'succ_prob','t','S','sale_h_cont','sale_f_cont')
 
 
     end

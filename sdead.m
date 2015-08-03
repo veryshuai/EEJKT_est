@@ -12,7 +12,7 @@ if flag == 0
         obin = 2; %current index
 
         % Load written files
-        load(sprintf('/gpfs/home/dcj138/scratch/temp_data/temp_%d_%d.mat', j, t))
+        load(sprintf('temp_data/temp_%d_%d.mat', j, t))
         st_ind_cont_old = cind;
         ds_old = cds;
         sh_old = csh;
@@ -62,7 +62,7 @@ if flag == 0
       end
       
       % Resave to disk
-          save(sprintf('/gpfs/home/dcj138/scratch/temp_data/temp_%d_%d.mat', j, t),'st_ind_cont' ,'ds' ,'sh' ,'sh_val_h' ,'sh_val_f' ,'cost_vec' ,'succ_prob','t','S')
+          save(sprintf('temp_data/temp_%d_%d.mat', j, t),'st_ind_cont' ,'ds' ,'sh' ,'sh_val_h' ,'sh_val_f' ,'cost_vec' ,'succ_prob','t','S')
       
   end
 end

@@ -18,7 +18,7 @@ cur_firm_start = 0; %initialize current firm number
 
 for k = 1:S_old
 
-    load(sprintf('/gpfs/home/dcj138/scratch/temp_data/temp_%d_%d.mat', k, worker_name));
+    load(sprintf('temp_data/temp_%d_%d.mat', k, worker_name));
 
     for j = 1:size(st_ind_cont,1);
 
