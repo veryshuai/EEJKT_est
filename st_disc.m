@@ -18,7 +18,7 @@ cur_firm_start = 0; %initialize current firm number
 
 for k = 1:S_old
 
-    load(sprintf('temp_data/temp_%d_%d.mat', k, worker_name));
+    load(sprintf('/gpfs/home/dcj138/scratch/temp_data/temp_%d_%d.mat', k, worker_name));
 
     for j = 1:size(st_ind_cont,1);
 
@@ -52,7 +52,6 @@ for k = 1:S_old
         cost_f_sumable = cost_f_sumable + cost_vec{j}(:,2); %add in fixed costs
         cost_h_sumable = [0;gaps .* cost_vec{j}(1:end-1,3)]; %multiply gaps by instantaneous flow cost
         cost_h_sumable = cost_h_sumable + cost_vec{j}(:,4); %add in fixed costs
-
 
         for t = burn+1:TT
             t_ind = find(st_ind_cont{j}(:,1)<t,1,'last');
@@ -91,6 +90,19 @@ for k = 1:S_old
                 end
 
                 t_lag = t_ind;
+%            else %in case of a lack of events, we still need zeros for placeholders in some variables
+%                sales_h{cur_firm}(t-burn) = 0;
+%                sales_f{cur_firm}(t-burn) = 0;
+%                ship_f{cur_firm}(t-burn) = NaN;
+%                cli_no{cur_firm}(t-burn,1) = NaN; %count the number of unique clients shipped to
+%                cli_no{cur_firm}(t-burn,2) = NaN;
+%                % Calculate annual shipments
+%                if isempty(size(fclients,1)) ~= 1 %did the firm have any clients?
+%                    for k = 1:max(size(fclients,1),1)
+%                       sh_ann_f{cur_firm}(t-burn,k) = NaN;
+%                       sh_first_yr_dum{cur_firm}(t-burn,k) = NaN;
+%                    end
+%                end
             end
         end
     end

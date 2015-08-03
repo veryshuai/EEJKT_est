@@ -28,6 +28,7 @@ if flag == 0
         
         % initialize new cell arrays (note old arrays called, well, old)
         S           = 1+sum(deathmat); % new number of firms (after death is included) tot_S       = tot_S + S; % running sum of total firm number
+        tot_S       = S + tot_S; %update full firm number
         st_ind_cont = cell(size(ind,1),1);
         ds          = cell(size(ind,1),1);
         sh          = cell(size(ind,1),1);

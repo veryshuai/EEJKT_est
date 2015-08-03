@@ -1,7 +1,7 @@
 %Read parameters into moms_nocell
 
 burn            = mm.burn;          %number of burn in periods
-if cf_num == 6 | cf_num == 1 | cf_num == 3 % Caculate network value, standard simulation, or macro bump cf)
+if cf_num == 6 | cf_num == 3 % Caculate network value,  or macro bump cf)
     esT         = 60 + 18; % 60 years of usable data with random macro shocks
 else 
     esT         = 18 + burn;        % number of ergodic state periods to be simulated

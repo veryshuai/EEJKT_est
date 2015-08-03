@@ -10,12 +10,13 @@ Z_big = [-inf,Z'];
 for j = 1:S_old
 
         % Load written files
-        load(sprintf('temp_data/temp_%d_%d.mat', j, t))
+        load(sprintf('/gpfs/home/dcj138/scratch/temp_data/temp_%d_%d.mat', j, t))
         
         sale_h = cell(size(st_ind_cont));
         sale_f = cell(size(st_ind_cont));
         
         for k = 1:size(st_ind_cont,1)
+            
             sale_h{k} = exp(scale_h)*exp(Phi(st_ind_cont{k}(:,2))).^(de-1).*exp(X_h(st_ind_cont{k}(:,3))).*sum(exp(Z_big(ds{k}(:,1:maxc)+1)).*sh{k}(:,1:maxc),2); 
 
             scale_f_vec = exp(scale_f); % case=not counterfactual
@@ -37,7 +38,7 @@ for j = 1:S_old
         sale_h_cont = sale_h;
 
         % Save to disk
-        save(sprintf('temp_data/temp_%d_%d.mat', j, t),'st_ind_cont' ,'ds' ,'sh' ,'sh_val_h' ,'sh_val_f' ,'cost_vec' ,'succ_prob','t','S','sale_h_cont','sale_f_cont')
+        save(sprintf('/gpfs/home/dcj138/scratch/temp_data/temp_%d_%d.mat', j, t),'st_ind_cont' ,'ds' ,'sh' ,'sh_val_h' ,'sh_val_f' ,'cost_vec' ,'succ_prob','t','S','sale_h_cont','sale_f_cont')
 
 
     end

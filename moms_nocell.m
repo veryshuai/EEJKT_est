@@ -53,7 +53,9 @@ function [simulated_data,mavship,loglog_coefs,exp_dom_coefs,dom_ar1_coefs,cli_co
                 if pbexp < 500
                     sim_err %fill in parameters to make solver continue
                 end
-            catch 
+            catch err
+
+                getReport(err, 'extended')
                 display('Error in moment calculation');
                 sim_err %fill in parameters to make solver continue
             end
