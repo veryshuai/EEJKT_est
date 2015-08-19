@@ -106,7 +106,7 @@ match_last_mat = cell2mat(match_last');
 match_exp_age_mat = cell2mat(match_exp_age');
 
 %pack simulation info up to return it
-simulated_data{1} = cli_no_mat;
+simulated_data{1} = [cli_no_mat,cli_no_f];
 simulated_data{2} = sale_h_mat;
 simulated_data{3} = sale_f_spc;
 simulated_data{4} = sale_f_mat;
@@ -117,17 +117,19 @@ simulated_data{8} = sh_ann_f_mat;
 simulated_data{9} = sh_first_yr_dum_mat;
 simulated_data{10} = [cost_f,cost_h];
 simulated_data{11} = [prods,succ_prob];
-%simulated_data{12} = [st_cont,st_ind_cont,cost_vec];
+simulated_data{12} = [match_age_mat,match_first_mat,match_last_mat,match_exp_age_mat];
+simulated_data{13} = [match_fy,share_fy];
+simulated_data{14} = [match_fy,share_fy];
+simulated_data{15} = [exp_age,exp_first,exp_last];
 
 %%%%%%%%%% Client Transition Regression %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Offset client number by one, which will make my life easier during the autoregression
 cli_no_next_period = cli_no;
 cli_no_for_only = cli_no;
-for k = 1:size(cli_no,1)
-    cli_no_next_period{k} = [cli_no{k}(2:end,2);NaN];
+for k = 1:size(cli_no,1) cli_no_next_period{k} = [cli_no{k}(2:end,2);NaN];
     cli_no_for_only{k} = cli_no{k}(:,2);
 end
-cli_coefs = regress(cell2mat(cli_no_next_period),[ones(size(cell2mat(cli_no_next_period))),cell2mat(share_fy),log(cell2mat(cli_no_for_only)),log(cell2mat(cli_no_for_only)).^2,log(cell2mat(avg_match_age)),log(cell2mat(exp_age))]);
+cli_coefs = regress(log(cell2mat(cli_no_next_period)),[ones(size(cell2mat(cli_no_next_period))),cell2mat(share_fy),log(cell2mat(cli_no_for_only)),log(cell2mat(cli_no_for_only)).^2,log(cell2mat(avg_match_age)),log(cell2mat(exp_age))]);
 
 exp_death_coefs = regress(cell2mat(exp_last),[ones(size(cell2mat(cli_no_next_period))),cell2mat(share_fy),log(cell2mat(cli_no_for_only)),log(cell2mat(cli_no_for_only)).^2,log(cell2mat(avg_match_age)),log(cell2mat(exp_age))]);
 
