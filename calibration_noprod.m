@@ -17,6 +17,10 @@ function [] = calibration_noprod(pop, varargin)
     rst_type = 'non';
     if rst == 1
         rst_type = query(['Which type of parameter restriction?' char(10) 'nln (no learning)' char(10) 'nnt (no network effect)?'],{'nln','nnt'});
+    elseif rst == 2
+        rst_type = 'nnt' %set no network
+    elseif rst == 3
+        rst_type = 'nln' %set no learning
     end
 
 
