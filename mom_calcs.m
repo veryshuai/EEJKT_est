@@ -116,7 +116,10 @@ for k = 1:size(cli_no,1)
     cli_no_next_period{k} = [cli_no{k}(2:end,2);NaN];
     cli_no_for_only{k} = cli_no{k}(:,2);
 end
-cli_coefs = regress(cell2mat(cli_no_next_period),[ones(size(cell2mat(cli_no_next_period))),cell2mat(share_fy),log(cell2mat(cli_no_for_only)),log(cell2mat(cli_no_for_only)).^2,log(cell2mat(avg_match_age)),log(cell2mat(exp_age))]);
+xytmp = horzcat(cell2mat(cli_no_next_period),ones(size(cell2mat(cli_no_next_period))),cell2mat(share_fy),log(cell2mat(cli_no_for_only)),log(cell2mat(cli_no_for_only)).^2,log(cell2mat(avg_match_age)),log(cell2mat(exp_age)));
+xytmp = xytmp(xytmp(:,1)>0,:);
+[nr,nc] = size(xytmp);
+cli_coefs = regress(log(xytmp(:,1)),xytmp(:,2:nc))
 
 exp_death_coefs = regress(cell2mat(exp_last),[ones(size(cell2mat(cli_no_next_period))),cell2mat(share_fy),log(cell2mat(cli_no_for_only)),log(cell2mat(cli_no_for_only)).^2,log(cell2mat(avg_match_age)),log(cell2mat(exp_age))]);
 
