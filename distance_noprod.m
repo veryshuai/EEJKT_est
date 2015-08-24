@@ -30,6 +30,8 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num, seed)
     
     %% Targets
     [Data, W] = target_stats();
+    % to use diagonal of W, uncomment next command
+    % W = diag(diag(W));
 
     %% Simulated data 
     Model = cat(1,cli_coefs,exp_death_coefs,match_death_coefs,exp_sales_coefs,match_ar1_coefs,loglog_coefs,mavship,exp_dom_coefs,dom_ar1_coefs);
@@ -39,8 +41,8 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num, seed)
     
         error = Data'-Model;
         %W = eye(size(error,1)); %remove weights
-        D = error'*W^-1*error;
-        %D = norm(error)/norm(Data)
+        D = error'*(W^-1)*error;
+        % D = norm(error)/norm(Data)
     
         % Check for NaNs
         nanflag = isnan(D); 
@@ -59,6 +61,9 @@ function [D,W,error,simulated_data] = distance_noprod(X, cf_num, seed)
     
         %Simple unweighted loss
         Old_D = norm(error)/norm(Data')
+        
+        % replace weighted fit metric with old fit metric for test run 
+        % D = Old_D
     
         %Print loop time in minutes
         last_loop_run_time = toc/60

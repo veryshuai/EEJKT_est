@@ -22,22 +22,12 @@ function [] = calibration_noprod(pop, varargin)
 
     % Parallel setup
     clc
-    try
-
-        parpool(13)
-
-    catch err
-
-        getReport(err, 'extended')
-
-    end
-
-    % if matlabpool('size')~=25 %if pool not equal to 12, open 12
-    %    if matlabpool('size')>0
-    %      matlabpool close
-    %    end
-    %    matlabpool open 25 
-    % end
+%     if matlabpool('size')~=4 %if pool not equal to 12, open 12
+%        if matlabpool('size')>0
+%          matlabpool close
+%        end
+%        matlabpool open 4 
+%     end
     
     % Start timer
     tic;
@@ -52,18 +42,22 @@ function [] = calibration_noprod(pop, varargin)
     rng(80085);
     
     % Options for genetic algorithm
-    options = gaoptimset('Display','iter','UseParallel','always');%,'HybridFcn',{@fmincon,fminconoptions});
+    options = gaoptimset('Display','iter','PopulationSize',26,'Generations',1000,...
+    'StallTimeLimit',86400,'TimeLimit',3600,'MutationFcn',@mutationadaptfeasible,...
+    'FitnessScalingFcn',@fitscalingrank,'InitialPopulation',pop,'UseParallel','always',...
+    'PlotFcns',@gaplotbestf,'EliteCount',0);%,'HybridFcn',{@fmincon,fminconoptions});
+
 
     % Network parameter restrictions
-    net_lb =  -0.2;
-    net_ub =  0.2;
+    net_lb = -0.1;
+    net_ub =  0.4;
     if rst_type == 'nnt'
         net_lb = 0;
         net_ub = 0;
-    end
+    end 
     
-    % Call estimation routine
-    [X,fval,exitflag] = ga(@(X) distance_noprod(X, 0, 1),13,[],[],[],[],    [   0.005;  0.01;    6.5;    0.1;  .005; 0.1; 0.1;  0.005; 0.005; 0.5; net_lb; 1; .01], [.5;  1;    14;     1;  0.5;    3;  10; 10; 1; 15; net_ub; 300; 2],[],options);
+    % Call genetic algorithm routine
+    [X,fval,exitflag] = ga(@(X) distance_noprod(X, 0, 1),13,[],[],[],[],[0.005;  0.2;    6.0;    0.1;  .005; 0.1; 0.1;  0.005; 0.005; 0.5; net_lb; 1; .01], [.6;  1;    12;     1;  0.5;    3;  10; 10; 1; 12; net_ub; 300; 2],[],options);
     
     % lnF         =  scale_h+log(X(1));
     % delta       =  X(2);

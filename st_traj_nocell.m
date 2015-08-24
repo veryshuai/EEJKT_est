@@ -1,4 +1,4 @@
-function [breakflag,t] = st_traj_nocell(sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,de,esT,cost,F,cf_num,succ_params,seed)
+function [cind,cst,cds,csh,cact,breakflag,cdeathmat,csh_val_h,csh_val_f,cprod,ccost_vec,csucc_prob] = st_traj_nocell(sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,de,esT,cost,F,cf_num,succ_params,seed)
     %This function does the simulation needed to calculate moments
     
     breakflag = 0; %this flag goes to one if there is a maximum matrix violation, and allows us to stop the loop  
@@ -12,17 +12,17 @@ function [breakflag,t] = st_traj_nocell(sp_p,lambda_f_orig,lambda_h_orig,lambda_
     %% SETTING UP
     
     % Initialize cells
-    %cind         = cell(S,1);
-    %cst          = cell(S,1);
-    %cds          = cell(S,1);
-    %csh          = cell(S,1);
-    %cact         = cell(S,1);
-    %cdeathmat    = cell(S,1);
-    %csh_val_h    = cell(S,1);
-    %csh_val_f    = cell(S,1);
-    %cprod        = cell(S,1);
-    %ccost_vec    = cell(S,1);
-    %csucc_prob   = cell(S,1);
+    cind         = cell(S,1);
+    cst          = cell(S,1);
+    cds          = cell(S,1);
+    csh          = cell(S,1);
+    cact         = cell(S,1);
+    cdeathmat    = cell(S,1);
+    csh_val_h    = cell(S,1);
+    csh_val_f    = cell(S,1);
+    cprod        = cell(S,1);
+    ccost_vec    = cell(S,1);
+    csucc_prob   = cell(S,1);
     
     % cumulative versions of ergodic distributions and waiting times
     cum_erg_pz = cumsum(erg_pz);
@@ -82,30 +82,20 @@ function [breakflag,t] = st_traj_nocell(sp_p,lambda_f_orig,lambda_h_orig,lambda_
                     end
                 end
             end
-            lt = find((ind(:,1))'>0,1,'last');
-            ft = find((ind(:,1))'>0,1,'first')+1;
+        lt = find((ind(:,1))'>0,1,'last');
+        ft = find((ind(:,1))'>0,1,'first')+1;
     
-            % read into sparses
-            cind       = sparse(ind(ft:lt,:));
-            cds        = sparse(ds(ft:lt,:));
-            csh        = sparse(sh(ft:lt,:));
-            cact       = sparse(act(ft:lt,:));
-            cdeathmat  = sparse(deathmat(ft:lt,:));
-            csh_val_h  = sparse(sh_val_h(ft:lt,:));
-            csh_val_f  = sparse(sh_val_f(ft:lt,:));
-            cprod      = sparse(prod_init);
-            ccost_vec  = sparse(cost_vec);
-            csucc_prob = sparse(succ_prob);
-
-            % save to temp file
-            t = getCurrentTask();
-            if isempty(t)
-                t = 0;
-                save(sprintf('temp_data/temp_%d_0.mat', j),'cind','cds','csh','cact','breakflag','cdeathmat','csh_val_h','csh_val_f','cprod','ccost_vec','csucc_prob','t');
-            else
-                t = t.ID;
-                save(sprintf('temp_data/temp_%d_%d.mat', j, t),'cind','cds','csh','cact','breakflag','cdeathmat','csh_val_h','csh_val_f','cprod','ccost_vec','csucc_prob','t'); 
-            end
+        % read into sparses
+        cind{j}       = sparse(ind(ft:lt,:));
+        cds{j}        = sparse(ds(ft:lt,:));
+        csh{j}        = sparse(sh(ft:lt,:));
+        cact{j}       = sparse(act(ft:lt,:));
+        cdeathmat{j}  = sparse(deathmat(ft:lt,:));
+        csh_val_h{j}  = sparse(sh_val_h(ft:lt,:));
+        csh_val_f{j}  = sparse(sh_val_f(ft:lt,:));
+        cprod{j}      = sparse(prod_init);
+        ccost_vec{j}  = sparse(cost_vec);
+        csucc_prob{j} = sparse(succ_prob);
         end
     end
     
@@ -117,6 +107,6 @@ function [breakflag,t] = st_traj_nocell(sp_p,lambda_f_orig,lambda_h_orig,lambda_
     end
 
     % Free up memory
-    %clearvars -except cind cds csh cact breakflag cdeathmat csh_val_h csh_val_f cprod ccost_vec csucc_prob
+    clearvars -except cind cst cds csh cact breakflag cdeathmat csh_val_h csh_val_f cprod ccost_vec csucc_prob
 
 end

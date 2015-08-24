@@ -116,10 +116,13 @@ for k = 1:size(cli_no,1)
     cli_no_next_period{k} = [cli_no{k}(2:end,2);NaN];
     cli_no_for_only{k} = cli_no{k}(:,2);
 end
+
 xytmp = horzcat(cell2mat(cli_no_next_period),ones(size(cell2mat(cli_no_next_period))),cell2mat(share_fy),log(cell2mat(cli_no_for_only)),log(cell2mat(cli_no_for_only)).^2,log(cell2mat(avg_match_age)),log(cell2mat(exp_age)));
 xytmp = xytmp(xytmp(:,1)>0,:);
 [nr,nc] = size(xytmp);
-cli_coefs = regress(log(xytmp(:,1)),xytmp(:,2:nc))
+cli_coefs = regress(log(xytmp(:,1)),xytmp(:,2:nc));
+
+% cli_coefs = regress(log(cell2mat(cli_no_next_period)),[ones(size(cell2mat(cli_no_next_period))),cell2mat(share_fy),log(cell2mat(cli_no_for_only)),log(cell2mat(cli_no_for_only)).^2,log(cell2mat(avg_match_age)),log(cell2mat(exp_age))]);
 
 exp_death_coefs = regress(cell2mat(exp_last),[ones(size(cell2mat(cli_no_next_period))),cell2mat(share_fy),log(cell2mat(cli_no_for_only)),log(cell2mat(cli_no_for_only)).^2,log(cell2mat(avg_match_age)),log(cell2mat(exp_age))]);
 
@@ -184,7 +187,10 @@ end
 cli_no_long = cell2mat(cli_no);
 tot_ships = sum(ship_f_spc(cli_no_long(:,2)>0))
 tot_client_years = sum(cli_no_long(cli_no_long(:,2)>0,2))
-mavship = mean(log(ship_f_spc(ship_f_spc>0)./cli_no_long(ship_f_spc>0,2)));
+tot_client_mat = sum(cli_no_mat(cli_no_mat(:,2)>0,2))
+tot_cli_no_long = sum(cli_no_long(ship_f_spc>0,2))
+
+mavship = nanmean(log(ship_f_spc(ship_f_spc>0)./cli_no_long(ship_f_spc>0,2)));
 
 % Count the number of exporters 
 pbexp = sum(sum(sale_f_mat)>1);

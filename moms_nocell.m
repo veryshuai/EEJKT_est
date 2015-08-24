@@ -26,23 +26,23 @@ function [simulated_data,mavship,loglog_coefs,exp_dom_coefs,dom_ar1_coefs,cli_co
     % Model Simulation
 
     %% Get vector of state and time changes
-    [break_flag,t] = st_traj_nocell(sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,eta,TT,cost,F,cf_num,succ_params,seed);
+    [st_ind_cont,st_cont,ds,sh,act,break_flag,deathmat,sh_val_h,sh_val_f,cprod,cost_vec,succ_prob_vec] = st_traj_nocell(sp_p,lambda_f_orig,lambda_h_orig,lambda_f_new,lambda_h_new,c_val_h_orig,c_val_f_orig,c_val_h_new,c_val_f_new,burn,delta,d,S,n_size,net_size,Z,Phi,X_f,X_h,actual_h,actual_f,L_b,L_z,L_f,L_h,erg_pz,erg_pp,maxc,max_client_prod,mult_match_max,mms,scale_f,scale_h,eta,TT,cost,F,cf_num,succ_params,seed);
     
     % check for errors in simulation routine
     if break_flag == 0
     
         %% Separate dead firms 
         S_old = S;
-        S = sdead(S_old,t);
+        [st_cont,st_ind_cont,S,ds,sh,breakflag,sh_val_h,sh_val_f,cost_vec,succ_prob_vec] = sdead(st_cont,st_ind_cont,S,ds,sh,deathmat,sh_val_h,sh_val_f,cost_vec,succ_prob_vec);
     
         % check for errors in separation of dead firms 
-        if break_flag == 0
+        if breakflag == 0
     
             %% Calculate Sales
-            sales(scale_f,scale_h,eta,maxc,Z,Phi,X_h,X_f,cf_num,increase,TT,S,t);
+            [sale_h_cont,sale_f_cont] = sales(scale_f,scale_h,eta,st_ind_cont,S,ds,sh,maxc,Z,Phi,X_h,X_f,cf_num,increase,TT);
     
             %% Discretize state vector into years
-            [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f,succ_prob,prods] = st_disc(S,TT,burn,maxc,Phi,t);
+            [cli_no,sale_h,sale_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f,succ_prob,prods] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h,sh_val_f,cost_vec,Phi,succ_prob_vec);
     
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %% Moments calculations

@@ -1,4 +1,4 @@
-function [cli_no,sales_h,sales_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f,succ_prob,prods] = st_disc(S,TT,burn,maxc,Phi,t)
+function [cli_no,sales_h,sales_f,ship_f,sh_ann_f,sh_first_yr_dum,cost_h,cost_f,succ_prob,prods] = st_disc(st_ind_cont,sale_h_cont,sale_f_cont,S,TT,burn,sh,maxc,sh_val_h_cont,sh_val_f_cont,cost_vec_cont,Phi,succ_prob_cont)
 %this function takes the continuous versions of state and sale vectors, and
 %collapses them into aggregate annual vectors
 
@@ -12,24 +12,21 @@ cost_h = mat2cell(repmat(zeros(TT-burn,1),S,1),ones(S,1)*TT-burn,1);
 sh_ann_f = cell(S,1);
 sh_first_yr_dum = cell(S,1);
 prods = zeros(S,1);
-succ_prob_vec = zeros(S,4);
+succ_prob = zeros(S,4);
     
-for k = 1:S
-    for j = 1:size(st_ind_cont,1);
+for j = 1:S
 
-    load(sprintf('temp_data/temp_%d_%d.mat', k, t));
-    
     % Read in productivity and success probabilities
     if isempty(st_ind_cont{j}) == 0
-        prods(k) = Phi(st_ind_cont{j}(1,2));
+        prods(j) = Phi(st_ind_cont{j}(1,2));
         succ_prob_full = full(succ_prob_cont{j}); %create full version instead of sparse
-        succ_prob_vec(k,:) = succ_prob_full(1,:); %read in first row (all rows are the same!)
+        succ_prob(j,:) = succ_prob_full(1,:); %read in first row (all rows are the same!)
     else 
-        prods(k) = -1;
-        succ_prob_vec(k,:) = [-1,-1,-1,-1];
+        prods(j) = -1;
+        succ_prob(j,:) = [-1,-1,-1,-1];
     end
 
-    t_lag = find(st_ind_cont{k}(:,1)<burn,1,'last'); %find index of last pre burn event
+    t_lag = find(st_ind_cont{j}(:,1)<burn,1,'last'); %find index of last pre burn event
     if isempty(t_lag) == 1; %deal with firms which die before burn ends
         t_lag = 0;
     end

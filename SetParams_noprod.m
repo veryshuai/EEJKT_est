@@ -51,7 +51,7 @@ mm.v_tolerance   = 1e-5;    % convergence tolerance, value function iterations (
 mm.pi_tolerance  = 1e-5;    % convergence tolerance, profit function (WAS .001)
 mm.T             = 50;      % horizon for calculating profit function
 if case_str == 'est'
-    mm.S         = 300;    % number of potential exporting firms to simulate (WAS 2000)
+    mm.S         = 3000;    % number of potential exporting firms to simulate (WAS 2000)
     mm.burn      = 15;      %number of burn-in periods
 elseif case_str == 'non'    %not a counterfactual
     mm.S         = 3000;      % number of potential exporting firms to simulate (WAS 2000)
@@ -68,10 +68,10 @@ else
 end
 
 %% Simulation restrictions
-mm.maxc            = mm.net_size; %maximum number of current clients (follows old program)
-mm.max_client_prod = 7000; %maximum changes in demand shock over relationship
-mm.mult_match_max  = 7000; %maximum number of matches per exogenous state change interval
-mm.mms             = 25000; %max event number (max matrix size)
+mm.maxc            = mm.net_size; %maximum number of current clients (follows old program) 
+mm.max_client_prod = 7000; %maximum changes in demand shock over relationship % was as 7000
+mm.mult_match_max  = 12000; %maximum number of matches per exogenous state change interval % was 7000
+mm.mms             = 60000; %max event number (max matrix size) % was previously 25000
 
 %% Cost function
 mm.cost = @(x,n) (mm.cs * (1+x).^(1+1/mm.b)-1)/((1+1/mm.b)*n^mm.gam);
